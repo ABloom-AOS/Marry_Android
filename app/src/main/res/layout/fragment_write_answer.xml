@@ -13,16 +13,14 @@
         android:background="@drawable/bg_page"
         tools:context=".presentation.ui.writeanswer.WriteAnswerFragment">
 
-        <com.abloom.mery.presentation.common.view.MeryAppBar
-            android:id="@+id/appbar_write_answer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:action="@string/all_complete"
-            app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/tv_question"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_up_button"
-            app:title="@string/writeanswer_title" />
+            android:layout_marginTop="23dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
