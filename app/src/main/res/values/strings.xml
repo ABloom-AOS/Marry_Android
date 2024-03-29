@@ -61,6 +61,7 @@
     <string name="connect_connect_button_text">연결</string>
     <string name="connect_my_invitation_code_copy_button_text">나의 연결 코드 복사하기</string>
     <string name="connect_kakao_share_button_label">카카오톡 공유하기</string>
+    <string name="connect_connect_success_message_format">%s님과\n연결되었어요.</string>
 
     <string name="writeanswer_title">답변 작성하기</string>
 
@@ -119,5 +120,7 @@
     <string name="profilemenu_congratulate_for_wedding">결혼을 축하드려요!</string>
     <string name="profilemenu_since_marriage_date_format">결혼한지 %d일 지났어요.</string>
     <string name="profilemenu_login_confirm_dialog_title">로그인이 필요한 서비스예요.</string>
+    <string name="connect_invitation_code_clipboard_label">메리 초대 코드</string>
+    <string name="connect_invitation_code_copy_success_message">연결 코드가 복사되었습니다.</string>
 
 </resources>
