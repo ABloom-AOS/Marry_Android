@@ -40,6 +40,9 @@ class ConnectViewModel @Inject constructor(
     private val _isConnectWaiting = MutableStateFlow(false)
     val isConnectWaiting: StateFlow<Boolean> = _isConnectWaiting.asStateFlow()
 
+    private val _isJustConnected = MutableStateFlow(false)
+    val isJustConnected: StateFlow<Boolean> = _isJustConnected.asStateFlow()
+
     private val _event = MutableSharedFlow<ConnectEvent>()
     val event: SharedFlow<ConnectEvent> = _event.asSharedFlow()
 
