@@ -7,6 +7,7 @@ import com.abloom.domain.user.model.Sex
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentBrideGroomSelectionBinding
 import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.util.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,7 +16,7 @@ class BrideGroomSelectionFragment :
 
     private val viewModel: SignUpViewModel by viewModels({ requireParentFragment() })
     private val marryDateFragment by lazy { MarryDateFragment() }
-    private val signUpFragmentManager by lazy {parentFragmentManager}
+    private val signUpFragmentManager by lazy { parentFragmentManager }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,11 +25,27 @@ class BrideGroomSelectionFragment :
     }
 
     private fun initBrideAndGroomSelection() {
-        val selectedSex = viewModel.selectedSex.value ?: return
 
-        when (selectedSex) {
-            Sex.MALE -> binding.groomBut.setBackgroundResource(R.drawable.signup_gender_selected)
-            Sex.FEMALE -> binding.brideBut.setBackgroundResource(R.drawable.signup_gender_selected)
+        repeatOnStarted {
+            viewModel.selectedSex.collect {
+                when (it) {
+                    Sex.MALE -> {
+                        binding.groomBut.setBackgroundResource(R.drawable.signup_gender_selected)
+                        binding.brideBut.setBackgroundResource(R.drawable.signup_gender_unselected)
+                    }
+
+                    Sex.FEMALE -> {
+                        binding.groomBut.setBackgroundResource(R.drawable.signup_gender_unselected)
+                        binding.brideBut.setBackgroundResource(R.drawable.signup_gender_selected)
+                    }
+
+                    null -> {
+                        binding.groomBut.setBackgroundResource(R.drawable.signup_gender_unselected)
+                        binding.brideBut.setBackgroundResource(R.drawable.signup_gender_unselected)
+                    }
+                }
+
+            }
         }
     }
 
@@ -46,7 +63,7 @@ class BrideGroomSelectionFragment :
 
     private fun moveToMarryDateFragment() {
         signUpFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView,marryDateFragment)
-            .commitNow()
+            .replace(R.id.fragmentContainerView, marryDateFragment,"marryDateFragment")
+            .commit()
     }
 }

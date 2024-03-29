@@ -24,7 +24,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     private val inputNameFragment by lazy { InputNameFragment() }
 
     private val signUpFragmentManager by lazy { childFragmentManager }
-    private var curFragmentName: String = ""
+    private var curFragmentTag: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +36,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     private fun initBrideGroomFragment() {
         signUpFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView, brideGroomSelectionFragment)
+            .replace(R.id.fragmentContainerView, brideGroomSelectionFragment,"brideGroomSelectionFragment")
             .commitNow()
 
         setupForBrideGroomSelection()
@@ -50,16 +50,16 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                     curFragment: Fragment,
                     savedInstanceState: Bundle?
                 ) {
-                    when (curFragment.javaClass.simpleName) {
-                        brideGroomSelectionFragment.javaClass.simpleName -> {
+                    when (curFragment.tag) {
+                        "brideGroomSelectionFragment" -> {
                             setupForBrideGroomSelection()
                         }
 
-                        marryDateFragment.javaClass.simpleName -> {
+                        "marryDateFragment" -> {
                             setupForMarryDate()
                         }
 
-                        inputNameFragment.javaClass.simpleName -> {
+                        "inputNameFragment" -> {
                             setupForInputName()
                         }
                     }
@@ -80,42 +80,42 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     private fun navigateToNextFragment() {
         getCurFragmentName()
 
-        when (curFragmentName) {
-            marryDateFragment.javaClass.simpleName -> {
+        when (curFragmentTag) {
+            "marryDateFragment" -> {
                 signUpFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, inputNameFragment)
-                    .commitNow()
+                    .replace(R.id.fragmentContainerView, inputNameFragment,"inputNameFragment")
+                    .commit()
             }
 
-            inputNameFragment.javaClass.simpleName -> {
+             "inputNameFragment" -> {
                 //TODO("STEP 04 약간 동의 화면으로 이동)
             }
         }
     }
 
     private fun getCurFragmentName() {
-        curFragmentName =
-            signUpFragmentManager.findFragmentById(R.id.fragmentContainerView)!!::class.simpleName.toString()
+        curFragmentTag =
+            signUpFragmentManager.findFragmentById(R.id.fragmentContainerView)!!.tag.toString()
     }
 
     private fun navigateToPriorFragment() {
         getCurFragmentName()
 
-        when (curFragmentName) {
-            brideGroomSelectionFragment.javaClass.simpleName -> {
+        when (curFragmentTag) {
+            "brideGroomSelectionFragment" -> {
                 findNavController().popBackStack()
             }
 
-            marryDateFragment.javaClass.simpleName -> {
+            "marryDateFragment" -> {
                 signUpFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, brideGroomSelectionFragment)
-                    .commitNow()
+                    .replace(R.id.fragmentContainerView, brideGroomSelectionFragment,"brideGroomSelectionFragment")
+                    .commit()
             }
 
-            inputNameFragment.javaClass.simpleName -> {
+            "inputNameFragment" -> {
                 signUpFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, marryDateFragment)
-                    .commitNow()
+                    .replace(R.id.fragmentContainerView, marryDateFragment,"marryDateFragment")
+                    .commit()
             }
         }
     }
