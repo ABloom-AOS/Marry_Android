@@ -205,7 +205,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(R.layout.fragment
         repeatOnStarted {
             categoryViewModel.questions.collect { map ->
                 map[category]?.let { questions ->
-                    categoryAdapter.setData(questions) }
+                    categoryAdapter.setData(questions)
+                }
 
             }
         }

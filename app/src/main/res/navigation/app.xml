@@ -19,7 +19,7 @@
             app:popExitAnim="@anim/slide_down" />
         <action
             android:id="@+id/action_homeFragment_to_profileMenuFragment"
-            app:destination="@id/profileMenuFragment"
+            app:destination="@id/profile"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -44,22 +44,6 @@
         android:name="com.abloom.mery.presentation.ui.connect.ConnectFragment"
         android:label="fragment_connect"
         tools:layout="@layout/fragment_connect" />
-    <fragment
-        android:id="@+id/profileMenuFragment"
-        android:name="com.abloom.mery.presentation.ui.profilemenu.ProfileMenuFragment"
-        android:label="fragment_profile_menu"
-        tools:layout="@layout/fragment_profile_menu">
-        <action
-            android:id="@+id/action_profileMenuFragment_to_connectFragment"
-            app:destination="@id/connectFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_profileMenuFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment" />
-    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.abloom.mery.presentation.ui.signup.SignUpFragment"
@@ -142,6 +126,38 @@
         <action
             android:id="@+id/action_global_writeAnswerFragment"
             app:destination="@id/writeAnswerFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+    </navigation>
+    <navigation
+        android:id="@+id/profile"
+        app:startDestination="@id/profileMenuFragment">
+        <fragment
+            android:id="@+id/profileMenuFragment"
+            android:name="com.abloom.mery.presentation.ui.profilemenu.ProfileMenuFragment"
+            android:label="fragment_profile_menu"
+            tools:layout="@layout/fragment_profile_menu">
+            <action
+                android:id="@+id/action_profileMenuFragment_to_webViewFromProfileMenuFragment"
+                app:destination="@id/webViewFromProfileMenuFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_right"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/webViewFromProfileMenuFragment"
+            android:name="com.abloom.mery.presentation.ui.profilemenu.WebViewFromProfileMenuFragment"
+            android:label="WebViewFromProfileMenuFragment">
+            <argument
+                android:name="url"
+                app:argType="com.abloom.mery.presentation.ui.webview.WebViewUrl" />
+        </fragment>
+        <action
+            android:id="@+id/action_profileMenuFragment_to_connectFragment"
+            app:destination="@id/connectFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
