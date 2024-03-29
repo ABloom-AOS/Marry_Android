@@ -48,8 +48,12 @@ class ConnectViewModel @Inject constructor(
 
     fun connectWithFiance(invitationCode: String) = viewModelScope.launch {
         _isConnectWaiting.value = true
-        val connectResult = connectWithFianceUseCase(invitationCode)
+        val isConnectSuccess = connectWithFianceUseCase(invitationCode)
         _isConnectWaiting.value = false
-        if (connectResult) _event.emit(ConnectEvent.ConnectSuccess) else _event.emit(ConnectEvent.ConnectFail)
+        if (isConnectSuccess) {
+            _isJustConnected.value = true
+        } else {
+            _event.emit(ConnectEvent.ConnectFail)
+        }
     }
 }
