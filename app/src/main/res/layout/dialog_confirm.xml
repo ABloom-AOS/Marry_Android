@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="message"
+            type="String" />
+
+        <variable
+            name="positiveButtonLabel"
+            type="String" />
+
+        <variable
+            name="negativeButtonLabel"
+            type="String" />
+
+        <variable
+            name="onPositiveButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onNegativeButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_confirm_dialog">
+
+        <TextView
+            android:id="@+id/tv_confirmdialog_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:text="@{title}"
+            android:textAppearance="@style/body"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="로그인이 필요한 서비스예요." />
+
+        <TextView
+            android:id="@+id/tv_confirmdialog_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="4.5dp"
+            android:text="@{message}"
+            android:textAppearance="@style/footnote"
+            android:textColor="@color/black"
+            app:is_visible="@{message != null}"
+            app:layout_constraintEnd_toEndOf="@id/tv_confirmdialog_title"
+            app:layout_constraintStart_toStartOf="@id/tv_confirmdialog_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_confirmdialog_title"
+            tools:text="로그아웃하더라도 데이터는 보관되니\n안심하고 로그아웃하셔도 돼요." />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_confirmdialog_horizontal"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="17dp"
+            android:orientation="horizontal"
+            app:dividerColor="#3C3C435C"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_confirmdialog_message" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_confirmdialog_vertical"
+            android:layout_width="0.5dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:dividerColor="#3C3C435C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_confirmdialog_horizontal" />
+
+        <TextView
+            android:id="@+id/tv_confirmdialog_negative_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="@{() -> onNegativeButtonClick.invoke()}"
+            android:paddingVertical="14dp"
+            android:text="@{negativeButtonLabel}"
+            android:textAppearance="@style/body"
+            android:textColor="@color/primary_60"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/divider_confirmdialog_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_confirmdialog_horizontal"
+            tools:text="취소" />
+
+        <TextView
+            android:id="@+id/tv_confirmdialog_positive_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="@{() -> onPositiveButtonClick.invoke()}"
+            android:paddingVertical="14dp"
+            android:text="@{positiveButtonLabel}"
+            android:textAppearance="@style/body"
+            android:textColor="@color/primary_60"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/divider_confirmdialog_vertical"
+            app:layout_constraintTop_toBottomOf="@id/divider_confirmdialog_horizontal"
+            tools:text="확인" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

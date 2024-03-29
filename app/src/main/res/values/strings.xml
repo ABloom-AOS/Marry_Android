@@ -74,7 +74,6 @@
     <string name="marry_date_guide_text">결혼예정일을 알려주세요.</string>
     <string name="marry_date_guide_detail_text">결혼까지 남은 기간에 따라 문답을 추천해드릴게요.\n정확한 예정일이 없다면 대략적으로 선택해주세요.</string>
 
-
     <string name="category_login_tag"><![CDATA[로그인하기>]]></string>
     <string name="category_ment">지금 로그인하면 메리의 200개가 넘는\n모든 질문들을 확인수 있어요!</string>
     <string name="category_finance">경제</string>
@@ -89,4 +88,27 @@
     <string name="category_future">미래</string>
     <string name="category_present">현재</string>
     <string name="category_past">과거</string>
+
+    <string name="profilemenu_user_setting_label">내 계정 관리</string>
+    <string name="profilemenu_request_login_message">로그인해주세요</string>
+    <string name="profilemenu_profile_update_button">내 정보 수정하기</string>
+    <string name="profilemenu_connect_setting_button">상대방과 연결관리</string>
+    <string name="profilemenu_service_info_label">서비스 이용 안내</string>
+    <string name="profilemenu_question_factory_button">질문 제작소</string>
+    <string name="profilemenu_customer_service_center_button">고객센터</string>
+    <string name="profilemenu_terms_of_use_button">서비스 이용약관</string>
+    <string name="profilemenu_privacy_policy">개인정보 처리방침</string>
+    <string name="profilemenu_service_version_label">서비스 버전 정보</string>
+    <string name="profilemenu_logout_button">로그아웃</string>
+    <string name="profilemenu_leave_button">회원탈퇴</string>
+    <string name="profilemenu_press_and_login_button">눌러서 로그인하기 ></string>
+    <string name="profilemenu_press_and_connect">눌러서 연결하기 ></string>
+    <string name="profilemenu_groom_name_format">%s님의 예비신부</string>
+    <string name="profilemenu_bride_name_format">%s님의 예비신랑</string>
+    <string name="profilemenu_request_login_for_marriage_date">지금 로그인하고 결혼 예정일을 설정해보세요.</string>
+    <string name="profilemenu_until_marriage_date_format">결혼까지 %d일 남았어요.</string>
+    <string name="profilemenu_congratulate_for_wedding">결혼을 축하드려요!</string>
+    <string name="profilemenu_since_marriage_date_format">결혼한지 %d일 지났어요.</string>
+    <string name="profilemenu_login_confirm_dialog_title">로그인이 필요한 서비스예요.</string>
+
 </resources>

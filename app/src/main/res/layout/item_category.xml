@@ -3,32 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="question"
             type="com.abloom.domain.question.model.Question" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/questionItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/questionItem"
         android:background="@drawable/categoryitem_border">
 
         <TextView
             android:id="@+id/tv"
+            style="@style/subheadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="22dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="22dp"
             android:text="@{question.content}"
-            style="@style/subheadline"
             android:textColor="@color/neutral_50"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
