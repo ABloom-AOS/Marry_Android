@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="message"
+            type="String" />
+
+        <variable
+            name="buttonLabel"
+            type="String" />
+
+        <variable
+            name="onButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_all_dialog">
+
+        <TextView
+            android:id="@+id/tv_infodialog_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:text="@{title}"
+            android:textAppearance="@style/body"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="연결에 실패했어요" />
+
+        <TextView
+            android:id="@+id/tv_infodialog_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:paddingVertical="3dp"
+            android:text="@{message}"
+            android:textAppearance="@style/footnote"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_infodialog_title"
+            tools:text="상대방의 연결 코드를 올바르게\n입력했는지 확인해주세요." />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_infodialog_horizontal"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="17dp"
+            app:dividerColor="#3C3C435C"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_infodialog_message" />
+
+        <TextView
+            android:id="@+id/tv_infodailog_ok_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="@{() -> onButtonClick.invoke()}"
+            android:paddingVertical="14dp"
+            android:text="@{buttonLabel}"
+            android:textAppearance="@style/body"
+            android:textColor="@color/primary_60"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider_infodialog_horizontal"
+            tools:text="확인" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
