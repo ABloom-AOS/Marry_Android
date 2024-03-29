@@ -76,7 +76,25 @@ class FakeUserRepository @Inject constructor() : UserRepository {
 
         const val FIANCE_INVITATION_CODE: String = "asdf"
 
-        var JOINED_USER: User? = null
+        private val DUMMY_USER = User(
+            id = "asdf",
+            name = "이지훈",
+            marriageDate = LocalDate.of(2024, 3, 27),
+            sex = Sex.MALE,
+            invitationCode = "asdf",
+            fianceId = "qwer"
+        )
+
+        private val DUMMY_FIANCE: User = User(
+            id = "qwer",
+            name = "최지은",
+            marriageDate = LocalDate.now(),
+            sex = Sex.FEMALE,
+            invitationCode = "asdf",
+            fianceId = "asdf"
+        )
+
+        var JOINED_USER: User? = DUMMY_USER
         var LOGIN_USER = MutableStateFlow<User?>(null)
         var FIANCE = MutableStateFlow<User?>(null)
     }

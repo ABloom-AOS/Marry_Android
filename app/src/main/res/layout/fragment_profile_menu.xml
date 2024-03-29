@@ -5,31 +5,371 @@
 
     <data>
 
+        <import type="com.abloom.mery.presentation.ui.profilemenu.LoginUserDescriptionUiState" />
+
+        <import type="com.abloom.mery.presentation.ui.webview.WebViewUrl" />
+
+        <import type="kotlin.Unit" />
+
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.profilemenu.ProfileMenuViewModel" />
+
+        <variable
+            name="onProfileUpdateButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onConnectSettingButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onNavigateToWebViewButtonClick"
+            type="kotlin.jvm.functions.Function1&lt;WebViewUrl, Unit>" />
+
+        <variable
+            name="onLogoutButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onLeaveButtonClick"
+            type="kotlin.jvm.functions.Function0" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_page"
+        android:orientation="vertical"
         tools:context=".presentation.ui.profilemenu.ProfileMenuFragment">
 
         <com.abloom.mery.presentation.common.view.MeryAppBar
             android:id="@+id/appbar_profile_menu"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationText="@string/all_cancel" />
 
-        <Button
-            android:id="@+id/button6"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="연결 관리"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:scrollbars="none">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_profilemenu_user_image"
+                    android:layout_width="61dp"
+                    android:layout_height="61dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="13dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/img_profilemenu_groom" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:paddingVertical="4dp"
+                    android:text="@{viewModel.loginUser == null ? @string/profilemenu_request_login_message : viewModel.loginUser.name}"
+                    android:textAppearance="@style/body"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_profilemenu_login_user_description"
+                    app:layout_constraintStart_toEndOf="@id/iv_profilemenu_user_image"
+                    app:layout_constraintTop_toTopOf="@id/iv_profilemenu_user_image"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="로그인해주세요" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_login_user_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{!(viewModel.loginUserDescriptionUiState instanceof LoginUserDescriptionUiState.Fiance)}"
+                    android:paddingVertical="3dp"
+                    android:textAppearance="@style/caption1"
+                    android:textColor="@color/neutral_50"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_profilemenu_user_image"
+                    app:layout_constraintStart_toStartOf="@id/tv_profilemenu_user_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_profilemenu_user_name"
+                    tools:text="최지은님의 예비신랑" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_marriage_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_profilemenu_marriage_date"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="12dp"
+                    android:textAppearance="@style/footnote"
+                    android:textColor="@color/primary_40"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_profilemenu_calender"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_profilemenu_user_image"
+                    tools:text="결혼까지 105일 남았어요." />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider_profile_to_user_setting"
+                    android:layout_width="0dp"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="31dp"
+                    app:dividerColor="@color/neutral_5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_marriage_date" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_user_setting_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/profilemenu_user_setting_label"
+                    android:textAppearance="@style/body"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_profile_to_user_setting" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_profile_update_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{() -> onProfileUpdateButtonClick.invoke()}"
+                    android:paddingVertical="4dp"
+                    android:text="@string/profilemenu_profile_update_button"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_80"
+                    app:drawableEndCompat="@drawable/ic_profilemenu_go_to_detail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_user_setting_label" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_profilemenu_connect_setting_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{() -> onConnectSettingButtonClick.invoke()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_profile_update_button">
+
+                    <TextView
+                        android:id="@+id/tv_profilemenu_connect_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="4dp"
+                        android:text="@string/profilemenu_connect_setting_button"
+                        android:textAppearance="@style/callout"
+                        android:textColor="@color/neutral_80"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="2dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_profilemenu_unconnected_notifier"
+                        app:is_visible="@{viewModel.loginUser != null &amp;&amp; viewModel.loginUser.fianceId == null}"
+                        app:layout_constraintStart_toEndOf="@id/tv_profilemenu_connect_setting"
+                        app:layout_constraintTop_toTopOf="@id/tv_profilemenu_connect_setting" />
+
+                    <ImageView
+                        android:id="@+id/iv_profilemenu_connect_setting_decoration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_profilemenu_go_to_detail"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider_user_setting_to_service_info"
+                    android:layout_width="0dp"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="32dp"
+                    app:dividerColor="@color/neutral_5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_profilemenu_connect_setting_button" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_service_info_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/profilemenu_service_info_label"
+                    android:textAppearance="@style/body"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_user_setting_to_service_info" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_question_factory_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{() -> onNavigateToWebViewButtonClick.invoke(WebViewUrl.QUESTION_FACTORY)}"
+                    android:paddingVertical="4dp"
+                    android:text="@string/profilemenu_question_factory_button"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_80"
+                    app:drawableEndCompat="@drawable/ic_profilemenu_go_to_detail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_service_info_label" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_customer_service_center_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{() -> onNavigateToWebViewButtonClick.invoke(WebViewUrl.CS_CENTER)}"
+                    android:paddingVertical="4dp"
+                    android:text="@string/profilemenu_customer_service_center_button"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_80"
+                    app:drawableEndCompat="@drawable/ic_profilemenu_go_to_detail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_question_factory_button" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_terms_of_use_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{() -> onNavigateToWebViewButtonClick.invoke(WebViewUrl.TERMS_OF_USE)}"
+                    android:paddingVertical="4dp"
+                    android:text="@string/profilemenu_terms_of_use_button"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_80"
+                    app:drawableEndCompat="@drawable/ic_profilemenu_go_to_detail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_customer_service_center_button" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_privacy_policy_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{() -> onNavigateToWebViewButtonClick.invoke(WebViewUrl.PRIVACY_POLICY)}"
+                    android:paddingVertical="4dp"
+                    android:text="@string/profilemenu_privacy_policy"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_80"
+                    app:drawableEndCompat="@drawable/ic_profilemenu_go_to_detail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_terms_of_use_button" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_service_version_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/profilemenu_service_version_label"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_80"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_privacy_policy_button" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_app_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:text="@{viewModel.appVersion}"
+                    android:textAppearance="@style/footnote"
+                    android:textColor="@color/neutral_40"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_profilemenu_service_version_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_profilemenu_service_version_label"
+                    tools:text="2.0.0" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider_service_info_to_out_buttons"
+                    android:layout_width="0dp"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="32dp"
+                    app:dividerColor="@color/neutral_5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_service_version_label" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_logout_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:enabled="@{viewModel.loginUser != null}"
+                    android:onClick="@{() -> onLogoutButtonClick.invoke()}"
+                    android:paddingVertical="4dp"
+                    android:text="@string/profilemenu_logout_button"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_60"
+                    app:alpha="@{viewModel.loginUser == null ? 0.5f : 1.0f}"
+                    app:drawableEndCompat="@drawable/ic_profilemenu_go_to_detail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_service_info_to_out_buttons" />
+
+                <TextView
+                    android:id="@+id/tv_profilemenu_leave_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="63dp"
+                    android:enabled="@{viewModel.loginUser != null}"
+                    android:onClick="@{() -> onLeaveButtonClick.invoke()}"
+                    android:paddingVertical="4dp"
+                    android:text="@string/profilemenu_leave_button"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_60"
+                    app:alpha="@{viewModel.loginUser == null ? 0.5f : 1.0f}"
+                    app:drawableEndCompat="@drawable/ic_profilemenu_go_to_detail"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profilemenu_logout_button" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </LinearLayout>
 </layout>

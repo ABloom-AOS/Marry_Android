@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_page"
+        tools:context=".presentation.ui.profilemenu.WebViewFromProfileMenuFragment">
+
+        <com.abloom.mery.presentation.common.view.MeryAppBar
+            android:id="@+id/appbar_web_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_up_button"
+            app:title="@string/webview_terms_of_use" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
