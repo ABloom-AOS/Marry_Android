@@ -50,7 +50,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/kakao_login_but"
+            android:id="@+id/kakao_login_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="28dp"
@@ -89,14 +89,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/apple_login_but"
+            android:id="@+id/apple_login_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/apple_btn_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kakao_login_but"
+            app:layout_constraintTop_toBottomOf="@+id/kakao_login_btn"
             tools:ignore="MissingConstraints">
 
             <ImageView
@@ -142,14 +142,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/google_login_but"
+            android:id="@+id/google_login_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/google_btn_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/apple_login_but"
+            app:layout_constraintTop_toBottomOf="@+id/apple_login_btn"
             tools:ignore="MissingConstraints">
 
             <ImageView

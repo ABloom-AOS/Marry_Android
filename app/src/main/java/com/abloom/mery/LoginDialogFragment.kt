@@ -45,7 +45,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private fun setupKakaoLoginButton() {
 
-        binding.kakaoLoginBut.setOnClickListener {
+        binding.kakaoLoginBtn.setOnClickListener {
             checkUserApiClient()
         }
     }
