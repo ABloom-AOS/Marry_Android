@@ -2,7 +2,10 @@
     <string name="app_name">Mery</string>
 
     <string name="login_text">로그인</string>
+    <string name="login_to_text">로 로그인</string>
     <string name="kakao_login_text">카카오 로그인</string>
+    <string name="google_word">Google</string>
+    <string name="apple_word">Apple</string>
     <string name="login_guide_text">간편하게 로그인해서 메리를 시작해보세요</string>
 
     <string name="kakao_login_failed">카카오 로그인 실패</string>
@@ -110,5 +113,4 @@
     <string name="profilemenu_congratulate_for_wedding">결혼을 축하드려요!</string>
     <string name="profilemenu_since_marriage_date_format">결혼한지 %d일 지났어요.</string>
     <string name="profilemenu_login_confirm_dialog_title">로그인이 필요한 서비스예요.</string>
-
 </resources>
