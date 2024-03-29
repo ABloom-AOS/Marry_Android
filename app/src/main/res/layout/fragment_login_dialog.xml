@@ -28,7 +28,6 @@
                 style="@style/title1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="8sp"
                 android:text="@string/login_text"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -42,7 +41,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:lineSpacingExtra="4sp"
                 android:text="@string/login_guide_text"
                 android:textColor="@color/neutral_50"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -56,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="28dp"
-            android:background="@drawable/kakao_btn"
+            android:background="@drawable/kakao_btn_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/login_text_layout"
@@ -76,14 +74,55 @@
 
             <TextView
                 android:id="@+id/kakao_login_text"
+                style="@style/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/kakao_login_text"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/kakao_logo_img"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/apple_login_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/apple_btn_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/kakao_login_button"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/apple_logo_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/apple_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/apple_login_text"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/apple_login_text"
+                style="@style/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Apple로 로그인"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/apple_logo_img"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
