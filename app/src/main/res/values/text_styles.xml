@@ -41,11 +41,6 @@
         <item name="lineHeight">25.6sp</item>
     </style>
 
-    <style name="login" parent="mery_text">
-        <item name="android:textSize">16sp</item>
-        <item name="lineHeight">19.2sp</item>
-    </style>
-
     <style name="subheadline" parent="mery_text">
         <item name="android:textSize">15sp</item>
         <item name="lineHeight">24sp</item>

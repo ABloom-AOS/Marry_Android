@@ -71,7 +71,7 @@
 
             <TextView
                 android:id="@+id/kakao_login_text"
-                style="@style/login"
+                style="@style/callout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -108,7 +108,7 @@
 
             <TextView
                 android:id="@+id/apple_text"
-                style="@style/login"
+                style="@style/callout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -123,7 +123,7 @@
 
             <TextView
                 android:id="@+id/apple_login_text"
-                style="@style/login"
+                style="@style/callout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_to_text"
@@ -159,7 +159,7 @@
 
             <TextView
                 android:id="@+id/google_text"
-                style="@style/login"
+                style="@style/callout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -174,7 +174,7 @@
 
             <TextView
                 android:id="@+id/google_login_text"
-                style="@style/login"
+                style="@style/callout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_to_text"
