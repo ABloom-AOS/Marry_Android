@@ -24,6 +24,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     private val inputNameFragment by lazy { InputNameFragment() }
 
     private val signUpFragmentManager by lazy { childFragmentManager }
+    private var curFragmentName: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,8 +80,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     private fun navigateToNextFragment() {
-        val curFragmentName =
-            signUpFragmentManager.findFragmentById(R.id.fragmentContainerView)!!::class.simpleName.toString()
+        getCurFragmentName()
 
         when (curFragmentName) {
             marryDateFragment.javaClass.simpleName -> {
@@ -95,9 +95,13 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         }
     }
 
-    private fun navigateToPriorFragment() {
-        val curFragmentName =
+    private fun getCurFragmentName() {
+        curFragmentName =
             signUpFragmentManager.findFragmentById(R.id.fragmentContainerView)!!::class.simpleName.toString()
+    }
+
+    private fun navigateToPriorFragment() {
+        getCurFragmentName()
 
         when (curFragmentName) {
             brideGroomSelectionFragment.javaClass.simpleName -> {
