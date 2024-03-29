@@ -23,24 +23,26 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     private val marryDateFragment by lazy { MarryDateFragment() }
     private val inputNameFragment by lazy { InputNameFragment() }
 
-    private var curStep = STEP_BRIDE_GROOM_SELECTION
+    private val signUpFragmentManager by lazy { childFragmentManager }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
         initBindingViewModel()
-        initTransaction()
-        observeChildFragmentManager()
+        initBrideGroomFragment()
+        observeSignUpFragmentManager()
     }
 
-    private fun initTransaction() {
-        childFragmentManager.beginTransaction()
+    private fun initBrideGroomFragment() {
+        signUpFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerView, brideGroomSelectionFragment)
-            .commit()
+            .commitNow()
+
+        setupForBrideGroomSelection()
     }
 
-    private fun observeChildFragmentManager() {
-        childFragmentManager.registerFragmentLifecycleCallbacks(
+    private fun observeSignUpFragmentManager() {
+        signUpFragmentManager.registerFragmentLifecycleCallbacks(
             object : FragmentManager.FragmentLifecycleCallbacks() {
                 override fun onFragmentCreated(
                     manager: FragmentManager,
@@ -49,17 +51,14 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                 ) {
                     when (curFragment.javaClass.simpleName) {
                         brideGroomSelectionFragment.javaClass.simpleName -> {
-                            curStep = STEP_BRIDE_GROOM_SELECTION
                             setupForBrideGroomSelection()
                         }
 
                         marryDateFragment.javaClass.simpleName -> {
-                            curStep = STEP_MARRY_DATE_SELECTION
                             setupForMarryDate()
                         }
 
                         inputNameFragment.javaClass.simpleName -> {
-                            curStep = STEP_INPUT_NAME_SELECTION
                             setupForInputName()
                         }
                     }
@@ -80,41 +79,41 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     private fun navigateToNextFragment() {
-        when (curStep) {
-            STEP_BRIDE_GROOM_SELECTION -> {
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, marryDateFragment)
-                    .commit()
-            }
+        val curFragmentName =
+            signUpFragmentManager.findFragmentById(R.id.fragmentContainerView)!!::class.simpleName.toString()
 
-            STEP_MARRY_DATE_SELECTION -> {
-                childFragmentManager.beginTransaction()
+        when (curFragmentName) {
+            marryDateFragment.javaClass.simpleName -> {
+                signUpFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, inputNameFragment)
-                    .commit()
+                    .commitNow()
             }
 
-            STEP_INPUT_NAME_SELECTION -> {
+            inputNameFragment.javaClass.simpleName -> {
                 //TODO("STEP 04 약간 동의 화면으로 이동)
             }
         }
     }
 
     private fun navigateToPriorFragment() {
-        when (curStep) {
-            STEP_BRIDE_GROOM_SELECTION -> {
+        val curFragmentName =
+            signUpFragmentManager.findFragmentById(R.id.fragmentContainerView)!!::class.simpleName.toString()
+
+        when (curFragmentName) {
+            brideGroomSelectionFragment.javaClass.simpleName -> {
                 findNavController().popBackStack()
             }
 
-            STEP_MARRY_DATE_SELECTION -> {
-                childFragmentManager.beginTransaction()
+            marryDateFragment.javaClass.simpleName -> {
+                signUpFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, brideGroomSelectionFragment)
-                    .commit()
+                    .commitNow()
             }
 
-            STEP_INPUT_NAME_SELECTION -> {
-                childFragmentManager.beginTransaction()
+            inputNameFragment.javaClass.simpleName -> {
+                signUpFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, marryDateFragment)
-                    .commit()
+                    .commitNow()
             }
         }
     }
@@ -159,4 +158,3 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         private const val STEP_INPUT_NAME_SELECTION = 3
     }
 }
-
