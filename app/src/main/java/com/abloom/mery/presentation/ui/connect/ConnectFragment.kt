@@ -58,13 +58,15 @@ class ConnectFragment : BaseFragment<FragmentConnectBinding>(R.layout.fragment_c
 
     private fun handleEvent(event: ConnectEvent) {
         when (event) {
-            ConnectEvent.ConnectFail -> {
-                InfoDialog(
-                    context = requireContext(),
-                    title = "연결에 실패했어요",
-                    message = "상대방의 연결 코드를 올바르게\n입력했는지 확인해주세요.",
-                ).show()
-            }
+            ConnectEvent.ConnectFail -> showConnectFailDialog()
         }
+    }
+
+    private fun showConnectFailDialog() {
+        InfoDialog(
+            context = requireContext(),
+            title = "연결에 실패했어요",
+            message = "상대방의 연결 코드를 올바르게\n입력했는지 확인해주세요.",
+        ).show()
     }
 }
