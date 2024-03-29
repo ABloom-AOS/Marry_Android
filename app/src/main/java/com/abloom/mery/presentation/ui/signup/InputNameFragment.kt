@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class InputNameFragment : BaseFragment<FragmentInputNameBinding>(R.layout.fragment_input_name) {
 
-    private val signUpViewModel: SignUpViewModel by viewModels({ requireParentFragment() })
+    private val viewModel: SignUpViewModel by viewModels({ requireParentFragment() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -19,6 +19,6 @@ class InputNameFragment : BaseFragment<FragmentInputNameBinding>(R.layout.fragme
     }
 
     private fun initBindingViewModel() {
-        binding.viewModel = signUpViewModel
+        binding.viewModel = viewModel
     }
 }

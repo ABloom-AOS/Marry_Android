@@ -13,7 +13,7 @@ import java.time.LocalDate
 @AndroidEntryPoint
 class MarryDateFragment : BaseFragment<FragmentMarryDateBinding>(R.layout.fragment_marry_date) {
 
-    private val signUpViewModel: SignUpViewModel by viewModels({ requireParentFragment() })
+    private val viewModel: SignUpViewModel by viewModels({ requireParentFragment() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,7 +26,7 @@ class MarryDateFragment : BaseFragment<FragmentMarryDateBinding>(R.layout.fragme
             override fun didSelectData(year: Int, month: Int, day: Int) {
                 if (isValidDate(year, month + 1, day)) {
                     val marriageDate = LocalDate.of(year, month + 1, day)
-                    signUpViewModel.selectMarriageDate(marriageDate)
+                    viewModel.selectMarriageDate(marriageDate)
                 }
             }
         })
@@ -43,7 +43,7 @@ class MarryDateFragment : BaseFragment<FragmentMarryDateBinding>(R.layout.fragme
     }
 
     private fun initSavedDate() {
-        val dayValue = signUpViewModel.selectedMarriage.value
+        val dayValue = viewModel.selectedMarriage.value
         binding.datePicker.setDate(dayValue.year, dayValue.monthValue - 1, dayValue.dayOfMonth)
     }
 

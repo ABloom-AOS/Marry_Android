@@ -13,8 +13,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class BrideGroomSelectionFragment :
     BaseFragment<FragmentBrideGroomSelectionBinding>(R.layout.fragment_bride_groom_selection) {
 
-    private val signUpViewModel: SignUpViewModel by viewModels({ requireParentFragment() })
-    private val step2 by lazy { MarryDateFragment() }
+    private val viewModel: SignUpViewModel by viewModels({ requireParentFragment() })
+    private val marryDateFragment by lazy { MarryDateFragment() }
+    private val signUpFragmentManager by lazy {parentFragmentManager}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,7 +24,7 @@ class BrideGroomSelectionFragment :
     }
 
     private fun initBrideAndGroomSelection() {
-        val selectedSex = signUpViewModel.selectedSex.value ?: return
+        val selectedSex = viewModel.selectedSex.value ?: return
 
         when (selectedSex) {
             Sex.MALE -> binding.groomBut.setBackgroundResource(R.drawable.signup_gender_selected)
@@ -33,19 +34,19 @@ class BrideGroomSelectionFragment :
 
     private fun initListener() {
         binding.groomBut.setOnClickListener {
-            signUpViewModel.selectSex(Sex.MALE)
+            viewModel.selectSex(Sex.MALE)
             moveToMarryDateFragment()
         }
 
         binding.brideBut.setOnClickListener {
-            signUpViewModel.selectSex(Sex.FEMALE)
+            viewModel.selectSex(Sex.FEMALE)
             moveToMarryDateFragment()
         }
     }
 
     private fun moveToMarryDateFragment() {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView, step2)
-            .commit()
+        signUpFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerView,marryDateFragment)
+            .commitNow()
     }
 }
