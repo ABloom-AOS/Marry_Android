@@ -1,6 +1,7 @@
 package com.abloom.mery.presentation.ui.signup
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -35,11 +36,15 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     private fun initBrideGroomFragment() {
-        signUpFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView, brideGroomSelectionFragment,"brideGroomSelectionFragment")
-            .commit()
-
-        setupForBrideGroomSelection()
+        signUpFragmentManager.beginTransaction().apply {
+            replace(
+                R.id.fragmentContainerView,
+                brideGroomSelectionFragment,
+                "brideGroomSelectionFragment"
+            )
+            addToBackStack("f")
+            commit()
+        }
     }
 
     private fun observeSignUpFragmentManager() {
@@ -50,6 +55,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                     curFragment: Fragment,
                     savedInstanceState: Bundle?
                 ) {
+
+                    printBackStack()
+
                     when (curFragment.tag) {
                         "brideGroomSelectionFragment" -> {
                             setupForBrideGroomSelection()
@@ -83,11 +91,12 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         when (curFragmentTag) {
             "marryDateFragment" -> {
                 signUpFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, inputNameFragment,"inputNameFragment")
+                    .replace(R.id.fragmentContainerView, inputNameFragment, "inputNameFragment")
+                    .addToBackStack("f")
                     .commit()
             }
 
-             "inputNameFragment" -> {
+            "inputNameFragment" -> {
                 //TODO("STEP 04 약간 동의 화면으로 이동)
             }
         }
@@ -108,13 +117,17 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
             "marryDateFragment" -> {
                 signUpFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, brideGroomSelectionFragment,"brideGroomSelectionFragment")
+                    .replace(
+                        R.id.fragmentContainerView,
+                        brideGroomSelectionFragment,
+                        "brideGroomSelectionFragment"
+                    )
                     .commit()
             }
 
             "inputNameFragment" -> {
                 signUpFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, marryDateFragment,"marryDateFragment")
+                    .replace(R.id.fragmentContainerView, marryDateFragment, "marryDateFragment")
                     .commit()
             }
         }
@@ -149,6 +162,16 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         }
         updateProgressBarState(STEP_INPUT_NAME_SELECTION)
     }
+
+    fun printBackStack() {
+        val count = signUpFragmentManager.backStackEntryCount
+        Log.e("BackStack", "There are $count entries in the back stack")
+        for (i in 0 until count) {
+            val entry = signUpFragmentManager.getBackStackEntryAt(i)
+            Log.e("BackStack", "Entry $i: ${entry.name}")
+        }
+    }
+
 
     private fun updateProgressBarState(state: Int) {
         binding.signupProgressBar.progress = state

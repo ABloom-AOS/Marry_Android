@@ -64,6 +64,7 @@ class BrideGroomSelectionFragment :
     private fun moveToMarryDateFragment() {
         signUpFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerView, marryDateFragment,"marryDateFragment")
+            .addToBackStack("f")
             .commit()
     }
 }
