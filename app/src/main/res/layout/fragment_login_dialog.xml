@@ -119,11 +119,12 @@
                 android:layout_marginStart="8dp"
                 android:text="Apple로 로그인"
                 android:textColor="@color/white"
-                android:textStyle="bold"
+                android:textFontWeight="800"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/apple_logo_img"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UnusedAttribute" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
