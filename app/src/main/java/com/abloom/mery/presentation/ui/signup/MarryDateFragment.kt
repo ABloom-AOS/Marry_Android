@@ -32,7 +32,7 @@ class MarryDateFragment : BaseFragment<FragmentMarryDateBinding>(R.layout.fragme
         })
     }
 
-    fun checkValidDate(year: Int, month: Int, day: Int): Boolean {
+    private fun checkValidDate(year: Int, month: Int, day: Int): Boolean {
         if (month !in 1..12) return false
         val maxDaysInMonth = when (month) {
             2 -> if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) 29 else 28
