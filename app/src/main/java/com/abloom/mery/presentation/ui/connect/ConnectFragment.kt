@@ -17,8 +17,18 @@ class ConnectFragment : BaseFragment<FragmentConnectBinding>(R.layout.fragment_c
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupAppBar()
+        setupDataBinding()
+    }
+
+    private fun setupAppBar() {
         binding.appbarConnect.setOnNavigationClick {
             findNavController().popBackStack()
         }
+    }
+
+    private fun setupDataBinding() {
+        binding.viewModel = viewModel
     }
 }
