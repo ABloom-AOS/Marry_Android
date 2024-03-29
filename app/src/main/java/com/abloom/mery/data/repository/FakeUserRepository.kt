@@ -4,9 +4,12 @@ import com.abloom.domain.user.model.Authentication
 import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
 import com.abloom.domain.user.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -41,19 +44,22 @@ class FakeUserRepository @Inject constructor() : UserRepository {
 
     override fun getFiance(): Flow<User?> = FIANCE.asStateFlow()
 
-    override suspend fun connectWithFiance(fianceInvitationCode: String): Boolean {
-        if (fianceInvitationCode != FIANCE_INVITATION_CODE) return false
+    override suspend fun connectWithFiance(fianceInvitationCode: String): Boolean =
+        withContext(Dispatchers.IO) {
+            delay(2000)
+            if (fianceInvitationCode != FIANCE_INVITATION_CODE) return@withContext false
 
-        FIANCE.value = User(
-            id = "asdfadf",
-            name = "최지은",
-            marriageDate = LOGIN_USER.value!!.marriageDate,
-            sex = Sex.FEMALE,
-            invitationCode = FIANCE_INVITATION_CODE,
-            fianceId = LOGIN_USER.value!!.fianceId
-        )
-        return true
-    }
+            FIANCE.value = User(
+                id = "asdfadf",
+                name = "최지은",
+                marriageDate = LOGIN_USER.value!!.marriageDate,
+                sex = Sex.FEMALE,
+                invitationCode = FIANCE_INVITATION_CODE,
+                fianceId = LOGIN_USER.value!!.fianceId
+            )
+            LOGIN_USER.value = LOGIN_USER.value!!.copy(fianceId = FIANCE.value!!.id)
+            return@withContext true
+        }
 
     override suspend fun changeLoginUserName(name: String) {
         LOGIN_USER.value = LOGIN_USER.value!!.copy(name = name)
@@ -82,7 +88,7 @@ class FakeUserRepository @Inject constructor() : UserRepository {
             marriageDate = LocalDate.of(2024, 3, 27),
             sex = Sex.MALE,
             invitationCode = "asdf",
-            fianceId = "qwer"
+            fianceId = null
         )
 
         private val DUMMY_FIANCE: User = User(
@@ -95,7 +101,7 @@ class FakeUserRepository @Inject constructor() : UserRepository {
         )
 
         var JOINED_USER: User? = DUMMY_USER
-        var LOGIN_USER = MutableStateFlow<User?>(null)
+        var LOGIN_USER = MutableStateFlow<User?>(DUMMY_USER)
         var FIANCE = MutableStateFlow<User?>(null)
     }
 }
