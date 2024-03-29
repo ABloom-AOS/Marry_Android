@@ -20,8 +20,7 @@
             android:layout_marginTop="28dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/loginText"
@@ -57,8 +56,7 @@
             android:background="@drawable/kakao_btn_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_text_layout"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintTop_toBottomOf="@id/login_text_layout">
 
             <ImageView
                 android:id="@+id/kakao_logo_img"
@@ -69,8 +67,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/kakao_login_text"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/kakao_login_text"
@@ -96,8 +93,7 @@
             android:background="@drawable/apple_btn_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kakao_login_btn"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintTop_toBottomOf="@+id/kakao_login_btn">
 
             <ImageView
                 android:id="@+id/apple_logo_img"
@@ -108,8 +104,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/apple_text"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/apple_text"
@@ -149,8 +144,7 @@
             android:background="@drawable/google_btn_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/apple_login_btn"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintTop_toBottomOf="@+id/apple_login_btn">
 
             <ImageView
                 android:id="@+id/google_logo_img"
@@ -161,8 +155,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/google_text"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/google_text"
