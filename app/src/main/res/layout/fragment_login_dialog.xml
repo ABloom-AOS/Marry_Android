@@ -105,26 +105,94 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/apple_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/apple_login_text"
+                app:layout_constraintEnd_toStartOf="@+id/apple_text"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/apple_login_text"
+                android:id="@+id/apple_text"
                 style="@style/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Apple로 로그인"
+                android:text="Apple"
                 android:textColor="@color/white"
                 android:textFontWeight="800"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/apple_login_text"
                 app:layout_constraintStart_toEndOf="@+id/apple_logo_img"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:id="@+id/apple_login_text"
+                style="@style/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="로 로그인"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/apple_text"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/google_login_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/google_btn_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/apple_login_button"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/google_logo_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/google_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/google_text"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/google_text"
+                style="@style/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Google"
+                android:textColor="@color/black"
+                android:textFontWeight="800"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/google_login_text"
+                app:layout_constraintStart_toEndOf="@+id/google_logo_img"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:id="@+id/google_login_text"
+                style="@style/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="로 로그인"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/google_text"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
