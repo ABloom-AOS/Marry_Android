@@ -37,7 +37,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     private fun initBrideGroomFragment() {
         signUpFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerView, brideGroomSelectionFragment,"brideGroomSelectionFragment")
-            .commitNow()
+            .commit()
 
         setupForBrideGroomSelection()
     }
