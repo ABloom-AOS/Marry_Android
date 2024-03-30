@@ -1,4 +1,4 @@
-package com.abloom.mery
+package com.abloom.mery.presentation.ui.home
 
 import android.app.Dialog
 import android.os.Bundle
@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.abloom.domain.user.model.Authentication
+import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentLoginDialogBinding
 import com.abloom.mery.presentation.common.util.showToast
-import com.abloom.mery.presentation.ui.home.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kakao.sdk.auth.model.OAuthToken
