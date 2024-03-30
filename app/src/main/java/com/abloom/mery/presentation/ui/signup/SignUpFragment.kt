@@ -24,6 +24,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     private val brideGroomSelectionFragment by lazy { BrideGroomSelectionFragment() }
     private val inputNameFragment by lazy { InputNameFragment() }
+    private val privacyConsentFragment by lazy { PrivacyConsentFragment() }
 
     private val signUpFragmentManager by lazy { childFragmentManager }
 
@@ -60,7 +61,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             })
     }
 
-
     private fun initSignUpFragmentManager() {
         signUpFragmentManager.registerFragmentLifecycleCallbacks(
             object : FragmentManager.FragmentLifecycleCallbacks() {
@@ -87,14 +87,21 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             }
 
             STEP_INPUT_NAME_SELECTION -> {
-                //TODO("STEP 04 약간 동의 화면으로 이동)
+                replacePrivacyConsentFragment()
+                changePrivacyConsentUi()
             }
+
         }
     }
 
     private fun replaceBrideGroomSelectionFragment() {
         signUpFragmentManager.beginTransaction().apply {
-            setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+            setCustomAnimations(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out,
+                android.R.anim.fade_in,
+                android.R.anim.fade_out
+            )
             replace(
                 R.id.fragmentContainerView,
                 brideGroomSelectionFragment,
@@ -106,8 +113,27 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     private fun replaceInputNameFragment() {
         signUpFragmentManager.beginTransaction().apply {
-            setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+            setCustomAnimations(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out,
+                android.R.anim.fade_in,
+                android.R.anim.fade_out
+            )
             replace(R.id.fragmentContainerView, inputNameFragment)
+            addToBackStack(null)
+            commit()
+        }
+    }
+
+    private fun replacePrivacyConsentFragment() {
+        signUpFragmentManager.beginTransaction().apply {
+            setCustomAnimations(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out,
+                android.R.anim.fade_in,
+                android.R.anim.fade_out
+            )
+            replace(R.id.fragmentContainerView, privacyConsentFragment)
             addToBackStack(null)
             commit()
         }
@@ -129,6 +155,10 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
             STEP_MARRY_DATE_SELECTION -> {
                 changeToMarryDateUi()
+            }
+
+            STEP_INPUT_NAME_SELECTION -> {
+                changeInputNameUi()
             }
         }
     }
@@ -163,8 +193,17 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         updateProgressBarState(PROGRESS_INPUT_NAME_STATE)
     }
 
-    private fun updateProgressBarState(state: Int) {
+    private fun changePrivacyConsentUi() {
+        binding.appbarSignUp.apply {
+            title = getString(R.string.signup_title)
+            navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_up_button)
+            actionText = ""
+            isActionEnabled = false
+        }
+        updateProgressBarState(PROGRESS_PRIVACY_CONSENT_STATE)
+    }
 
+    private fun updateProgressBarState(state: Int) {
         val progressAnimator = ObjectAnimator.ofInt(
             binding.signupProgressBar,
             "progress",
@@ -180,9 +219,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         private const val STEP_BRIDE_GROOM_SELECTION = 1
         private const val STEP_MARRY_DATE_SELECTION = 2
         private const val STEP_INPUT_NAME_SELECTION = 3
+        private const val STEP_PRIVACY_CONSENT_SELECTION = 3
 
         private const val PROGRESS_BRIDE_GROOM_STATE = 25
         private const val PROGRESS_MARRY_DATE_STATE = 50
         private const val PROGRESS_INPUT_NAME_STATE = 75
+        private const val PROGRESS_PRIVACY_CONSENT_STATE = 100
     }
 }
