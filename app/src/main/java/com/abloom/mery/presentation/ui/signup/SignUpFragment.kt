@@ -94,7 +94,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     private fun replaceBrideGroomSelectionFragment() {
         signUpFragmentManager.beginTransaction().apply {
-            setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+            setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
             replace(
                 R.id.fragmentContainerView,
                 brideGroomSelectionFragment,
@@ -106,7 +106,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     private fun replaceInputNameFragment() {
         signUpFragmentManager.beginTransaction().apply {
-            setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+            setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
             replace(R.id.fragmentContainerView, inputNameFragment)
             addToBackStack(null)
             commit()
@@ -173,7 +173,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         )
         progressAnimator.interpolator = LinearInterpolator()
         progressAnimator.start()
-
     }
 
     companion object {
