@@ -73,7 +73,6 @@ class WriteAnswerFragment :
                         } else {
                             binding.isEnabled = false
                             binding.tvTextSize.setTextColor(Color.parseColor(TEXT_RED_COLOR))
-
                         }
                     }
                 }
@@ -107,7 +106,7 @@ class WriteAnswerFragment :
     companion object {
 
         const val TEXT_LIMIT_SIZE = 150
-        const val TEXT_RED_COLOR = "#F00"
+        const val TEXT_RED_COLOR = "#FF0000"
         const val QUESTION_NULL = "질문 값이 없습니다."
     }
 }
