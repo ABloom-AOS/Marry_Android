@@ -46,5 +46,6 @@ class WriteAnswerViewModel @Inject constructor(
     companion object {
 
         private const val INVALID_QUESTION_ID = -1L
+        const val ANSWER_LIMIT_SIZE = 150
     }
 }
