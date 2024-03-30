@@ -71,6 +71,10 @@
     <string name="groom_explain">결혼을 준비하는 예비신랑이에요.</string>
     <string name="bride_explain">결혼을 준비하는 예비신부예요.</string>
 
+    <string name="input_name_guide">이름을 알려주세요.</string>
+    <string name="input_name_guide_detail">메리가 회원님을 어떻게 불러드릴까요?\n작성한 이름은 연결된 상대방에게 공개돼요.</string>
+    <string name="input_name_edit_text_hint_">이름을 입력해주세요.</string>
+
     <string name="createqna_category_title">카테고리 선택하기</string>
     <string name="createqna_recommend_question_title">오늘의 추천 질문</string>
 
@@ -113,4 +117,5 @@
     <string name="profilemenu_congratulate_for_wedding">결혼을 축하드려요!</string>
     <string name="profilemenu_since_marriage_date_format">결혼한지 %d일 지났어요.</string>
     <string name="profilemenu_login_confirm_dialog_title">로그인이 필요한 서비스예요.</string>
+
 </resources>
