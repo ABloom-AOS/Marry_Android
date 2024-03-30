@@ -44,8 +44,9 @@ class WriteAnswerFragment :
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
             val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            val navigatorBarHeight = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             if (imeVisible) {
-                binding.root.setPadding(0, 0, 0, imeHeight)
+                binding.root.setPadding(0, 0, 0, imeHeight - navigatorBarHeight)
             } else {
                 binding.root.setPadding(0, 0, 0, 0)
             }
