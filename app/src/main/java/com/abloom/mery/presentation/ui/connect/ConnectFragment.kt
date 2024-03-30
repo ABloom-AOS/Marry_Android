@@ -1,5 +1,7 @@
 package com.abloom.mery.presentation.ui.connect
 
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -37,7 +39,8 @@ class ConnectFragment : BaseFragment<FragmentConnectBinding>(R.layout.fragment_c
         binding.viewModel = viewModel
         binding.onInvitationCodeCopyButtonClick = { invitationCode ->
             copyToClipboard(invitationCode)
-            requireContext().showToast(R.string.connect_invitation_code_copy_success_message)
+            // 33 이상부터는 클립보드에 복사할 때 기본적으로 토스트 메세지를 보여줍니다.
+            if (SDK_INT < VERSION_CODES.TIRAMISU) requireContext().showToast(R.string.connect_invitation_code_copy_success_message)
         }
         binding.onConnectButtonClick = { fianceInvitationCode ->
             view?.hideSoftKeyboard()
