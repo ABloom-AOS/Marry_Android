@@ -1,6 +1,5 @@
 package com.abloom.mery.presentation.ui.category
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
