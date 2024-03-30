@@ -41,6 +41,10 @@ class ProfileDetailMenuDialog : BottomSheetDialogFragment() {
     }
 
     private fun setupDataBinding() {
+        binding.onNameChangeButtonClick = {
+            NameChangeDialog().show(parentFragmentManager, null)
+            dismiss()
+        }
         binding.onCancelButtonClick = ::dismiss
     }
 }
