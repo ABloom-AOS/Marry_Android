@@ -1,8 +1,8 @@
 package com.abloom.mery.presentation.ui.signup
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -30,21 +30,34 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         initListener()
         initBindingViewModel()
         initBrideGroomFragment()
+        initOnBackPressed()
         initSignUpFragmentManager()
     }
 
-    private fun initBrideGroomFragment() {
-        signUpFragmentManager.beginTransaction().apply {
-            replace(
-                R.id.fragmentContainerView,
-                brideGroomSelectionFragment,
-            )
-            addToBackStack(null)
-            commit()
-        }
-
-        setupForBrideGroomSelection()
+    private fun initListener() {
+        binding.appbarSignUp.setOnNavigationClick { navigateToPriorFragment() }
+        binding.appbarSignUp.setOnActionClick { navigateToNextFragment() }
     }
+
+    private fun initBindingViewModel() {
+        binding.viewModel = signUpViewModel
+    }
+
+    private fun initBrideGroomFragment() {
+        replaceBrideGroomSelectionFragment()
+        changeToBrideGroomUi()
+    }
+
+    private fun initOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    navigateToPriorFragment()
+                }
+            })
+    }
+
 
     private fun initSignUpFragmentManager() {
         signUpFragmentManager.registerFragmentLifecycleCallbacks(
@@ -56,7 +69,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                 ) {
                     when (getStackCount()) {
                         STEP_MARRY_DATE_SELECTION -> {
-                            setupForMarryDate()
+                            changeToMarryDateUi()
                         }
                     }
                 }
@@ -64,23 +77,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         )
     } // BrideGroomFragment에서 Selection을 감지하기 위해 구현
 
-    private fun initBindingViewModel() {
-        binding.viewModel = signUpViewModel
-    }
-
-    private fun initListener() {
-        binding.appbarSignUp.setOnNavigationClick { navigateToPriorFragment() }
-        binding.appbarSignUp.setOnActionClick { navigateToNextFragment() }
-    }
-
     private fun navigateToNextFragment() {
         when (getStackCount()) {
             STEP_MARRY_DATE_SELECTION -> {
-                signUpFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, inputNameFragment)
-                    .addToBackStack(null)
-                    .commit()
-                setupForInputName()
+                replaceInputNameFragment()
+                changeInputNameUi()
             }
 
             STEP_INPUT_NAME_SELECTION -> {
@@ -89,11 +90,29 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         }
     }
 
+    private fun replaceBrideGroomSelectionFragment() {
+        signUpFragmentManager.beginTransaction().apply {
+            replace(
+                R.id.fragmentContainerView,
+                brideGroomSelectionFragment,
+            )
+            addToBackStack(null)
+            commit()
+        }
+    }
+
+    private fun replaceInputNameFragment() {
+        signUpFragmentManager.beginTransaction().apply {
+            replace(R.id.fragmentContainerView, inputNameFragment)
+            addToBackStack(null)
+            commit()
+        }
+    }
+
     private fun getStackCount() = signUpFragmentManager.backStackEntryCount
 
     private fun navigateToPriorFragment() {
         signUpFragmentManager.popBackStackImmediate()
-        printBackStack()
 
         when (getStackCount()) {
             INIT_SIGN_FRAGMENT -> {
@@ -101,17 +120,16 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             }
 
             STEP_BRIDE_GROOM_SELECTION -> {
-                setupForBrideGroomSelection()
+                changeToBrideGroomUi()
             }
 
             STEP_MARRY_DATE_SELECTION -> {
-                setupForMarryDate()
+                changeToMarryDateUi()
             }
         }
-
     }
 
-    private fun setupForBrideGroomSelection() {
+    private fun changeToBrideGroomUi() {
         binding.appbarSignUp.apply {
             title = getString(R.string.signup_title)
             navigationText = getString(R.string.all_cancel)
@@ -121,7 +139,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         updateProgressBarState(STEP_BRIDE_GROOM_SELECTION)
     }
 
-    private fun setupForMarryDate() {
+    private fun changeToMarryDateUi() {
         binding.appbarSignUp.apply {
             title = ""
             navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_up_button)
@@ -131,7 +149,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         updateProgressBarState(STEP_MARRY_DATE_SELECTION)
     }
 
-    private fun setupForInputName() {
+    private fun changeInputNameUi() {
         binding.appbarSignUp.apply {
             title = ""
             navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_up_button)
@@ -140,16 +158,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         }
         updateProgressBarState(STEP_INPUT_NAME_SELECTION)
     }
-
-    fun printBackStack() {
-        val count = signUpFragmentManager.backStackEntryCount
-        Log.e("BackStack", "There are $count entries in the back stack")
-        for (i in 0 until count) {
-            val entry = signUpFragmentManager.getBackStackEntryAt(i)
-            Log.e("BackStack", "Entry $i: ${entry.name}")
-        }
-    }
-
 
     private fun updateProgressBarState(state: Int) {
         binding.signupProgressBar.progress = state
