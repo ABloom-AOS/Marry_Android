@@ -36,7 +36,7 @@
                 android:gravity="center"
                 android:onClick="@{() -> onNameChangeButtonClick.invoke()}"
                 android:paddingVertical="18dp"
-                android:text="@string/profilemenu_detail_dialog_name_change_button_text"
+                android:text="@string/profilemenu_name_change"
                 android:textAppearance="@style/headline"
                 android:textColor="@color/primary_60" />
 
