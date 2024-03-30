@@ -72,7 +72,7 @@
                     android:layout_marginEnd="20dp"
                     android:background="@null"
                     android:gravity="top"
-                    android:hint="내 답변을 작성해보세요."
+                    android:hint="@string/writeanswer_hint"
                     android:text="@={viewModel.answer}"
                     android:textColor="@color/neutral_40"
                     app:layout_constraintEnd_toEndOf="parent"
