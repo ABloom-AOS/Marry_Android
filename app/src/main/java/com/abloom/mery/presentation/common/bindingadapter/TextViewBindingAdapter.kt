@@ -10,3 +10,8 @@ import java.time.format.FormatStyle
 fun TextView.setDateText(date: LocalDate) {
     text = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
 }
+
+@BindingAdapter("android:text")
+fun TextView.setNumberText(numberText: Int) {
+    text = numberText.toString()
+}

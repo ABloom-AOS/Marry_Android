@@ -46,5 +46,4 @@ class MarryDateFragment : BaseFragment<FragmentMarryDateBinding>(R.layout.fragme
         val dayValue = viewModel.selectedMarriage.value
         binding.datePicker.setDate(dayValue.year, dayValue.monthValue - 1, dayValue.dayOfMonth)
     }
-
 }

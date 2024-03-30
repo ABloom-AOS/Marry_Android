@@ -60,7 +60,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             })
     }
 
-
     private fun initSignUpFragmentManager() {
         signUpFragmentManager.registerFragmentLifecycleCallbacks(
             object : FragmentManager.FragmentLifecycleCallbacks() {
@@ -94,7 +93,12 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     private fun replaceBrideGroomSelectionFragment() {
         signUpFragmentManager.beginTransaction().apply {
-            setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+            setCustomAnimations(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out,
+                android.R.anim.fade_in,
+                android.R.anim.fade_out
+            )
             replace(
                 R.id.fragmentContainerView,
                 brideGroomSelectionFragment,
@@ -106,7 +110,12 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     private fun replaceInputNameFragment() {
         signUpFragmentManager.beginTransaction().apply {
-            setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+            setCustomAnimations(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out,
+                android.R.anim.fade_in,
+                android.R.anim.fade_out
+            )
             replace(R.id.fragmentContainerView, inputNameFragment)
             addToBackStack(null)
             commit()
@@ -176,6 +185,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     companion object {
+
         private const val INIT_SIGN_FRAGMENT = 0
         private const val STEP_BRIDE_GROOM_SELECTION = 1
         private const val STEP_MARRY_DATE_SELECTION = 2
