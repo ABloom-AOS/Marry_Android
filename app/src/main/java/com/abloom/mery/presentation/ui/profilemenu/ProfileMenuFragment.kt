@@ -40,7 +40,7 @@ class ProfileMenuFragment :
     private fun setupDataBinding() {
         binding.viewModel = viewModel
         binding.onProfileUpdateButtonClick = {
-            if (viewModel.loginUser.value == null) showLoginDialog() else showProfileUpdateDialog()
+            if (viewModel.loginUser.value == null) showLoginDialog() else showProfileDetailMenuDialog()
         }
         binding.onConnectSettingButtonClick = {
             if (viewModel.loginUser.value == null) showLoginDialog() else navigateToConnect()
@@ -58,8 +58,8 @@ class ProfileMenuFragment :
         ).show()
     }
 
-    private fun showProfileUpdateDialog() {
-        // TODO("이름과 결혼 예정일을 변경할 수 있는 하단 다이얼로그 띄우기")
+    private fun showProfileDetailMenuDialog() {
+        ProfileDetailMenuDialog().show(childFragmentManager, null)
     }
 
     private fun navigateToConnect() {
