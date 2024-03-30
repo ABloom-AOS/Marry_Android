@@ -46,6 +46,7 @@ class ProfileMenuFragment :
             if (viewModel.loginUser.value == null) showLoginDialog() else navigateToConnect()
         }
         binding.onNavigateToWebViewButtonClick = ::navigateToWebView
+        binding.onLogoutButtonClick = ::showLogoutConfirmDialog
     }
 
     private fun showLoginDialog() {
@@ -71,6 +72,19 @@ class ProfileMenuFragment :
             ProfileMenuFragmentDirections
                 .actionProfileMenuFragmentToWebViewFromProfileMenuFragment(url)
         )
+    }
+
+    private fun showLogoutConfirmDialog() {
+        ConfirmDialog(
+            context = requireContext(),
+            title = getString(R.string.profilemenu_logout_confirm_dialog_title),
+            message = getString(R.string.profilemenu_logout_confirm_dialog_message),
+            positiveButtonLabel = getString(R.string.profilemenu_logout_confirm_dialog_positive_button_label),
+            onPositiveButtonClick = {
+                viewModel.logout()
+                findNavController().popBackStack(R.id.homeFragment, false)
+            }
+        ).show()
     }
 
     private fun observeLoginUser() {
