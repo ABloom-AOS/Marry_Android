@@ -2,8 +2,7 @@ package com.abloom.mery.presentation.ui.signup
 
 import android.os.Bundle
 import android.view.View
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import com.abloom.domain.user.model.Sex
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentBrideGroomSelectionBinding
@@ -14,31 +13,38 @@ import dagger.hilt.android.AndroidEntryPoint
 class BrideGroomSelectionFragment :
     BaseFragment<FragmentBrideGroomSelectionBinding>(R.layout.fragment_bride_groom_selection) {
 
-    private val viewModel: SignUpViewModel by hiltNavGraphViewModels(R.id.signup_nav_graph)
+    private val signUpViewModel: SignUpViewModel by viewModels({ requireParentFragment() })
+    private val marryDateFragment by lazy { MarryDateFragment() }
+    private val signUpFragmentManager by lazy { parentFragmentManager }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+        initBindingViewModel()
     }
 
     private fun initListener() {
-
         binding.groomBut.setOnClickListener {
-            viewModel.selectSex(Sex.MALE)
             moveToMarryDateFragment()
-            binding.groomBut.setBackgroundResource(R.drawable.signup_gender_selected)
+            signUpViewModel.selectSex(Sex.MALE)
         }
 
         binding.brideBut.setOnClickListener {
-            viewModel.selectSex(Sex.FEMALE)
             moveToMarryDateFragment()
-            binding.brideBut.setBackgroundResource(R.drawable.signup_gender_selected)
+            signUpViewModel.selectSex(Sex.FEMALE)
         }
     }
 
+    private fun initBindingViewModel() {
+        binding.viewModel = signUpViewModel
+    }
+
     private fun moveToMarryDateFragment() {
-        findNavController().navigate(
-            R.id.action_brideGroomSelectionFragment_to_marryDateFragment
-        )
+        signUpFragmentManager.beginTransaction().apply {
+            setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+            replace(R.id.fragmentContainerView, marryDateFragment)
+            addToBackStack(null)
+            commit()
+        }
     }
 }

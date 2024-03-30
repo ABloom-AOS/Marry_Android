@@ -5,6 +5,13 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.signup.SignUpViewModel" />
+
+        <variable
+            name="SEX"
+            type="com.abloom.domain.user.model.Sex" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +50,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/signup_gender_unselected"
+            android:background="@{viewModel.selectedSex == SEX.MALE ? @drawable/signup_gender_selected : @drawable/signup_gender_unselected}"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signup_detail_explain_text">
@@ -85,7 +92,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/signup_gender_unselected"
+            android:background="@{viewModel.selectedSex == SEX.FEMALE ? @drawable/signup_gender_selected : @drawable/signup_gender_unselected}"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/groom_but">
