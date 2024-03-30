@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="onPositiveButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onNegativeButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_all_dialog">
+
+        <TextView
+            android:id="@+id/tv_namechangedialog_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:text="@string/profilemenu_name_change"
+            android:textAppearance="@style/headline"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="이름 변경하기" />
+
+        <TextView
+            android:id="@+id/tv_namechangedialog_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="4.5dp"
+            android:text="@string/profilemenu_name_change_dialog_message"
+            android:textAppearance="@style/footnote"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@id/tv_namechangedialog_title"
+            app:layout_constraintStart_toStartOf="@id/tv_namechangedialog_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_namechangedialog_title"
+            tools:text="변경할 이름을 입력해주세요." />
+
+        <EditText
+            android:id="@+id/et_namechangedialog_name_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_namechangedialog_name_input"
+            android:gravity="center_vertical"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLength="10"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="4dp"
+            android:textAppearance="@style/body"
+            android:textColor="@color/primary_60"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_namechangedialog_message"
+            tools:ignore="LabelFor" />
+
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_namechangedialog_horizontal"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="17dp"
+            android:orientation="horizontal"
+            app:dividerColor="#3C3C435C"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_namechangedialog_name_input" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_namechangedialog_vertical"
+            android:layout_width="0.5dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:dividerColor="#3C3C435C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_namechangedialog_horizontal" />
+
+        <TextView
+            android:id="@+id/tv_namechangedialog_negative_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="@{() -> onNegativeButtonClick.invoke()}"
+            android:paddingVertical="14dp"
+            android:text="@string/all_cancel"
+            android:textAppearance="@style/body"
+            android:textColor="@color/primary_60"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/divider_namechangedialog_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_namechangedialog_horizontal" />
+
+        <TextView
+            android:id="@+id/tv_namechangedialog_positive_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:enabled="@{!etNamechangedialogNameInput.text.toString().blank}"
+            android:gravity="center"
+            android:onClick="@{() -> onPositiveButtonClick.invoke()}"
+            android:paddingVertical="14dp"
+            android:text="@string/all_ok"
+            android:textAppearance="@style/body"
+            android:textColor="@{etNamechangedialogNameInput.text.toString().blank ? @color/neutral_40 : @color/primary_60}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/divider_namechangedialog_vertical"
+            app:layout_constraintTop_toBottomOf="@id/divider_namechangedialog_horizontal" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
