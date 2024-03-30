@@ -14,7 +14,7 @@
             type="Boolean" />
 
         <variable
-            name="textSize"
+            name="textLength"
             type="String" />
 
         <variable
@@ -97,7 +97,7 @@
                         style="@style/footnote"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{textSize}"
+                        android:text="@{textLength}"
                         android:textColor="@color/neutral_40" />
 
                     <TextView

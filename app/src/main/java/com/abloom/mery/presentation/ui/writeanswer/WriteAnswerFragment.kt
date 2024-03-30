@@ -57,7 +57,7 @@ class WriteAnswerFragment :
     private fun observeAnswer() {
         repeatOnStarted {
             writeAnswerViewModel.answer.collect {
-                binding.textSize = it.length.toString()
+                binding.textLength = it.length.toString()
                 when (it.length) {
                     0 -> {
                         binding.isEnabled = false
