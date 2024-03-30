@@ -86,7 +86,7 @@ class WriteAnswerFragment :
             context = requireContext(),
             title = getString(R.string.writeanswer_popback_confirm_dialog_title),
             message = getString(R.string.writeanswer_popback_confirm_dialog_message),
-            positiveButtonLabel = getString(R.string.writeanswer_complete),
+            positiveButtonLabel = getString(R.string.writeanswer_exit),
             onPositiveButtonClick = { findNavController().popBackStack(R.id.createQna, false) },
             negativeButtonLabel = getString(R.string.all_cancel),
         ).show()
