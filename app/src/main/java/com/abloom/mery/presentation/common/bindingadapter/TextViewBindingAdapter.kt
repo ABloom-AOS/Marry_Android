@@ -24,3 +24,8 @@ enum class FontType(@FontRes val fontRes: Int) {
     NANUM_SQUARE_NEO_BOLD(R.font.nanum_square_neo_bold),
     NANUM_SQUARE_NEO_EXTRA_BOLD(R.font.nanum_square_neo_extra_bold)
 }
+
+@BindingAdapter("android:text")
+fun TextView.setNumberText(numberText: Int) {
+    text = numberText.toString()
+}
