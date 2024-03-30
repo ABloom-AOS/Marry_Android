@@ -20,6 +20,7 @@
     <string name="all_cancel">취소</string>
     <string name="all_complete">완료</string>
     <string name="all_next">다음</string>
+    <string name="all_open">열기</string>
 
     <string name="signup_title">가입하기</string>
 
@@ -68,6 +69,7 @@
     <string name="connect_not_found_browser">인터넷 브라우저가 없어서 공유할 수 없습니다.</string>
     <string name="connect_connect_fail_dialog_title">연결에 실패했어요</string>
     <string name="connect_connect_fail_dialog_message">상대방의 연결 코드를 올바르게\n입력했는지 확인해주세요.</string>
+    <string name="connect_kakao_open_confirm_dialog_message">\'메리\'에서\n카카오톡을(를) 열려고합니다.</string>
 
     <string name="writeanswer_title">답변 작성하기</string>
 

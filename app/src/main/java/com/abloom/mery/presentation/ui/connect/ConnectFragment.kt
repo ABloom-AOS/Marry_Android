@@ -13,6 +13,7 @@ import com.abloom.mery.presentation.common.util.copyToClipboard
 import com.abloom.mery.presentation.common.util.hideSoftKeyboard
 import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.util.showToast
+import com.abloom.mery.presentation.common.view.ConfirmDialog
 import com.abloom.mery.presentation.common.view.InfoDialog
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +47,7 @@ class ConnectFragment : BaseFragment<FragmentConnectBinding>(R.layout.fragment_c
             view?.hideSoftKeyboard()
             viewModel.connectWithFiance(fianceInvitationCode)
         }
-        binding.onKakaoShareButtonClick = ::shareInvitationCodeToKakao
+        binding.onKakaoShareButtonClick = ::showKakaoOpenConfirmDialog
     }
 
     private fun copyToClipboard(text: String) {
@@ -54,6 +55,15 @@ class ConnectFragment : BaseFragment<FragmentConnectBinding>(R.layout.fragment_c
             label = getString(R.string.connect_invitation_code_clipboard_label),
             text = text
         )
+    }
+
+    private fun showKakaoOpenConfirmDialog() {
+        ConfirmDialog(
+            context = requireContext(),
+            title = getString(R.string.connect_kakao_open_confirm_dialog_message),
+            positiveButtonLabel = getString(R.string.all_open),
+            onPositiveButtonClick = ::shareInvitationCodeToKakao
+        ).show()
     }
 
     private fun shareInvitationCodeToKakao() {
