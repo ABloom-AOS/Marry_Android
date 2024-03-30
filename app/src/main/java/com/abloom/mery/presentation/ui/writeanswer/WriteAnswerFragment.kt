@@ -1,15 +1,15 @@
 package com.abloom.mery.presentation.ui.writeanswer
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentWriteAnswerBinding
 import com.abloom.mery.presentation.common.base.BaseFragment
-import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.view.ConfirmDialog
 import com.abloom.mery.presentation.common.view.setOnActionClick
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
@@ -21,94 +21,80 @@ class WriteAnswerFragment :
 
     private val writeAnswerViewModel: WriteAnswerViewModel by viewModels()
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (writeAnswerViewModel.answer.value.isNotBlank()) {
+                showBackConfirmDialog()
+            } else {
+                findNavController().popBackStack()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpAppBar()
-        setUpViewModel()
-        setUpQuestion()
-        observeAnswer()
+        setupWindowInsetsListener(view)
+        setupOnBackPressed()
+        setupAppBar()
+        setupDataBinding()
     }
 
-    private fun setUpAppBar() {
-        binding.appbarWriteAnswer.setOnNavigationClick {
-            showPopBackDialog()
-        }
-
-        binding.appbarWriteAnswer.setOnActionClick {
-            showCompleteDialog()
-        }
-    }
-
-    private fun setUpViewModel() {
-        binding.viewModel = writeAnswerViewModel
-    }
-
-    private fun setUpQuestion() {
-        repeatOnStarted {
-            writeAnswerViewModel.question.collect {
-                binding.question = it?.content ?: QUESTION_NULL
+    private fun setupWindowInsetsListener(view: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
+            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            if (imeVisible) {
+                binding.root.setPadding(0, 0, 0, imeHeight)
+            } else {
+                binding.root.setPadding(0, 0, 0, 0)
             }
+            insets
         }
     }
 
-    private fun observeAnswer() {
-        repeatOnStarted {
-            writeAnswerViewModel.answer.collect {
-                binding.textLength = it.length.toString()
-                when (it.length) {
-                    0 -> {
-                        binding.isEnabled = false
-                    }
-
-                    else -> {
-                        if (it.length <= TEXT_LIMIT_SIZE) {
-                            binding.isEnabled = true
-                            binding.tvTextLength.setTextColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.neutral_40
-                                )
-                            )
-                        } else {
-                            binding.isEnabled = false
-                            binding.tvTextLength.setTextColor(Color.parseColor(TEXT_RED_COLOR))
-                        }
-                    }
-                }
-            }
-        }
+    private fun setupOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            owner = viewLifecycleOwner,
+            onBackPressedCallback = onBackPressedCallback
+        )
     }
 
-    private fun showPopBackDialog() {
+    private fun showBackConfirmDialog() {
         ConfirmDialog(
             context = requireContext(),
             title = getString(R.string.writeanswer_popback_confirm_dialog_title),
             message = getString(R.string.writeanswer_popback_confirm_dialog_message),
             positiveButtonLabel = getString(R.string.writeanswer_exit),
-            onPositiveButtonClick = {
-                findNavController().popBackStack()
-            },
+            onPositiveButtonClick = { findNavController().popBackStack() },
             negativeButtonLabel = getString(R.string.all_cancel),
         ).show()
     }
 
-    private fun showCompleteDialog() {
+    private fun setupAppBar() {
+        binding.appbarWriteAnswer.setOnNavigationClick {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        binding.appbarWriteAnswer.setOnActionClick { showCompleteConfirmDialog() }
+    }
+
+    private fun showCompleteConfirmDialog() {
         ConfirmDialog(
             context = requireContext(),
             title = getString(R.string.writeanswer_complete_confirm_dialog_title),
             message = getString(R.string.writeanswer_complete_confirm_dialog_message),
             positiveButtonLabel = getString(R.string.writeanswer_complete),
-            onPositiveButtonClick = { findNavController().popBackStack(R.id.homeFragment, false) },
+            onPositiveButtonClick = {
+                writeAnswerViewModel.answerQna()
+                findNavController().popBackStack(R.id.homeFragment, false)
+            },
             negativeButtonLabel = getString(R.string.all_cancel),
         ).show()
     }
 
-    companion object {
-
-        const val TEXT_LIMIT_SIZE = 150
-        const val TEXT_RED_COLOR = "#FF0000"
-        const val QUESTION_NULL = "질문 값이 없습니다."
+    private fun setupDataBinding() {
+        binding.viewModel = writeAnswerViewModel
     }
 }
 
