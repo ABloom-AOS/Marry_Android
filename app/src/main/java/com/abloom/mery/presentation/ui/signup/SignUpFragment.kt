@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
@@ -28,6 +30,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         initListener()
         initBindingViewModel()
         initBrideGroomFragment()
+        initSignUpFragmentManager()
     }
 
     private fun initBrideGroomFragment() {
@@ -36,13 +39,30 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                 R.id.fragmentContainerView,
                 brideGroomSelectionFragment,
             )
-            addToBackStack("signfragment")
+            addToBackStack(null)
             commit()
         }
 
         setupForBrideGroomSelection()
     }
 
+    private fun initSignUpFragmentManager() {
+        signUpFragmentManager.registerFragmentLifecycleCallbacks(
+            object : FragmentManager.FragmentLifecycleCallbacks() {
+                override fun onFragmentCreated(
+                    manager: FragmentManager,
+                    curFragment: Fragment,
+                    savedInstanceState: Bundle?
+                ) {
+                    when (getStackCount()) {
+                        STEP_MARRY_DATE_SELECTION -> {
+                            setupForMarryDate()
+                        }
+                    }
+                }
+            }, true
+        )
+    } // BrideGroomFragment에서 Selection을 감지하기 위해 구현
 
     private fun initBindingViewModel() {
         binding.viewModel = signUpViewModel
@@ -58,8 +78,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             STEP_MARRY_DATE_SELECTION -> {
                 signUpFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, inputNameFragment)
-                    .addToBackStack("signfragment")
+                    .addToBackStack(null)
                     .commit()
+                setupForInputName()
             }
 
             STEP_INPUT_NAME_SELECTION -> {
@@ -70,21 +91,20 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     private fun getStackCount() = signUpFragmentManager.backStackEntryCount
 
-
     private fun navigateToPriorFragment() {
         signUpFragmentManager.popBackStackImmediate()
         printBackStack()
 
         when (getStackCount()) {
-            STEP_BRIDE_GROOM_SELECTION -> {
+            INIT_SIGN_FRAGMENT -> {
                 findNavController().popBackStack()
             }
 
-            STEP_MARRY_DATE_SELECTION -> {
+            STEP_BRIDE_GROOM_SELECTION -> {
                 setupForBrideGroomSelection()
             }
 
-            STEP_INPUT_NAME_SELECTION -> {
+            STEP_MARRY_DATE_SELECTION -> {
                 setupForMarryDate()
             }
         }
@@ -136,6 +156,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     companion object {
+        private const val INIT_SIGN_FRAGMENT = 0
         private const val STEP_BRIDE_GROOM_SELECTION = 1
         private const val STEP_MARRY_DATE_SELECTION = 2
         private const val STEP_INPUT_NAME_SELECTION = 3
