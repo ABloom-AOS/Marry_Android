@@ -1,7 +1,9 @@
 package com.abloom.mery.presentation.ui.signup
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -138,7 +140,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             actionText = ""
             isActionEnabled = false
         }
-        updateProgressBarState(STEP_BRIDE_GROOM_SELECTION)
+        updateProgressBarState(PROGRESS_BRIDE_GROOM_STATE)
     }
 
     private fun changeToMarryDateUi() {
@@ -148,7 +150,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             actionText = getString(R.string.all_next)
             isActionEnabled = true
         }
-        updateProgressBarState(STEP_MARRY_DATE_SELECTION)
+        updateProgressBarState(PROGRESS_MARRY_DATE_STATE)
     }
 
     private fun changeInputNameUi() {
@@ -158,11 +160,20 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             actionText = getString(R.string.all_next)
             isActionEnabled = false
         }
-        updateProgressBarState(STEP_INPUT_NAME_SELECTION)
+        updateProgressBarState(PROGRESS_INPUT_NAME_STATE)
     }
 
     private fun updateProgressBarState(state: Int) {
-        binding.signupProgressBar.progress = state
+
+        val progressAnimator = ObjectAnimator.ofInt(
+            binding.signupProgressBar,
+            "progress",
+            binding.signupProgressBar.progress,
+            state
+        )
+        progressAnimator.interpolator = LinearInterpolator()
+        progressAnimator.start()
+
     }
 
     companion object {
@@ -170,5 +181,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         private const val STEP_BRIDE_GROOM_SELECTION = 1
         private const val STEP_MARRY_DATE_SELECTION = 2
         private const val STEP_INPUT_NAME_SELECTION = 3
+
+        private const val PROGRESS_BRIDE_GROOM_STATE = 25
+        private const val PROGRESS_MARRY_DATE_STATE = 50
+        private const val PROGRESS_INPUT_NAME_STATE = 75
     }
 }
