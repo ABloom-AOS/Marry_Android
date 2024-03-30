@@ -26,6 +26,11 @@
         <item name="lineHeight">32sp</item>
     </style>
 
+    <style name="title4" parent="mery_text">
+        <item name="android:textSize">18sp</item>
+        <item name="lineHeight">28.8sp</item>
+    </style>
+
     <style name="headline" parent="mery_text">
         <item name="android:textSize">17sp</item>
         <item name="lineHeight">27.2sp</item>
