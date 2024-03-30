@@ -87,10 +87,7 @@ class WriteAnswerFragment :
             message = getString(R.string.writeanswer_popback_confirm_dialog_message),
             positiveButtonLabel = getString(R.string.writeanswer_exit),
             onPositiveButtonClick = {
-                findNavController().popBackStack(
-                    R.id.createQnaFragment,
-                    false
-                )
+                findNavController().popBackStack()
             },
             negativeButtonLabel = getString(R.string.all_cancel),
         ).show()
