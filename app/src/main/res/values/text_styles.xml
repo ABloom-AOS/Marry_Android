@@ -46,6 +46,11 @@
         <item name="lineHeight">24sp</item>
     </style>
 
+    <style name="subheadline_detail" parent="mery_text">
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">22.4sp</item>
+    </style>
+
     <style name="footnote" parent="mery_text">
         <item name="android:textSize">13sp</item>
         <item name="lineHeight">20.8sp</item>

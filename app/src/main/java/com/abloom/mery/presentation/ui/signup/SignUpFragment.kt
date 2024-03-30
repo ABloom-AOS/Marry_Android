@@ -219,7 +219,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         private const val STEP_BRIDE_GROOM_SELECTION = 1
         private const val STEP_MARRY_DATE_SELECTION = 2
         private const val STEP_INPUT_NAME_SELECTION = 3
-        private const val STEP_PRIVACY_CONSENT_SELECTION = 3
 
         private const val PROGRESS_BRIDE_GROOM_STATE = 25
         private const val PROGRESS_MARRY_DATE_STATE = 50
