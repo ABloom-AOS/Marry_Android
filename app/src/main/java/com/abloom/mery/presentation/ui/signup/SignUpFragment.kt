@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
@@ -21,18 +19,15 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     private val signUpViewModel: SignUpViewModel by viewModels()
 
     private val brideGroomSelectionFragment by lazy { BrideGroomSelectionFragment() }
-    private val marryDateFragment by lazy { MarryDateFragment() }
     private val inputNameFragment by lazy { InputNameFragment() }
 
     private val signUpFragmentManager by lazy { childFragmentManager }
-    private var curFragmentTag: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
         initBindingViewModel()
         initBrideGroomFragment()
-        observeSignUpFragmentManager()
     }
 
     private fun initBrideGroomFragment() {
@@ -40,41 +35,14 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             replace(
                 R.id.fragmentContainerView,
                 brideGroomSelectionFragment,
-                "brideGroomSelectionFragment"
             )
-            addToBackStack("f")
+            addToBackStack("signfragment")
             commit()
         }
+
+        setupForBrideGroomSelection()
     }
 
-    private fun observeSignUpFragmentManager() {
-        signUpFragmentManager.registerFragmentLifecycleCallbacks(
-            object : FragmentManager.FragmentLifecycleCallbacks() {
-                override fun onFragmentCreated(
-                    manager: FragmentManager,
-                    curFragment: Fragment,
-                    savedInstanceState: Bundle?
-                ) {
-
-                    printBackStack()
-
-                    when (curFragment.tag) {
-                        "brideGroomSelectionFragment" -> {
-                            setupForBrideGroomSelection()
-                        }
-
-                        "marryDateFragment" -> {
-                            setupForMarryDate()
-                        }
-
-                        "inputNameFragment" -> {
-                            setupForInputName()
-                        }
-                    }
-                }
-            }, true
-        )
-    }
 
     private fun initBindingViewModel() {
         binding.viewModel = signUpViewModel
@@ -86,51 +54,41 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     private fun navigateToNextFragment() {
-        getCurFragmentName()
-
-        when (curFragmentTag) {
-            "marryDateFragment" -> {
+        when (getStackCount()) {
+            STEP_MARRY_DATE_SELECTION -> {
                 signUpFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, inputNameFragment, "inputNameFragment")
-                    .addToBackStack("f")
+                    .replace(R.id.fragmentContainerView, inputNameFragment)
+                    .addToBackStack("signfragment")
                     .commit()
             }
 
-            "inputNameFragment" -> {
+            STEP_INPUT_NAME_SELECTION -> {
                 //TODO("STEP 04 약간 동의 화면으로 이동)
             }
         }
     }
 
-    private fun getCurFragmentName() {
-        curFragmentTag =
-            signUpFragmentManager.findFragmentById(R.id.fragmentContainerView)!!.tag.toString()
-    }
+    private fun getStackCount() = signUpFragmentManager.backStackEntryCount
+
 
     private fun navigateToPriorFragment() {
-        getCurFragmentName()
+        signUpFragmentManager.popBackStackImmediate()
+        printBackStack()
 
-        when (curFragmentTag) {
-            "brideGroomSelectionFragment" -> {
+        when (getStackCount()) {
+            STEP_BRIDE_GROOM_SELECTION -> {
                 findNavController().popBackStack()
             }
 
-            "marryDateFragment" -> {
-                signUpFragmentManager.beginTransaction()
-                    .replace(
-                        R.id.fragmentContainerView,
-                        brideGroomSelectionFragment,
-                        "brideGroomSelectionFragment"
-                    )
-                    .commit()
+            STEP_MARRY_DATE_SELECTION -> {
+                setupForBrideGroomSelection()
             }
 
-            "inputNameFragment" -> {
-                signUpFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, marryDateFragment, "marryDateFragment")
-                    .commit()
+            STEP_INPUT_NAME_SELECTION -> {
+                setupForMarryDate()
             }
         }
+
     }
 
     private fun setupForBrideGroomSelection() {
