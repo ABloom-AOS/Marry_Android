@@ -37,16 +37,23 @@ class ConnectViewModel @Inject constructor(
         scope = viewModelScope
     )
 
-    private val _isConnecting = MutableStateFlow(false)
-    val isConnecting: StateFlow<Boolean> = _isConnecting.asStateFlow()
+    private val _isConnectWaiting = MutableStateFlow(false)
+    val isConnectWaiting: StateFlow<Boolean> = _isConnectWaiting.asStateFlow()
+
+    private val _isJustConnected = MutableStateFlow(false)
+    val isJustConnected: StateFlow<Boolean> = _isJustConnected.asStateFlow()
 
     private val _event = MutableSharedFlow<ConnectEvent>()
     val event: SharedFlow<ConnectEvent> = _event.asSharedFlow()
 
     fun connectWithFiance(invitationCode: String) = viewModelScope.launch {
-        _isConnecting.value = true
-        val connectResult = connectWithFianceUseCase(invitationCode)
-        _isConnecting.value = false
-        if (connectResult) _event.emit(ConnectEvent.ConnectSuccess) else _event.emit(ConnectEvent.ConnectFail)
+        _isConnectWaiting.value = true
+        val isConnectSuccess = connectWithFianceUseCase(invitationCode)
+        _isConnectWaiting.value = false
+        if (isConnectSuccess) {
+            _isJustConnected.value = true
+        } else {
+            _event.emit(ConnectEvent.ConnectFail)
+        }
     }
 }
