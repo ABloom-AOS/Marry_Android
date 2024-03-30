@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{textSize}"
-                        android:textColor="@color/neutral_40"/>
+                        android:textColor="@color/neutral_40" />
 
                     <TextView
                         android:id="@+id/tv_text_limit"

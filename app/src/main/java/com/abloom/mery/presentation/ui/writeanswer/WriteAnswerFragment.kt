@@ -2,7 +2,6 @@ package com.abloom.mery.presentation.ui.writeanswer
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -16,7 +15,6 @@ import com.abloom.mery.presentation.common.view.ConfirmDialog
 import com.abloom.mery.presentation.common.view.setOnActionClick
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class WriteAnswerFragment :
@@ -48,11 +46,10 @@ class WriteAnswerFragment :
         binding.viewModel = writeAnswerViewModel
     }
 
-
-    private fun setUpQuestion(){
+    private fun setUpQuestion() {
         repeatOnStarted {
-            writeAnswerViewModel.question.collect{
-                binding.question = it?.content?: QUESTION_NULL
+            writeAnswerViewModel.question.collect {
+                binding.question = it?.content ?: QUESTION_NULL
             }
         }
     }
@@ -69,7 +66,12 @@ class WriteAnswerFragment :
                     else -> {
                         if (it.length <= TEXT_LIMIT_SIZE) {
                             binding.isEnabled = true
-                            binding.tvTextLength.setTextColor(ContextCompat.getColor(requireContext(), R.color.neutral_40))
+                            binding.tvTextLength.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.neutral_40
+                                )
+                            )
                         } else {
                             binding.isEnabled = false
                             binding.tvTextLength.setTextColor(Color.parseColor(TEXT_RED_COLOR))
@@ -80,14 +82,18 @@ class WriteAnswerFragment :
         }
     }
 
-
     private fun showPopBackDialog() {
         ConfirmDialog(
             context = requireContext(),
             title = getString(R.string.writeanswer_popback_confirm_dialog_title),
             message = getString(R.string.writeanswer_popback_confirm_dialog_message),
             positiveButtonLabel = getString(R.string.writeanswer_exit),
-            onPositiveButtonClick = { findNavController().popBackStack(R.id.createQnaFragment, false) },
+            onPositiveButtonClick = {
+                findNavController().popBackStack(
+                    R.id.createQnaFragment,
+                    false
+                )
+            },
             negativeButtonLabel = getString(R.string.all_cancel),
         ).show()
     }
