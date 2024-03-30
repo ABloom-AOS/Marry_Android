@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.answer.length}"
-                    android:textColor="@{viewModel.answer.length >= viewModel.ANSWER_LIMIT_SIZE ? @color/red : @color/neutral_40}" />
+                    android:textColor="@{viewModel.answer.length > viewModel.ANSWER_LIMIT_SIZE ? @color/red : @color/neutral_40}" />
 
                 <TextView
                     android:id="@+id/tv_text_limit"
