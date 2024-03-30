@@ -37,6 +37,9 @@ assertj = "3.25.3"
 # Kakao SDK 의존성 버전
 kakaoSdk = "2.20.0"
 
+# WheelPicker 의존성 버전
+wheelpicker = "0.4.0"
+
 [libraries]
 # 안드로이드
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -72,6 +75,9 @@ assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 
 # Kakao SDK 의존성
 kakao-sdk-all = { module = "com.kakao.sdk:v2-all", version.ref = "kakaoSdk" }
+
+# WheelPicker
+wheelpicker = { module = "sh.tyy:wheelpicker", version.ref = "wheelpicker" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
