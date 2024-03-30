@@ -69,10 +69,10 @@ class WriteAnswerFragment :
                     else -> {
                         if (it.length <= TEXT_LIMIT_SIZE) {
                             binding.isEnabled = true
-                            binding.tvTextSize.setTextColor(ContextCompat.getColor(requireContext(), R.color.neutral_40))
+                            binding.tvTextLength.setTextColor(ContextCompat.getColor(requireContext(), R.color.neutral_40))
                         } else {
                             binding.isEnabled = false
-                            binding.tvTextSize.setTextColor(Color.parseColor(TEXT_RED_COLOR))
+                            binding.tvTextLength.setTextColor(Color.parseColor(TEXT_RED_COLOR))
                         }
                     }
                 }

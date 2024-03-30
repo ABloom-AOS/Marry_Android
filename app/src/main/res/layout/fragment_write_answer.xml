@@ -93,7 +93,7 @@
 
 
                     <TextView
-                        android:id="@+id/tv_text_size"
+                        android:id="@+id/tv_text_length"
                         style="@style/footnote"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
