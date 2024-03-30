@@ -47,7 +47,6 @@ class CreateQnaFragment : BaseFragment<FragmentCreateQnaBinding>(R.layout.fragme
         binding.ivFuture.setOnClickListener { goCategoryFragment(CategoryArgs.FUTURE) }
         binding.ivPresent.setOnClickListener { goCategoryFragment(CategoryArgs.PRESENT) }
         binding.ivPast.setOnClickListener { goCategoryFragment(CategoryArgs.PAST) }
-
     }
 
     private fun navigateToWriteAnswer() {
