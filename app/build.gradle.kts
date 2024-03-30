@@ -31,7 +31,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "KAKAO_API_KEY", properties.getProperty("KAKAO_API_KEY"))
-
+        resValue("string", "kakao_scheme", properties.getProperty("KAKAO_SCHEME"))
     }
 
     buildTypes {
