@@ -23,6 +23,7 @@
     <string name="all_cancel">취소</string>
     <string name="all_complete">완료</string>
     <string name="all_next">다음</string>
+    <string name="all_open">열기</string>
 
     <string name="signup_title">가입하기</string>
 
@@ -55,6 +56,23 @@
     <string name="qna_response_select_dialog_lets_find_button_description">더 찾아봐요 선택 버튼</string>
 
     <string name="connect_title">상대방과 연결 관리</string>
+    <string name="connect_connect_state_description_format">%s님과\n연결되어있어요.</string>
+    <string name="connect_fiance_invitation_code_button_description">연인의 초대 코드 복사 버튼</string>
+    <string name="connect_connect_description">상대방과 연결하면 우리만의 결혼문답을 함께 써갈 수 있어요.\n내 연결 코드를 복사해 연결할 상대방에게 알려주세요.</string>
+    <string name="connect_login_user_invitation_code_label">나의 연결 코드</string>
+    <string name="connect_fiance_invitation_code_input_label">상대방의 연결 코드로 연결</string>
+    <string name="connect_fiance_invitation_code_input_hint">상대방의 연결 코드를 입력해주세요.</string>
+    <string name="connect_connect_button_text">연결</string>
+    <string name="connect_my_invitation_code_copy_button_text">나의 연결 코드 복사하기</string>
+    <string name="connect_kakao_share_button_label">카카오톡 공유하기</string>
+    <string name="connect_connect_success_message_format">%s님과\n연결되었어요.</string>
+    <string name="connect_invitation_code_clipboard_label">메리 초대 코드</string>
+    <string name="connect_invitation_code_copy_success_message">연결 코드가 복사되었습니다.</string>
+    <string name="connect_kakao_share_fail_message">카카오톡 공유에 실패했어요.</string>
+    <string name="connect_not_found_browser">인터넷 브라우저가 없어서 공유할 수 없습니다.</string>
+    <string name="connect_connect_fail_dialog_title">연결에 실패했어요</string>
+    <string name="connect_connect_fail_dialog_message">상대방의 연결 코드를 올바르게\n입력했는지 확인해주세요.</string>
+    <string name="connect_kakao_open_confirm_dialog_message">\'메리\'에서\n카카오톡을(를) 열려고합니다.</string>
 
     <string name="writeanswer_title">답변 작성하기</string>
 
@@ -120,4 +138,15 @@
     <string name="profilemenu_congratulate_for_wedding">결혼을 축하드려요!</string>
     <string name="profilemenu_since_marriage_date_format">결혼한지 %d일 지났어요.</string>
     <string name="profilemenu_login_confirm_dialog_title">로그인이 필요한 서비스예요.</string>
+
+    <string name="writeanswer_limit_textsize_format">" / %d"</string>
+    <string name="writeanswer_exit">나가기</string>
+    <string name="writeanswer_complete">완료하기</string>
+    <string name="writeanswer_popback_confirm_dialog_title">작성을 종료할까요?</string>
+    <string name="writeanswer_popback_confirm_dialog_message">작성중이었던 답변은 저장되지 않아요.</string>
+    <string name="writeanswer_complete_confirm_dialog_title">답변을 완료할까요?</string>
+    <string name="writeanswer_complete_confirm_dialog_message">완료한 답변은 수정할 수 없어요.\n상대방은 내 답변을 확인할 수 있어요.</string>
+    <string name="writeanswer_hint">내 답변을 작성해보세요.</string>
+
+
 </resources>

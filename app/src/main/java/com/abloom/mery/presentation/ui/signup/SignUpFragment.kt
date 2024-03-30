@@ -215,6 +215,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     companion object {
+
         private const val INIT_SIGN_FRAGMENT = 0
         private const val STEP_BRIDE_GROOM_SELECTION = 1
         private const val STEP_MARRY_DATE_SELECTION = 2

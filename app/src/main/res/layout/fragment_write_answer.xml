@@ -5,24 +5,99 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.writeanswer.WriteAnswerViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_page"
+        android:orientation="vertical"
         tools:context=".presentation.ui.writeanswer.WriteAnswerFragment">
 
         <com.abloom.mery.presentation.common.view.MeryAppBar
             android:id="@+id/appbar_write_answer"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:action="@string/all_complete"
+            app:isActionEnabled="@{!viewModel.answer.blank &amp;&amp; viewModel.answer.length &lt;= viewModel.ANSWER_LIMIT_SIZE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_up_button"
             app:title="@string/writeanswer_title" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tv_question"
+                style="@style/callout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@{viewModel.question.content}"
+                android:textColor="@color/neutral_70"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_answer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="@string/writeanswer_hint"
+                android:importantForAutofill="no"
+                android:inputType="text|textMultiLine"
+                android:maxLength="500"
+                android:text="@={viewModel.answer}"
+                android:textColor="@{viewModel.answer.blank ? @color/neutral_40 : @color/neutral_50}"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_question" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:paddingVertical="3dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_text_length"
+                    style="@style/footnote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.answer.length}"
+                    android:textColor="@{viewModel.answer.length > viewModel.ANSWER_LIMIT_SIZE ? @color/red : @color/neutral_40}" />
+
+                <TextView
+                    android:id="@+id/tv_text_limit"
+                    style="@style/footnote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/writeanswer_limit_textsize_format(viewModel.ANSWER_LIMIT_SIZE)}"
+                    android:textColor="@color/neutral_40" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>
+
+
+
+
