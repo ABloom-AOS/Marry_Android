@@ -21,7 +21,6 @@ class WriteAnswerFragment :
     BaseFragment<FragmentWriteAnswerBinding>(R.layout.fragment_write_answer) {
 
     private val writeAnswerViewModel: WriteAnswerViewModel by viewModels()
-    private val args: WriteAnswerFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
