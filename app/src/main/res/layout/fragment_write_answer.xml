@@ -5,6 +5,25 @@
 
     <data>
 
+        <variable
+            name="question"
+            type="String" />
+
+        <variable
+            name="color"
+            type="String" />
+
+        <variable
+            name="isEnabled"
+            type="Boolean" />
+
+        <variable
+            name="textSize"
+            type="String" />
+
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.writeanswer.WriteAnswerViewModel" />
     </data>
 
     <LinearLayout
@@ -18,9 +37,13 @@
             android:id="@+id/appbar_write_answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:action="완료"
+            app:action="@string/all_complete"
+            app:isActionEnabled="@{isEnabled}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_up_button"
-            app:title="답변 작성하기" />
+            app:title="@string/writeanswer_title" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -38,6 +61,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="23dp"
                     android:layout_marginEnd="20dp"
+                    android:text="@{question}"
                     android:textColor="@color/neutral_70"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -50,27 +74,45 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="20dp"
+                    android:background="@null"
                     android:gravity="top"
-                    android:textColor="@color/neutral_40"
                     android:hint="내 답변을 작성해보세요."
+                    android:text="@={viewModel.answer}"
+                    android:textColor="@color/neutral_40"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_question" />
 
-                <TextView
-                    android:id="@+id/tv_limit"
-                    style="@style/footnote"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:gravity="end"
-                    android:text="0/150"
-                    android:textColor="@color/neutral_40"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_answer" />
+                    app:layout_constraintTop_toBottomOf="@id/et_answer">
+
+
+                    <TextView
+                        android:id="@+id/tv_text_size"
+                        style="@style/footnote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{textSize}"
+                        android:textColor="@color/neutral_40"/>
+
+                    <TextView
+                        android:id="@+id/tv_text_limit"
+                        style="@style/footnote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/writeanswer_limit_textsize_format"
+                        android:textColor="@color/neutral_40" />
+                </LinearLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
