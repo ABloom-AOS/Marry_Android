@@ -1,8 +1,10 @@
 package com.abloom.mery.presentation.ui.connect
 
+import android.content.ActivityNotFoundException
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,6 +17,9 @@ import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.util.showToast
 import com.abloom.mery.presentation.common.view.InfoDialog
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
+import com.kakao.sdk.common.util.KakaoCustomTabsClient
+import com.kakao.sdk.share.ShareClient
+import com.kakao.sdk.share.WebSharerClient
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,6 +50,47 @@ class ConnectFragment : BaseFragment<FragmentConnectBinding>(R.layout.fragment_c
         binding.onConnectButtonClick = { fianceInvitationCode ->
             view?.hideSoftKeyboard()
             viewModel.connectWithFiance(fianceInvitationCode)
+        }
+        binding.onKakaoShareButtonClick = ::shareKakao
+    }
+
+    private fun shareKakao() {
+        val loginUser = viewModel.loginUser.value ?: return
+        val templateId = 103009L
+        if (ShareClient.instance.isKakaoTalkSharingAvailable(requireContext())) {
+            ShareClient.instance.shareCustom(
+                context = requireContext(),
+                templateId = templateId,
+                templateArgs = mapOf(
+                    "userName" to loginUser.name,
+                    "code" to loginUser.invitationCode
+                )
+            ) { sharingResult, error ->
+                if (error != null) {
+                    requireContext().showToast("카카오톡 공유에 실패했어요.")
+                } else if (sharingResult != null) {
+                    startActivity(sharingResult.intent)
+
+                    requireContext().showToast("Warning Msg: ${sharingResult.warningMsg}")
+                    requireContext().showToast("Argument Msg: ${sharingResult.argumentMsg}")
+                }
+            }
+        } else {
+            val sharerUrl = WebSharerClient.instance.makeCustomUrl(templateId)
+
+            try {
+                KakaoCustomTabsClient.openWithDefault(requireContext(), sharerUrl)
+            } catch (e: UnsupportedOperationException) {
+                // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
+            }
+
+            // 2. CustomTabsServiceConnection 미지원 브라우저 열기
+            // ex) 다음, 네이버 등
+            try {
+                KakaoCustomTabsClient.open(requireContext(), sharerUrl)
+            } catch (e: ActivityNotFoundException) {
+                // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
+            }
         }
     }
 
