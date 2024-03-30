@@ -8,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import com.abloom.domain.user.model.Authentication
 import com.abloom.mery.databinding.FragmentLoginDialogBinding
+import com.abloom.mery.presentation.ui.home.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kakao.sdk.auth.model.OAuthToken
@@ -16,6 +19,8 @@ import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 
 class LoginDialogFragment : BottomSheetDialogFragment() {
+
+    private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     private lateinit var binding: FragmentLoginDialogBinding
 
@@ -32,6 +37,12 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         kakaoAutoLogin()
         setupKakaoLoginButton()
+
+        // TODO("임시로 애플 로그인 버튼 클릭하면 로그인되도록 했습니다. 지워야 합니다")
+        binding.appleLoginBtn.setOnClickListener {
+            viewModel.login(Authentication.Apple("asdf"))
+            dismiss()
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
