@@ -10,10 +10,6 @@
             type="String" />
 
         <variable
-            name="color"
-            type="String" />
-
-        <variable
             name="isEnabled"
             type="Boolean" />
 
@@ -122,47 +118,5 @@
 </layout>
 
 
-    <!--<View-->
-    <!--android:id="@+id/rectangle_2"-->
-    <!--android:layout_width="353dp"-->
-    <!--android:layout_height="245dp"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_marginLeft="15dp"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_marginTop="204dp"-->
-    <!--android:background="#33FF0000"-->
-    <!--    />-->
-
-
-    <!--<TextView-->
-    <!--android:id="@+id/some_id"-->
-    <!--android:layout_width="166dp"-->
-    <!--android:layout_height="26dp"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_marginLeft="20dp"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_marginTop="207dp"-->
-    <!--android:text="@string/some_id"-->
-    <!--android:textAppearance="@style/some_id"-->
-    <!--android:lineSpacingExtra="8sp"-->
-    <!--android:gravity="center_horizontal|center_vertical"-->
-    <!--    />-->
-    <!--    &lt;!&ndash;-->
-    <!--    Font family: NanumSquare Neo-->
-    <!--    Line height: 26sp-->
-    <!--    (identical to box height)-->
-    <!--    &ndash;&gt;-->
-
-    <!--    &lt;!&ndash; styles.xml &ndash;&gt;-->
-    <!--<style name="some_id">-->
-    <!--<item name="android:textSize">16sp</item>-->
-    <!--<item name="android:letterSpacing">-0.03</item>-->
-    <!--<item name="android:textColor">#9199A6</item>-->
-    <!--</style>-->
-
-    <!--    &lt;!&ndash; strings.xml &ndash;&gt;-->
-    <!--<string name="some_id">-->
-    <!--\u00eb\u0082\u00b4 \u00eb\u008b\u00b5\u00eb\u00b3\u0080\u00ec\u009d\u0084 \u00ec\u009e\u0091\u00ec\u0084\u00b1\u00ed\u0095\u00b4\u00eb\u00b3\u00b4\u00ec\u0084\u00b8\u00ec\u009a\u0094...-->
-    <!--</string>-->
 
 
