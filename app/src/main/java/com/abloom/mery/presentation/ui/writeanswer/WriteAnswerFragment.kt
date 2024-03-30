@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentWriteAnswerBinding
 import com.abloom.mery.presentation.common.base.BaseFragment
