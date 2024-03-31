@@ -24,6 +24,7 @@
     <string name="all_complete">완료</string>
     <string name="all_next">다음</string>
     <string name="all_open">열기</string>
+    <string name="all_year_month_format">yyyy년 MM월</string>
 
     <string name="signup_title">가입하기</string>
 
