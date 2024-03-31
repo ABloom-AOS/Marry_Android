@@ -3,6 +3,7 @@ package com.abloom.mery.presentation.ui.profilemenu
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.domain.user.model.MarriageState
@@ -10,6 +11,7 @@ import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentProfileMenuBinding
+import com.abloom.mery.presentation.MainViewModel
 import com.abloom.mery.presentation.common.base.BaseFragment
 import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.view.ConfirmDialog
@@ -21,7 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileMenuFragment :
     BaseFragment<FragmentProfileMenuBinding>(R.layout.fragment_profile_menu) {
 
-    private val viewModel: ProfileMenuViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val profileMenuViewModel: ProfileMenuViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,28 +41,37 @@ class ProfileMenuFragment :
     }
 
     private fun setupDataBinding() {
-        binding.viewModel = viewModel
-        binding.onProfileUpdateButtonClick = {
-            if (viewModel.loginUser.value == null) showLoginDialog() else showProfileDetailMenuDialog()
-        }
-        binding.onConnectSettingButtonClick = {
-            if (viewModel.loginUser.value == null) showLoginDialog() else navigateToConnect()
-        }
+        binding.viewModel = profileMenuViewModel
+        binding.onProfileUpdateButtonClick = ::handleProfileUpdateButtonClick
+        binding.onConnectSettingButtonClick = ::handleConnectSettingButtonClick
         binding.onNavigateToWebViewButtonClick = ::navigateToWebView
     }
 
-    private fun showLoginDialog() {
-        ConfirmDialog(
-            context = requireContext(),
-            title = getString(R.string.profilemenu_login_confirm_dialog_title),
-            positiveButtonLabel = getString(R.string.login_text),
-            onPositiveButtonClick = { findNavController().popBackStack(R.id.homeFragment, false) },
-            negativeButtonLabel = getString(R.string.all_cancel),
-        ).show()
+    private fun handleProfileUpdateButtonClick() {
+        val isLogin = profileMenuViewModel.loginUser.value != null
+        if (isLogin) showProfileDetailMenuDialog() else showLoginConfirmDialog()
     }
 
     private fun showProfileDetailMenuDialog() {
         ProfileDetailMenuDialog().show(childFragmentManager, null)
+    }
+
+    private fun showLoginConfirmDialog() {
+        ConfirmDialog(
+            context = requireContext(),
+            title = getString(R.string.profilemenu_login_confirm_dialog_title),
+            positiveButtonLabel = getString(R.string.login_text),
+            onPositiveButtonClick = {
+                mainViewModel.dispatchLoginEvent()
+                findNavController().popBackStack(R.id.homeFragment, false)
+            },
+            negativeButtonLabel = getString(R.string.all_cancel),
+        ).show()
+    }
+
+    private fun handleConnectSettingButtonClick() {
+        val isLogin = profileMenuViewModel.loginUser.value != null
+        if (isLogin) navigateToConnect() else showLoginConfirmDialog()
     }
 
     private fun navigateToConnect() {
@@ -74,7 +86,7 @@ class ProfileMenuFragment :
     }
 
     private fun observeLoginUser() {
-        repeatOnStarted { viewModel.loginUser.collect(::handleLoginUser) }
+        repeatOnStarted { profileMenuViewModel.loginUser.collect(::handleLoginUser) }
     }
 
     private fun handleLoginUser(user: User?) {
@@ -125,7 +137,7 @@ class ProfileMenuFragment :
     }
 
     private fun observeLoginUserDescriptionUi() {
-        repeatOnStarted { viewModel.loginUserDescriptionUiState.collect(::updateLoginUserDescriptionUi) }
+        repeatOnStarted { profileMenuViewModel.loginUserDescriptionUiState.collect(::updateLoginUserDescriptionUi) }
     }
 
     private fun updateLoginUserDescriptionUi(description: LoginUserDescriptionUiState) {
@@ -142,8 +154,10 @@ class ProfileMenuFragment :
         }
         binding.tvProfilemenuLoginUserDescription.setOnClickListener {
             when (description) {
-                LoginUserDescriptionUiState.NotLogin ->
+                LoginUserDescriptionUiState.NotLogin -> {
+                    mainViewModel.dispatchLoginEvent()
                     findNavController().popBackStack(R.id.homeFragment, false)
+                }
 
                 LoginUserDescriptionUiState.NotConnected ->
                     findNavController().navigate(ProfileMenuFragmentDirections.actionProfileMenuFragmentToConnectFragment())

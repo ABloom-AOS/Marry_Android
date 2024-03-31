@@ -33,8 +33,8 @@ class HomeViewModel @Inject constructor(
             scope = viewModelScope
         )
 
-    val isLogin: StateFlow<Boolean> = loginUser.map { it == null }.stateIn(
-        initialValue = false,
+    val isLogin: StateFlow<Boolean?> = loginUser.map { it != null }.stateIn(
+        initialValue = null,
         started = SharingStarted.WhileSubscribed(5_000),
         scope = viewModelScope
     )

@@ -19,9 +19,9 @@ class CategoryViewModel @Inject constructor(
     getAvailableQuestionsUseCase: GetAvailableQuestionsUseCase
 ) : ViewModel() {
 
-    val isLogin: StateFlow<Boolean> = getLoginUserUseCase().map { it != null }
+    val isLogin: StateFlow<Boolean?> = getLoginUserUseCase().map { it != null }
         .stateIn(
-            initialValue = true,
+            initialValue = null,
             started = SharingStarted.WhileSubscribed(5_000),
             scope = viewModelScope
         )
