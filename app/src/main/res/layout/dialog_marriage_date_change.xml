@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.profilemenu.marriagedatechange.MarriageDateChangeViewModel" />
+
+        <variable
+            name="onCompleteButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_all_dialog_big">
+
+        <TextView
+            android:id="@+id/tv_marriagedatechangedialog_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:onClick="@{() -> viewModel.toggleCalendarState()}"
+            android:paddingVertical="3dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:monthText="@{viewModel.visibleMonth}"
+            tools:text="2024년 03월" />
+
+        <ImageView
+            android:id="@+id/iv_marriagedatechangedialog_header_decoration"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="-3dp"
+            android:importantForAccessibility="no"
+            android:onClick="@{() -> viewModel.toggleCalendarState()}"
+            android:src="@{viewModel.isCalendarState ? @drawable/ic_marriagedatechangedialog_month_calendar_header_decoration : @drawable/ic_marriagedatechangedialog_month_picker_header_decoration}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_marriagedatechangedialog_header"
+            app:layout_constraintStart_toEndOf="@id/tv_marriagedatechangedialog_header"
+            app:layout_constraintTop_toTopOf="@id/tv_marriagedatechangedialog_header" />
+
+        <TextView
+            android:id="@+id/tv_marriagedatechangedialog_sunday_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="13dp"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:textColor="#4D3C3C43"
+            app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_monday_header"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_marriagedatechangedialog_header"
+            tools:text="일" />
+
+        <TextView
+            android:id="@+id/tv_marriagedatechangedialog_monday_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:textColor="#4D3C3C43"
+            app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_tuesday_header"
+            app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_sunday_header"
+            app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
+            tools:text="월" />
+
+        <TextView
+            android:id="@+id/tv_marriagedatechangedialog_tuesday_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:textColor="#4D3C3C43"
+            app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_wednesday_header"
+            app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_monday_header"
+            app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
+            tools:text="화" />
+
+        <TextView
+            android:id="@+id/tv_marriagedatechangedialog_wednesday_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:textColor="#4D3C3C43"
+            app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_thursday_header"
+            app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_tuesday_header"
+            app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
+            tools:text="수" />
+
+        <TextView
+            android:id="@+id/tv_marriagedatechangedialog_thursday_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:textColor="#4D3C3C43"
+            app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_friday_header"
+            app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_wednesday_header"
+            app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
+            tools:text="목" />
+
+        <TextView
+            android:id="@+id/tv_marriagedatechangedialog_friday_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:textColor="#4D3C3C43"
+            app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_saturday_header"
+            app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_thursday_header"
+            app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
+            tools:text="금" />
+
+        <TextView
+            android:id="@+id/tv_marriagedatechangedialog_saturday_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:gravity="center"
+            android:paddingVertical="2dp"
+            android:textColor="#4D3C3C43"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_friday_header"
+            app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
+            tools:text="토" />
+
+        <com.kizitonwose.calendar.view.CalendarView
+            android:id="@+id/cv_marriagedatechangedialog_calender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="10dp"
+            app:cv_dayViewResource="@layout/layout_marriagedatechangedialog_day"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_marriagedatechangedialog_sunday_header" />
+
+        <TextView
+            android:id="@+id/tv_marriagedatechangedialog_complete_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:onClick="@{() -> onCompleteButtonClick.invoke()}"
+            android:paddingVertical="19dp"
+            android:text="@string/all_complete"
+            android:textAppearance="@style/headline"
+            android:textColor="@color/primary_60"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv_marriagedatechangedialog_calender" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
