@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.abloom.mery.databinding.ActivityHomeBinding
+import com.abloom.mery.presentation.ui.home.LoginDialogFragment
 
 class HomeActivity : AppCompatActivity() {
 
