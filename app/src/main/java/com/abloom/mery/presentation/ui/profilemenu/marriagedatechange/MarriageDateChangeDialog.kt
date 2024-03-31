@@ -39,9 +39,9 @@ class MarriageDateChangeDialog : BottomSheetDialogFragment() {
         CalendarDayAdapter(
             selectedDate = marriageDateChangeViewModel.selectedDate.value
                 ?: throw IllegalStateException("선택된 날짜를 초기화하기 전에 호출했습니다."),
-            onDayClick = {
-                if (it.position == DayPosition.MonthDate) {
-                    marriageDateChangeViewModel.selectDate(it.date)
+            onDayClick = { day ->
+                if (day.position == DayPosition.MonthDate) {
+                    marriageDateChangeViewModel.selectDate(day.date)
                 }
             }
         )
@@ -111,8 +111,9 @@ class MarriageDateChangeDialog : BottomSheetDialogFragment() {
             firstDayOfWeek = daysOfWeek().first()
         )
 
-        binding.cvMarriagedatechangedialogCalender.monthScrollListener =
-            { marriageDateChangeViewModel.setVisibleMonth(it.yearMonth) }
+        binding.cvMarriagedatechangedialogCalender.monthScrollListener = { date ->
+            marriageDateChangeViewModel.setVisibleMonth(date.yearMonth)
+        }
 
         binding.cvMarriagedatechangedialogCalender.scrollToMonth(currentMonth)
     }
@@ -136,9 +137,9 @@ class MarriageDateChangeDialog : BottomSheetDialogFragment() {
 
     private fun observeSelectedDate() {
         repeatOnStarted {
-            marriageDateChangeViewModel.selectedDate.filterNotNull().collect {
-                calendarDayAdapter.selectedDate = it
-                binding.cvMarriagedatechangedialogCalender.notifyMonthChanged(it.yearMonth)
+            marriageDateChangeViewModel.selectedDate.filterNotNull().collect { selectedDate ->
+                calendarDayAdapter.selectedDate = selectedDate
+                binding.cvMarriagedatechangedialogCalender.notifyMonthChanged(selectedDate.yearMonth)
             }
         }
     }
