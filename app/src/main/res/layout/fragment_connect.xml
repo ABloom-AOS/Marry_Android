@@ -5,17 +5,37 @@
 
     <data>
 
+        <import type="com.abloom.mery.presentation.common.bindingadapter.FontType" />
+
+        <import type="kotlin.Unit" />
+
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.connect.ConnectViewModel" />
+
+        <variable
+            name="onInvitationCodeCopyButtonClick"
+            type="kotlin.jvm.functions.Function1&lt;String, Unit>" />
+
+        <variable
+            name="onConnectButtonClick"
+            type="kotlin.jvm.functions.Function1&lt;String, Unit>" />
+
+        <variable
+            name="onKakaoShareButtonClick"
+            type="kotlin.jvm.functions.Function0" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_page"
+        android:orientation="vertical"
         tools:context=".presentation.ui.connect.ConnectFragment">
 
         <com.abloom.mery.presentation.common.view.MeryAppBar
             android:id="@+id/appbar_connect"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -23,5 +43,303 @@
             app:navigationIcon="@drawable/ic_up_button"
             app:title="@string/connect_title" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ScrollView
+            android:id="@+id/sv_connect_is_unconnected_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
+            android:scrollbars="none"
+            app:is_visible="@{!viewModel.loginUser.linkedWithFiance}"
+            tools:visibility="gone">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_connect_connect_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_square_neo"
+                    android:lineSpacingMultiplier="1.6"
+                    android:paddingVertical="3dp"
+                    android:text="@string/connect_connect_description"
+                    android:textColor="@color/neutral_100"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_connect_invitation_code_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/connect_login_user_invitation_code_label"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_100"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_connect_connect_description" />
+
+                <TextView
+                    android:id="@+id/tv_connect_login_user_invitation_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_connect_login_user_invitation_code"
+                    android:fontFamily="@font/nanum_square_neo_extra_bold"
+                    android:gravity="center"
+                    android:text="@{viewModel.loginUser.invitationCode}"
+                    android:textColor="#3D2447"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_connect_invitation_code_label"
+                    tools:text="9HZI4ZHHjW" />
+
+                <TextView
+                    android:id="@+id/tv_connect_fiance_invitation_code_input_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/connect_fiance_invitation_code_input_label"
+                    android:textAppearance="@style/callout"
+                    android:textColor="@color/neutral_100"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_connect_login_user_invitation_code" />
+
+                <EditText
+                    android:id="@+id/et_connect_fiance_invitation_code_input"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@{etConnectFianceInvitationCodeInput.text.toString().blank ? @drawable/bg_connect_fiance_invitation_code_input_not_entered : @drawable/bg_connect_fiance_invitation_code_input_entered}"
+                    android:hint="@string/connect_fiance_invitation_code_input_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text|textNoSuggestions"
+                    android:maxLength="30"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="18dp"
+                    android:textColor="@{etConnectFianceInvitationCodeInput.text.toString().blank ? @color/neutral_60 : @color/primary_80}"
+                    android:textSize="16sp"
+                    app:font="@{etConnectFianceInvitationCodeInput.text.toString().blank ? FontType.NANUM_SQUARE_NEO_REGULAR : FontType.NANUM_SQUARE_NEO_EXTRA_BOLD}"
+                    app:layout_constraintBottom_toBottomOf="@id/ll_connect_connect_button"
+                    app:layout_constraintEnd_toStartOf="@id/ll_connect_connect_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ll_connect_connect_button" />
+
+                <LinearLayout
+                    android:id="@+id/ll_connect_connect_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_connect_fiance_invitation_code_input_label"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:id="@+id/tv_connect_connect_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_all_primary_button_big"
+                        android:enabled="@{!etConnectFianceInvitationCodeInput.text.toString().blank}"
+                        android:gravity="center"
+                        android:onClick="@{() -> onConnectButtonClick.invoke(etConnectFianceInvitationCodeInput.getText().toString())}"
+                        android:paddingHorizontal="24dp"
+                        android:text="@string/connect_connect_button_text"
+                        android:textAppearance="@style/callout"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:is_visible="@{!viewModel.isConnectWaiting}"
+                        tools:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iv_connect_connect_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_all_primary_button_big"
+                        android:importantForAccessibility="no"
+                        android:paddingHorizontal="27dp"
+                        android:paddingVertical="16dp"
+                        android:src="@drawable/ic_connect_is_connect_waiting"
+                        app:is_visible="@{viewModel.isConnectWaiting}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_connect_invitation_code_copy_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="76dp"
+                    android:background="@drawable/bg_connect_invitation_code_copy_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onInvitationCodeCopyButtonClick.invoke(viewModel.loginUser.invitationCode)}"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_connect_connect_button">
+
+                    <TextView
+                        android:id="@+id/tv_connect_invitation_code_copy_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawablePadding="6dp"
+                        android:gravity="center"
+                        android:paddingVertical="20dp"
+                        android:text="@string/connect_my_invitation_code_copy_button_text"
+                        android:textAppearance="@style/callout"
+                        android:textColor="@color/neutral_100"
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/ic_connect_copy_dark" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_connect_kakao_share_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_connect_kakao_share_button"
+                    android:gravity="center"
+                    android:onClick="@{() -> onKakaoShareButtonClick.invoke()}"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="@id/ll_connect_invitation_code_copy_button"
+                    app:layout_constraintStart_toStartOf="@id/ll_connect_invitation_code_copy_button"
+                    app:layout_constraintTop_toBottomOf="@id/ll_connect_invitation_code_copy_button">
+
+                    <TextView
+                        android:id="@+id/tv_connect_kakao_share_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="6dp"
+                        android:gravity="center"
+                        android:paddingVertical="20dp"
+                        android:text="@string/connect_kakao_share_button_label"
+                        android:textAppearance="@style/callout"
+                        android:textColor="@color/neutral_100"
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/ic_connect_kakao_share" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/sv_connect_is_connected_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:is_visible="@{!viewModel.isJustConnected &amp;&amp; viewModel.loginUser.linkedWithFiance}"
+            tools:visibility="gone">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_connect_is_connected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="130dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/img_connect_is_connected" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_connect_fiance_invitation_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@drawable/bg_connect_fiance_invitation_code"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_connect_is_connected">
+
+                    <TextView
+                        android:id="@+id/tv_connect_fiance_invitation_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@{viewModel.fiance.invitationCode}"
+                        android:textAppearance="@style/callout"
+                        android:textColor="@color/neutral_50"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="9HZI4ZHHjW" />
+
+                    <ImageView
+                        android:id="@+id/iv_connect_fiance_invitation_code_copy_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/connect_fiance_invitation_code_button_description"
+                        android:onClick="@{() -> onInvitationCodeCopyButtonClick.invoke(viewModel.fiance.invitationCode)}"
+                        android:padding="13dp"
+                        android:src="@drawable/ic_connect_copy"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tv_connect_connecting_with_fiance_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="64dp"
+                    android:gravity="center"
+                    android:paddingVertical="6dp"
+                    android:text="@{@string/connect_connect_state_description_format(viewModel.fiance.name)}"
+                    android:textAppearance="@style/title3"
+                    android:textColor="@color/neutral_60"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_connect_fiance_invitation_code"
+                    tools:text="최지은님과\n연결되어있어요." />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/sv_connect_connect_success"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:is_visible="@{viewModel.isJustConnected}"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="150dp"
+                    android:layout_marginBottom="64dp"
+                    android:gravity="center"
+                    android:paddingVertical="6dp"
+                    android:text="@{@string/connect_connect_success_message_format(viewModel.fiance.name)}"
+                    android:textAppearance="@style/title3"
+                    android:textColor="@color/neutral_100"
+                    android:textStyle="bold"
+                    app:drawableTopCompat="@drawable/img_connect_is_connected"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="최지은님과\n연결되었어요." />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 </layout>
