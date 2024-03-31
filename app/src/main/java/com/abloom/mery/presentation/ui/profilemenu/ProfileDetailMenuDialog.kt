@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.fragment.app.viewModels
 import com.abloom.mery.databinding.DialogProfileDetailMenuBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ProfileDetailMenuDialog : BottomSheetDialogFragment() {
@@ -14,7 +14,10 @@ class ProfileDetailMenuDialog : BottomSheetDialogFragment() {
     private var _binding: DialogProfileDetailMenuBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ProfileMenuViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val bottomSheet: FrameLayout by lazy {
+        val parentView = binding.root.parent as View
+        parentView.findViewById(com.google.android.material.R.id.design_bottom_sheet)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,29 +25,35 @@ class ProfileDetailMenuDialog : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = DialogProfileDetailMenuBinding.inflate(layoutInflater, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupDialogBackground()
+        bottomSheet.setupBackground()
+        bottomSheet.setupBehavior()
         setupDataBinding()
     }
 
-    private fun setupDialogBackground() {
-        val parentView = binding.root.parent as View
-        val dialogView = parentView
-            .findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-        dialogView.background = null
+    private fun FrameLayout.setupBackground() {
+        background = null
+    }
+
+    private fun FrameLayout.setupBehavior() {
+        val behavior = BottomSheetBehavior.from(this)
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        behavior.skipCollapsed = true
     }
 
     private fun setupDataBinding() {
-        binding.onNameChangeButtonClick = {
-            NameChangeDialog().show(parentFragmentManager, null)
-            dismiss()
-        }
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.onNameChangeButtonClick = ::handleNameChangeButtonClick
         binding.onCancelButtonClick = ::dismiss
+    }
+
+    private fun handleNameChangeButtonClick() {
+        NameChangeDialog().show(parentFragmentManager, null)
+        dismiss()
     }
 }
