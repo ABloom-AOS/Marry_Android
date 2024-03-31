@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.abloom.mery.databinding.DialogProfileDetailMenuBinding
+import com.abloom.mery.presentation.ui.profilemenu.marriagedatechange.MarriageDateChangeDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -49,11 +50,17 @@ class ProfileDetailMenuDialog : BottomSheetDialogFragment() {
     private fun setupDataBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.onNameChangeButtonClick = ::handleNameChangeButtonClick
+        binding.onMarriageDateChangeButtonClick = ::handleMarriageDateChangeButtonClick
         binding.onCancelButtonClick = ::dismiss
     }
 
     private fun handleNameChangeButtonClick() {
         NameChangeDialog().show(parentFragmentManager, null)
+        dismiss()
+    }
+
+    private fun handleMarriageDateChangeButtonClick() {
+        MarriageDateChangeDialog().show(parentFragmentManager, null)
         dismiss()
     }
 }
