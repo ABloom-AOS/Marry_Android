@@ -29,20 +29,11 @@ class CreateQnaFragment : BaseFragment<FragmentCreateQnaBinding>(R.layout.fragme
         }
         setUpDataBinding()
         setupIsLogin()
-        setUpTodayQuestion()
         setUpListener()
     }
 
     private fun setUpDataBinding() {
         binding.viewModel = viewModel
-    }
-
-    private fun setUpTodayQuestion(){
-        repeatOnStarted {
-            viewModel.todayRecommendationQuestion.filterNotNull().collect{
-                binding.tvTodayQuestion.text = it.content
-            }
-        }
     }
 
     private fun setupIsLogin() {
