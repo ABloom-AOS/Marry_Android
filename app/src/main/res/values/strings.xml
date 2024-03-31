@@ -101,6 +101,13 @@
 
     <string name="consent_title">약관동의</string>
     <string name="consent_detail">예비 부부 분들이 쉽고 편하고 안전하게 문답을\n주고 받기 위해 꼭 필요합니다.</string>
+    <string name="entire_consent">전체 동의</string>
+    <string name="consent_required_age">[필수] 만 14세 이상</string>
+    <string name="consent_required_service">[필수] 서비스 이용약관</string>
+    <string name="consent_required_sensitive">[필수] 민감정보 수집 동의</string>
+    <string name="consent_required_privacy">[필수] 개인정보 처리방침</string>
+    <string name="consent_detail_look_text">보기</string>
+    <string name="consent_signup_text">동의하고 가입하기</string>
 
     <string name="category_login_tag"><![CDATA[로그인하기>]]></string>
     <string name="category_ment">지금 로그인하면 메리의 200개가 넘는\n모든 질문들을 확인수 있어요!</string>

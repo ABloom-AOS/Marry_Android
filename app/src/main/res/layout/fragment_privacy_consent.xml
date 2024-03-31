@@ -13,7 +13,7 @@
         tools:context=".presentation.ui.signup.PrivacyConsentFragment">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/consent_title"
             style="@style/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/consent_explain"
             style="@style/subheadline_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,39 +35,39 @@
             android:text="@string/consent_detail"
             android:textColor="@color/neutral_80"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/consent_title" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/con0"
+            android:id="@+id/agree_constraint0"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="124dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView3">
+            app:layout_constraintTop_toBottomOf="@+id/consent_explain">
 
             <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/all_consent_check_box"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_checkbox_background"
-                android:button="null"
+                android:button="@null"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/entire_consent"
                 style="@style/title4"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="전체 동의"
+                android:text="@string/entire_consent"
                 android:textColor="@color/neutral_100"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/checkBox"
+                app:layout_constraintStart_toEndOf="@+id/all_consent_check_box"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -75,19 +75,19 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint0"
+            android:id="@+id/agree_constraint1"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:layout_constraintTop_toBottomOf="@+id/con0">
+            app:layout_constraintTop_toBottomOf="@+id/agree_constraint0">
 
             <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/checkBox1"
+                android:id="@+id/sub_checkBox1"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
-                android:button="null"
+                android:button="@null"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,9 +100,9 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="[필수] 만 14세 이상"
+                android:text="@string/consent_required_age"
                 android:textColor="@color/neutral_90"
-                app:layout_constraintStart_toEndOf="@+id/checkBox1"
+                app:layout_constraintStart_toEndOf="@+id/sub_checkBox1"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -112,16 +112,16 @@
             android:id="@+id/constraint1"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:layout_constraintTop_toBottomOf="@+id/constraint0">
+            app:layout_constraintTop_toBottomOf="@+id/agree_constraint1">
 
             <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/checkBox3"
+                android:id="@+id/sub_checkBox2"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
-                android:button="null"
+                android:button="@null"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,19 +132,20 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="[필수] 서비스 이용약관"
+                android:text="@string/consent_required_service"
                 android:textColor="@color/neutral_90"
-                app:layout_constraintStart_toEndOf="@+id/checkBox3"
+                app:layout_constraintStart_toEndOf="@+id/sub_checkBox2"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/webTermsOfUseDetail"
                 style="@style/subheadline_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
                 android:layout_marginEnd="20dp"
                 android:gravity="center"
-                android:text="보기"
+                android:text="@string/consent_detail_look_text"
                 android:textColor="@color/neutral_90"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -153,19 +154,19 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint2"
+            android:id="@+id/agree_constraint3"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             app:layout_constraintTop_toBottomOf="@+id/constraint1">
 
             <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/checkBox4"
+                android:id="@+id/sub_checkBox3"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
-                android:button="null"
+                android:button="@null"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -176,19 +177,20 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="[필수] 민감정보 수집 동의"
+                android:text="@string/consent_required_sensitive"
                 android:textColor="@color/neutral_90"
-                app:layout_constraintStart_toEndOf="@+id/checkBox4"
+                app:layout_constraintStart_toEndOf="@+id/sub_checkBox3"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/webSensitivePrivacyDetail"
                 style="@style/subheadline_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
                 android:gravity="center"
-                android:text="보기"
+                android:text="@string/consent_detail_look_text"
                 android:textColor="@color/neutral_90"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -198,19 +200,19 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint3"
+            android:id="@+id/agree_constraint4"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:layout_constraintTop_toBottomOf="@+id/constraint2">
+            app:layout_constraintTop_toBottomOf="@+id/agree_constraint3">
 
             <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/checkBox5"
+                android:id="@+id/sub_checkBox4"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
-                android:button="null"
+                android:button="@null"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -221,19 +223,20 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="[필수] 개인정보 처리방침"
+                android:text="@string/consent_required_privacy"
                 android:textColor="@color/neutral_90"
-                app:layout_constraintStart_toEndOf="@+id/checkBox5"
+                app:layout_constraintStart_toEndOf="@+id/sub_checkBox4"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/webPrivacyPolicyDetail"
                 style="@style/subheadline_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
                 android:gravity="center"
-                android:text="보기"
+                android:text="@string/consent_detail_look_text"
                 android:textColor="@color/neutral_90"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -251,13 +254,13 @@
             android:background="@drawable/agree_signup_btn_unselected_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraint3">
+            app:layout_constraintTop_toBottomOf="@+id/agree_constraint4">
 
             <TextView
                 style="@style/subheadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="동의하고 가입하기"
+                android:text="@string/consent_signup_text"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
