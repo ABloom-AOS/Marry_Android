@@ -138,6 +138,7 @@
     <string name="profilemenu_name_change">이름 변경하기</string>
     <string name="profilemenu_detail_dialog_marriage_date_change_button_text">결혼예정일 수정하기</string>
     <string name="profilemenu_name_change_dialog_message">변경할 이름을 입력해주세요.</string>
+    <string name="profilemenu_name_change_dialog_hint">홍길동</string>
 
     <string name="writeanswer_limit_textsize_format">" / %d"</string>
     <string name="writeanswer_exit">나가기</string>
