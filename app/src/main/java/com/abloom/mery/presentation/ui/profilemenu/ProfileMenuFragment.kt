@@ -45,16 +45,17 @@ class ProfileMenuFragment :
         binding.onProfileUpdateButtonClick = ::handleProfileUpdateButtonClick
         binding.onConnectSettingButtonClick = ::handleConnectSettingButtonClick
         binding.onNavigateToWebViewButtonClick = ::navigateToWebView
+        binding.onLogoutButtonClick = ::showLogoutConfirmDialog
+        binding.onLeaveButtonClick = ::navigateToLeave
     }
 
     private fun handleProfileUpdateButtonClick() {
         val isLogin = profileMenuViewModel.loginUser.value != null
-        if (isLogin) showProfileUpdateDialog() else showLoginConfirmDialog()
+        if (isLogin) showProfileDetailMenuDialog() else showLoginConfirmDialog()
     }
 
-    private fun handleConnectSettingButtonClick() {
-        val isLogin = profileMenuViewModel.loginUser.value != null
-        if (isLogin) navigateToConnect() else showLoginConfirmDialog()
+    private fun showProfileDetailMenuDialog() {
+        ProfileDetailMenuDialog().show(childFragmentManager, null)
     }
 
     private fun showLoginConfirmDialog() {
@@ -70,8 +71,9 @@ class ProfileMenuFragment :
         ).show()
     }
 
-    private fun showProfileUpdateDialog() {
-        // TODO("이름과 결혼 예정일을 변경할 수 있는 하단 다이얼로그 띄우기")
+    private fun handleConnectSettingButtonClick() {
+        val isLogin = profileMenuViewModel.loginUser.value != null
+        if (isLogin) navigateToConnect() else showLoginConfirmDialog()
     }
 
     private fun navigateToConnect() {
@@ -83,6 +85,23 @@ class ProfileMenuFragment :
             ProfileMenuFragmentDirections
                 .actionProfileMenuFragmentToWebViewFromProfileMenuFragment(url)
         )
+    }
+
+    private fun navigateToLeave() {
+        findNavController().navigate(ProfileMenuFragmentDirections.actionProfileMenuFragmentToLeaveFragment())
+    }
+
+    private fun showLogoutConfirmDialog() {
+        ConfirmDialog(
+            context = requireContext(),
+            title = getString(R.string.profilemenu_logout_confirm_dialog_title),
+            message = getString(R.string.profilemenu_logout_confirm_dialog_message),
+            positiveButtonLabel = getString(R.string.profilemenu_logout_confirm_dialog_positive_button_label),
+            onPositiveButtonClick = {
+                profileMenuViewModel.logout()
+                findNavController().popBackStack(R.id.homeFragment, false)
+            }
+        ).show()
     }
 
     private fun observeLoginUser() {
