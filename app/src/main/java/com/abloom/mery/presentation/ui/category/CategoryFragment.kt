@@ -1,8 +1,8 @@
 package com.abloom.mery.presentation.ui.category
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -12,15 +12,19 @@ import com.abloom.domain.question.model.Category
 import com.abloom.domain.question.model.Question
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentCategoryBinding
+import com.abloom.mery.presentation.MainViewModel
 import com.abloom.mery.presentation.common.base.BaseFragment
 import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
+
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var categoryAdapter: CategoryAdapter
     private val categoryViewModel: CategoryViewModel by viewModels()
@@ -38,7 +42,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(R.layout.fragment
     private fun setupIsLogin() {
 
         repeatOnStarted {
-            categoryViewModel.isLogin.collect { isLogin ->
+            categoryViewModel.isLogin.filterNotNull().collect { isLogin ->
                 when (isLogin) {
                     true -> {
                         binding.clNologin.visibility = View.INVISIBLE
@@ -46,7 +50,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(R.layout.fragment
 
                     false -> {
                         binding.clNologin.visibility = View.VISIBLE
-                        binding.tvLoginTag.paintFlags = Paint.UNDERLINE_TEXT_FLAG
                     }
                 }
 
@@ -126,6 +129,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(R.layout.fragment
 
 
         binding.tvLoginTag.setOnClickListener {
+            mainViewModel.dispatchLoginEvent()
             findNavController().popBackStack(R.id.homeFragment, false)
         }
 
