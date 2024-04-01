@@ -45,6 +45,8 @@ class ProfileMenuFragment :
         binding.onProfileUpdateButtonClick = ::handleProfileUpdateButtonClick
         binding.onConnectSettingButtonClick = ::handleConnectSettingButtonClick
         binding.onNavigateToWebViewButtonClick = ::navigateToWebView
+        binding.onLogoutButtonClick = ::showLogoutConfirmDialog
+        binding.onLeaveButtonClick = ::navigateToLeave
     }
 
     private fun handleProfileUpdateButtonClick() {
@@ -83,6 +85,23 @@ class ProfileMenuFragment :
             ProfileMenuFragmentDirections
                 .actionProfileMenuFragmentToWebViewFromProfileMenuFragment(url)
         )
+    }
+
+    private fun navigateToLeave() {
+        findNavController().navigate(ProfileMenuFragmentDirections.actionProfileMenuFragmentToLeaveFragment())
+    }
+
+    private fun showLogoutConfirmDialog() {
+        ConfirmDialog(
+            context = requireContext(),
+            title = getString(R.string.profilemenu_logout_confirm_dialog_title),
+            message = getString(R.string.profilemenu_logout_confirm_dialog_message),
+            positiveButtonLabel = getString(R.string.profilemenu_logout_confirm_dialog_positive_button_label),
+            onPositiveButtonClick = {
+                profileMenuViewModel.logout()
+                findNavController().popBackStack(R.id.homeFragment, false)
+            }
+        ).show()
     }
 
     private fun observeLoginUser() {
