@@ -10,6 +10,8 @@ import com.abloom.domain.user.model.Authentication
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentLoginDialogBinding
 import com.abloom.mery.presentation.common.util.showToast
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.Scope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kakao.sdk.auth.model.OAuthToken
@@ -36,6 +38,12 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         kakaoAutoLogin()
 
         binding.onKakaoButtonClick = ::checkUserApiClient
+
+        val googleSignInOption = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestScopes(Scope("https://www.googleapis.com/auth/pubsub"))
+            .requestServerAuthCode("wef") // string 파일에 저장해둔 client id 를 이용해 server authcode를 요청한다.
+            .requestEmail() // 이메일도 요청할 수 있다.
+            .build()
 
 
         /*

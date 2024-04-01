@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
 
     implementation(libs.hilt.android)
+    implementation(libs.play.services.base)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.fragment)
 
