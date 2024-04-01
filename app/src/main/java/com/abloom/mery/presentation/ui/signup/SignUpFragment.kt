@@ -105,7 +105,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     private fun replaceInputNameFragment() {
-        fragmentTransaction(FRAGMENT_INPUT_NAME_GROOM_INDEX)
+        fragmentTransaction(FRAGMENT_LIST_INPUT_NAME_GROOM_INDEX)
     }
 
     private fun replacePrivacyConsentFragment() {
@@ -219,7 +219,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     companion object {
         private const val FRAGMENT_LIST_BRIDE_GROOM_INDEX = 0
-        private const val FRAGMENT_INPUT_NAME_GROOM_INDEX = 1
+        private const val FRAGMENT_LIST_INPUT_NAME_GROOM_INDEX = 1
         private const val FRAGMENT_LIST_PRIVACY_CONSENT_INDEX = 2
 
         private const val STEP_INIT_SIGN_FRAGMENT = 0
