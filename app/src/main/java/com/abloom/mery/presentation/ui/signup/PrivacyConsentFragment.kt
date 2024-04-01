@@ -19,9 +19,13 @@ class PrivacyConsentFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel = viewModel
+        initBindingViewModel()
         initBinding()
         checkAgreeSignUpBtn()
+    }
+
+    private fun initBindingViewModel() {
+        binding.viewModel = viewModel
     }
 
     private fun initBinding() {
