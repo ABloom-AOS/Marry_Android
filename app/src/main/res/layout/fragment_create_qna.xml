@@ -75,7 +75,7 @@
                         android:layout_marginTop="35dp"
                         android:gravity="top"
                         android:lineSpacingExtra="8sp"
-                        android:text="@{viewModel.todayRecommendationQuestion.content == null ? @string/createqna_blank_todayRecommendationQuestion : viewModel.todayRecommendationQuestion.content}"
+                        android:text="@{viewModel.isLogin == true ? (viewModel.todayRecommendationQuestion.content == null ? @string/createqna_blank_todayRecommendationQuestion : viewModel.todayRecommendationQuestion.content) : @string/createqna_nologin_todayRecommendationQuestion}"
                         android:textColor="@color/white"
                         android:translationY="-4.21sp"
                         app:layout_constraintBottom_toBottomOf="parent"
