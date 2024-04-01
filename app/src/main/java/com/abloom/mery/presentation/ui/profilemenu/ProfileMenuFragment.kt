@@ -45,6 +45,7 @@ class ProfileMenuFragment :
         binding.onProfileUpdateButtonClick = ::handleProfileUpdateButtonClick
         binding.onConnectSettingButtonClick = ::handleConnectSettingButtonClick
         binding.onNavigateToWebViewButtonClick = ::navigateToWebView
+        binding.onLeaveButtonClick = ::navigateToLeave
     }
 
     private fun handleProfileUpdateButtonClick() {
@@ -83,6 +84,10 @@ class ProfileMenuFragment :
             ProfileMenuFragmentDirections
                 .actionProfileMenuFragmentToWebViewFromProfileMenuFragment(url)
         )
+    }
+
+    private fun navigateToLeave() {
+        findNavController().navigate(ProfileMenuFragmentDirections.actionProfileMenuFragmentToLeaveFragment())
     }
 
     private fun observeLoginUser() {
