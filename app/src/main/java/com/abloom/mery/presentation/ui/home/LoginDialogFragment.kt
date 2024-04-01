@@ -34,28 +34,26 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         kakaoAutoLogin()
-        setupKakaoLoginButton()
 
+        binding.onKakaoButtonClick = ::checkUserApiClient
+
+
+        /*
         // TODO("임시로 애플 로그인 버튼 클릭하면 로그인되도록 했습니다. 지워야 합니다")
         binding.appleLoginBtn.setOnClickListener {
             viewModel.login(Authentication.Apple("asdf"))
             dismiss()
         }
+        */
+
+
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme)
     }
 
-    private fun setupKakaoLoginButton() {
-
-        binding.kakaoLoginBtn.setOnClickListener {
-            checkUserApiClient()
-        }
-    }
-
     private fun kakaoAutoLogin() {
-
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null)
                 context?.showToast(R.string.kakao_login_failed)
