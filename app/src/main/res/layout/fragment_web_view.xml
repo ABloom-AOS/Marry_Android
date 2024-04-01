@@ -23,5 +23,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/webview_terms_of_use" />
 
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbar_web_view" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
