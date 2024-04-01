@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,46 +16,75 @@
         tools:context=".presentation.ui.home.HomeFragment">
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="home" />
-
-        <Button
-            android:id="@+id/button"
+            android:id="@+id/tv_home_app_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="질문 만들기"
-            app:layout_constraintBottom_toBottomOf="@+id/textView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="37dp"
+            android:fontFamily="@font/nanum_square_neo_extra_bold"
+            android:paddingVertical="9dp"
+            android:text="@string/app_title"
+            android:textAppearance="@style/title1"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button5"
+        <ImageView
+            android:id="@+id/iv_home_user_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/home_profile_menu_button_description"
+            app:layout_constraintBottom_toBottomOf="@id/tv_home_app_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_home_app_title"
+            tools:src="@drawable/img_profilemenu_groom" />
+
+        <ImageView
+            android:id="@+id/iv_home_empty_questions"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/img_mery_logo_flat"
+            app:is_visible="@{viewModel.qnas.empty}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_home_empty_questions_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/tv_home_empty_questions_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="프로필"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            android:layout_marginTop="9dp"
+            android:paddingVertical="5dp"
+            android:text="@string/home_empty_questions_title"
+            android:textAppearance="@style/title3"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:is_visible="@{viewModel.qnas.empty}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_home_empty_questions_message"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_home_empty_questions" />
 
-        <Button
-            android:id="@+id/button7"
+        <TextView
+            android:id="@+id/tv_home_empty_questions_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="문답"
-            app:layout_constraintBottom_toTopOf="@+id/button5"
+            android:layout_marginTop="3dp"
+            android:paddingVertical="3dp"
+            android:text="@string/home_empty_questions_message"
+            android:textAppearance="@style/footnote"
+            android:textColor="@color/black"
+            app:is_visible="@{viewModel.qnas.empty}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/button11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="가입하기"
-            app:layout_constraintBottom_toTopOf="@+id/button7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_home_empty_questions_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentHomeBinding
 import com.abloom.mery.presentation.MainViewModel
@@ -22,20 +21,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.button.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateQna())
-        }
-        binding.button5.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileMenuFragment())
-        }
-        binding.button7.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToQnaFragment(1))
-        }
-        binding.button11.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSignUpFragment())
-        }
+
+        setupDataBinding()
 
         observeMainEvent()
+    }
+
+    private fun setupDataBinding() {
+        binding.viewModel = homeViewModel
     }
 
     private fun observeMainEvent() {
