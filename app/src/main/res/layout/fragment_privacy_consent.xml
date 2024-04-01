@@ -5,9 +5,21 @@
 
     <data>
 
+        <import type="com.abloom.mery.presentation.ui.webview.WebViewUrl" />
+
+        <import type="kotlin.Unit" />
+
         <variable
             name="viewModel"
             type="com.abloom.mery.presentation.ui.signup.SignUpViewModel" />
+
+        <variable
+            name="onSignUpButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onWebViewNavigate"
+            type="kotlin.jvm.functions.Function1&lt;WebViewUrl, Unit>" />
 
     </data>
 
@@ -56,7 +68,8 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/consent_checkbox_background"
                 android:button="@null"
-                android:checked="@{viewModel.allCheckBox}"
+                android:checked="@{viewModel.isAllChecked}"
+                android:onClick="@{() -> viewModel.toggleAllCheckState()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -92,7 +105,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
-                android:checked="@{viewModel.subCheckBox1}"
+                android:checked="@={viewModel.isAgeChecked}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -127,7 +140,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
-                android:checked="@{viewModel.subCheckBox2}"
+                android:checked="@={viewModel.isTermsOfUseChecked}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -150,6 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
+                android:onClick="@{() -> onWebViewNavigate.invoke(WebViewUrl.TERMS_OF_USE)}"
                 android:padding="10dp"
                 android:text="@string/consent_detail_look_text"
                 android:textAlignment="center"
@@ -174,7 +188,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
-                android:checked="@{viewModel.subCheckBox3}"
+                android:checked="@={viewModel.isSensitivePrivacyChecked}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -198,6 +212,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:gravity="center"
+                android:onClick="@{() -> onWebViewNavigate.invoke(WebViewUrl.SENSITIVE_PRIVACY)}"
                 android:padding="10dp"
                 android:text="@string/consent_detail_look_text"
                 android:textColor="@color/neutral_90"
@@ -222,7 +237,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
-                android:checked="@{viewModel.subCheckBox4}"
+                android:checked="@={viewModel.isPrivacyPolicyChecked}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -245,6 +260,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
+                android:onClick="@{() -> onWebViewNavigate.invoke(WebViewUrl.PRIVACY_POLICY)}"
                 android:padding="10dp"
                 android:text="@string/consent_detail_look_text"
                 android:textColor="@color/neutral_90"
@@ -254,34 +270,24 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/agree_signup_btn"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="20dp"
+        <TextView
+            android:id="@+id/tv_signup_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="36dp"
-            android:layout_marginEnd="20dp"
-            android:background="@{viewModel.allCheckBox == true ? @drawable/agree_signup_btn_selected_background : @drawable/agree_signup_btn_unselected_background}"
+            android:background="@drawable/bg_signup_sign_up_button"
+            android:enabled="@{viewModel.isAllChecked}"
+            android:gravity="center"
+            android:onClick="@{() -> onSignUpButtonClick.invoke()}"
+            android:paddingVertical="20dp"
+            android:text="@string/consent_signup_text"
+            android:textAppearance="@style/subheadline"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/agree_constraint4">
-
-            <TextView
-                style="@style/subheadline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/consent_signup_text"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            app:layout_constraintTop_toBottomOf="@+id/agree_constraint4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

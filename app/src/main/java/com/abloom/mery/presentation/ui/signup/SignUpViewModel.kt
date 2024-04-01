@@ -29,16 +29,20 @@ class SignUpViewModel @Inject constructor(
 
     val name = MutableStateFlow("")
 
-    var subCheckBox1 = MutableStateFlow(false)
-    var subCheckBox2 = MutableStateFlow(false)
-    var subCheckBox3 = MutableStateFlow(false)
-    var subCheckBox4 = MutableStateFlow(false)
+    var isAgeChecked = MutableStateFlow(false)
+    var isTermsOfUseChecked = MutableStateFlow(false)
+    var isSensitivePrivacyChecked = MutableStateFlow(false)
+    var isPrivacyPolicyChecked = MutableStateFlow(false)
 
-    var allCheckBox: StateFlow<Boolean> = combine(
-        subCheckBox1, subCheckBox2, subCheckBox3, subCheckBox4
-    ) { checkBoxStates ->
-        checkBoxStates.all { it }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val isAllChecked: StateFlow<Boolean> = combine(
+        isAgeChecked, isTermsOfUseChecked, isSensitivePrivacyChecked, isPrivacyPolicyChecked
+    ) { checkBoxesState ->
+        checkBoxesState.all { it }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = false
+    )
 
     fun selectSex(sex: Sex) {
         _selectedSex.value = sex
@@ -46,6 +50,24 @@ class SignUpViewModel @Inject constructor(
 
     fun selectMarriageDate(marriageDate: LocalDate) {
         _selectedMarriageDate.value = marriageDate
+    }
+
+    fun toggleAllCheckState() {
+        if (isAllChecked.value) uncheckAll() else checkAll()
+    }
+
+    private fun uncheckAll() {
+        isAgeChecked.value = false
+        isTermsOfUseChecked.value = false
+        isSensitivePrivacyChecked.value = false
+        isPrivacyPolicyChecked.value = false
+    }
+
+    private fun checkAll() {
+        isAgeChecked.value = true
+        isTermsOfUseChecked.value = true
+        isSensitivePrivacyChecked.value = true
+        isPrivacyPolicyChecked.value = true
     }
 
     fun join(authentication: Authentication) = viewModelScope.launch {
