@@ -101,15 +101,15 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     private fun replaceBrideGroomSelectionFragment() {
-        fragmentTransaction(0)
+        fragmentTransaction(FRAGMENT_LIST_BRIDE_GROOM_INDEX)
     }
 
     private fun replaceInputNameFragment() {
-        fragmentTransaction(1)
+        fragmentTransaction(FRAGMENT_INPUT_NAME_GROOM_INDEX)
     }
 
     private fun replacePrivacyConsentFragment() {
-        fragmentTransaction(2)
+        fragmentTransaction(FRAGMENT_LIST_PRIVACY_CONSENT_INDEX)
     }
 
     private fun fragmentTransaction(fragmentIdx: Int) {
@@ -130,7 +130,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         signUpFragmentManager.popBackStackImmediate()
 
         when (getStackCount()) {
-            INIT_SIGN_FRAGMENT -> {
+            STEP_INIT_SIGN_FRAGMENT -> {
                 findNavController().popBackStack()
             }
 
@@ -218,7 +218,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     companion object {
-        private const val INIT_SIGN_FRAGMENT = 0
+        private const val FRAGMENT_LIST_BRIDE_GROOM_INDEX = 0
+        private const val FRAGMENT_INPUT_NAME_GROOM_INDEX = 1
+        private const val FRAGMENT_LIST_PRIVACY_CONSENT_INDEX = 2
+
+        private const val STEP_INIT_SIGN_FRAGMENT = 0
         private const val STEP_BRIDE_GROOM_SELECTION = 1
         private const val STEP_MARRY_DATE_SELECTION = 2
         private const val STEP_INPUT_NAME_SELECTION = 3
