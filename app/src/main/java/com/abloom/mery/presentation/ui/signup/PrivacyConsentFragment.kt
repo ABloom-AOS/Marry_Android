@@ -22,11 +22,7 @@ class PrivacyConsentFragment :
         super.onViewCreated(view, savedInstanceState)
         initBindingViewModel()
         initBinding()
-        repeatOnStarted {
-            viewModel.allCheckBox.collect { isChecked ->
-                checkAgreeSignUpBtn(isChecked)
-            }
-        }
+        observeAllCheckBox()
     }
 
     private fun initBindingViewModel() {
@@ -67,6 +63,14 @@ class PrivacyConsentFragment :
         binding.agreeSignupBtn.setOnClickListener {
             viewModel.join(Authentication.Kakao("카카오 이메일", "패스워드"))
             findNavController().popBackStack()
+        }
+    }
+
+    private fun observeAllCheckBox() {
+        repeatOnStarted {
+            viewModel.allCheckBox.collect { isChecked ->
+                checkAgreeSignUpBtn(isChecked)
+            }
         }
     }
 
