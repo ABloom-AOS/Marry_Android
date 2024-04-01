@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.kizitonwose.calendar.core.DayPosition" />
+
+        <import type="com.kizitonwose.calendar.core.CalendarDay" />
+
+        <import type="android.view.View" />
+
+        <import type="java.time.LocalDate" />
+
+        <import type="kotlin.Unit" />
+
+        <variable
+            name="day"
+            type="com.kizitonwose.calendar.core.CalendarDay" />
+
+        <variable
+            name="isSelected"
+            type="Boolean" />
+
+        <variable
+            name="onDayClick"
+            type="kotlin.jvm.functions.Function1&lt;CalendarDay, Unit>" />
+    </data>
+
+    <TextView
+        android:id="@+id/tv_marriagedatechangedialog_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="3.5dp"
+        android:gravity="center"
+        android:onClick="@{() -> onDayClick.invoke(day)}"
+        android:visibility="@{day.position == DayPosition.MonthDate ? View.VISIBLE : View.INVISIBLE}"
+        app:dayText="@{day.date}" />
+</layout>

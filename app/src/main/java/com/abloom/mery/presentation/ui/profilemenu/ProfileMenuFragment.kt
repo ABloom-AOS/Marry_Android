@@ -51,12 +51,11 @@ class ProfileMenuFragment :
 
     private fun handleProfileUpdateButtonClick() {
         val isLogin = profileMenuViewModel.loginUser.value != null
-        if (isLogin) showProfileUpdateDialog() else showLoginConfirmDialog()
+        if (isLogin) showProfileDetailMenuDialog() else showLoginConfirmDialog()
     }
 
-    private fun handleConnectSettingButtonClick() {
-        val isLogin = profileMenuViewModel.loginUser.value != null
-        if (isLogin) navigateToConnect() else showLoginConfirmDialog()
+    private fun showProfileDetailMenuDialog() {
+        ProfileDetailMenuDialog().show(childFragmentManager, null)
     }
 
     private fun showLoginConfirmDialog() {
@@ -72,8 +71,9 @@ class ProfileMenuFragment :
         ).show()
     }
 
-    private fun showProfileUpdateDialog() {
-        // TODO("이름과 결혼 예정일을 변경할 수 있는 하단 다이얼로그 띄우기")
+    private fun handleConnectSettingButtonClick() {
+        val isLogin = profileMenuViewModel.loginUser.value != null
+        if (isLogin) navigateToConnect() else showLoginConfirmDialog()
     }
 
     private fun navigateToConnect() {

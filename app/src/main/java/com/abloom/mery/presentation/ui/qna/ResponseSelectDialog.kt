@@ -45,7 +45,7 @@ class ResponseSelectDialog : DialogFragment() {
 
     private fun setupBackground() {
         dialog?.window?.setBackgroundDrawable(
-            ContextCompat.getDrawable(requireContext(), R.drawable.bg_response_select_dialog)
+            ContextCompat.getDrawable(requireContext(), R.drawable.bg_all_dialog_big)
         )
     }
 
