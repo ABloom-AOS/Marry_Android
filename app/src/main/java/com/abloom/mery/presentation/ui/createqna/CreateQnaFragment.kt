@@ -20,6 +20,7 @@ class CreateQnaFragment : BaseFragment<FragmentCreateQnaBinding>(R.layout.fragme
 
     private val createQnaViewModel: CreateQnaViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
+    private var loginFlag = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,11 +28,28 @@ class CreateQnaFragment : BaseFragment<FragmentCreateQnaBinding>(R.layout.fragme
             findNavController().popBackStack()
         }
         setUpDataBinding()
+        setupIsLogin()
         setUpListener()
     }
 
     private fun setUpDataBinding() {
         binding.viewModel = createQnaViewModel
+    }
+
+    private fun setupIsLogin() {
+        repeatOnStarted {
+            createQnaViewModel.isLogin.filterNotNull().collect { isLogin ->
+                when (isLogin) {
+                    true -> {
+                        loginFlag = isLogin
+                    }
+
+                    false -> {
+                        loginFlag = isLogin
+                    }
+                }
+            }
+        }
     }
 
     private fun setUpListener() {
@@ -49,22 +67,19 @@ class CreateQnaFragment : BaseFragment<FragmentCreateQnaBinding>(R.layout.fragme
         binding.ivPast.setOnClickListener { goCategoryFragment(CategoryArgs.PAST) }
 
         binding.clQuestion.setOnClickListener {
-            repeatOnStarted {
-                createQnaViewModel.isLogin.filterNotNull().collect { isLogin ->
-                    when (isLogin) {
-                        true -> {
-                            createQnaViewModel.todayRecommendationQuestion.filterNotNull().collect {
-                                findNavController().navigate(
-                                    CreateQnaFragmentDirections.actionGlobalWriteAnswerFragment(it.id)
-                                )
-                            }
-                        }
-
-                        false -> {
-                            mainViewModel.dispatchLoginEvent()
-                            findNavController().popBackStack(R.id.homeFragment, false)
+            when (loginFlag) {
+                true -> {
+                    repeatOnStarted {
+                        createQnaViewModel.todayRecommendationQuestion.filterNotNull().collect {
+                            findNavController().navigate(
+                                CreateQnaFragmentDirections.actionGlobalWriteAnswerFragment(it.id)
+                            )
                         }
                     }
+                }
+                false -> {
+                    mainViewModel.dispatchLoginEvent()
+                    findNavController().popBackStack(R.id.homeFragment, false)
                 }
             }
         }
