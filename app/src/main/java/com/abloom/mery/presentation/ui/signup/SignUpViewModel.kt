@@ -25,6 +25,12 @@ class SignUpViewModel @Inject constructor(
 
     val name = MutableStateFlow("")
 
+    var allCheckBox = MutableStateFlow(false)
+    var checkBox1 = MutableStateFlow(false)
+    val checkBox2 = MutableStateFlow(false)
+    val checkBox3 = MutableStateFlow(false)
+    val checkBox4 = MutableStateFlow(false)
+
     fun selectSex(sex: Sex) {
         _selectedSex.value = sex
     }

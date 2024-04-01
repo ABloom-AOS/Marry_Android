@@ -32,9 +32,13 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         super.onViewCreated(view, savedInstanceState)
         initListener()
         initBindingViewModel()
-        initBrideGroomFragment()
         initOnBackPressed()
         initSignUpFragmentManager()
+
+        if (getStackCount() == 0)
+            initBrideGroomFragment()
+        else
+            privacyConsentAppBar()
     }
 
     private fun initListener() {
@@ -139,8 +143,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         }
     }
 
-    private fun getStackCount() = signUpFragmentManager.backStackEntryCount
-
     private fun navigateToPriorFragment() {
         signUpFragmentManager.popBackStackImmediate()
 
@@ -163,44 +165,62 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         }
     }
 
+    private fun getStackCount() = signUpFragmentManager.backStackEntryCount
+
     private fun changeToBrideGroomUi() {
+        brideGroomAppBar()
+        updateProgressBarState(PROGRESS_BRIDE_GROOM_STATE)
+    }
+
+    private fun changeToMarryDateUi() {
+        marryDateAppBar()
+        updateProgressBarState(PROGRESS_MARRY_DATE_STATE)
+    }
+
+    private fun changeInputNameUi() {
+        inputNameAppBar()
+        updateProgressBarState(PROGRESS_INPUT_NAME_STATE)
+    }
+
+    private fun changePrivacyConsentUi() {
+        privacyConsentAppBar()
+        updateProgressBarState(PROGRESS_PRIVACY_CONSENT_STATE)
+    }
+
+    private fun brideGroomAppBar() {
         binding.appbarSignUp.apply {
             title = getString(R.string.signup_title)
             navigationText = getString(R.string.all_cancel)
             actionText = ""
             isActionEnabled = false
         }
-        updateProgressBarState(PROGRESS_BRIDE_GROOM_STATE)
     }
 
-    private fun changeToMarryDateUi() {
+    private fun marryDateAppBar() {
         binding.appbarSignUp.apply {
             title = ""
             navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_up_button)
             actionText = getString(R.string.all_next)
             isActionEnabled = true
         }
-        updateProgressBarState(PROGRESS_MARRY_DATE_STATE)
     }
 
-    private fun changeInputNameUi() {
+    private fun inputNameAppBar() {
         binding.appbarSignUp.apply {
             title = ""
             navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_up_button)
             actionText = getString(R.string.all_next)
             isActionEnabled = false
         }
-        updateProgressBarState(PROGRESS_INPUT_NAME_STATE)
     }
 
-    private fun changePrivacyConsentUi() {
+    private fun privacyConsentAppBar() {
         binding.appbarSignUp.apply {
             title = getString(R.string.signup_title)
             navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_up_button)
             actionText = ""
             isActionEnabled = false
         }
-        updateProgressBarState(PROGRESS_PRIVACY_CONSENT_STATE)
     }
 
     private fun updateProgressBarState(state: Int) {
@@ -215,7 +235,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     companion object {
-
         private const val INIT_SIGN_FRAGMENT = 0
         private const val STEP_BRIDE_GROOM_SELECTION = 1
         private const val STEP_MARRY_DATE_SELECTION = 2

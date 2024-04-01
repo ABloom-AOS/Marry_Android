@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.signup.SignUpViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,6 +57,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_checkbox_background"
                 android:button="@null"
+                android:checked="@{viewModel.allCheckBox}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,6 +93,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
+                android:checked="@{viewModel.checkBox1}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -122,6 +128,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
+                android:checked="@{viewModel.checkBox2}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -167,6 +174,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
+                android:checked="@{viewModel.checkBox3}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -213,6 +221,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
+                android:checked="@{viewModel.checkBox4}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -251,7 +260,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/agree_signup_btn_unselected_background"
+            android:background="@{viewModel.allCheckBox == true ? @drawable/agree_signup_btn_selected_background : @drawable/agree_signup_btn_unselected_background}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/agree_constraint4">
