@@ -92,7 +92,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
-                android:checked="@{viewModel.checkBox1}"
+                android:checked="@{viewModel.subCheckBox1}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -127,7 +127,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
-                android:checked="@{viewModel.checkBox2}"
+                android:checked="@{viewModel.subCheckBox2}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -174,7 +174,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
-                android:checked="@{viewModel.checkBox3}"
+                android:checked="@{viewModel.subCheckBox3}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -222,7 +222,7 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
-                android:checked="@{viewModel.checkBox4}"
+                android:checked="@{viewModel.subCheckBox4}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

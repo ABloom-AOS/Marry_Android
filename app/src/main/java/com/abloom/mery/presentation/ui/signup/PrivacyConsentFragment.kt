@@ -8,8 +8,8 @@ import com.abloom.domain.user.model.Authentication
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentPrivacyConsentBinding
 import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.ui.webview.WebViewUrl
-import com.google.android.material.checkbox.MaterialCheckBox
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +22,11 @@ class PrivacyConsentFragment :
         super.onViewCreated(view, savedInstanceState)
         initBindingViewModel()
         initBinding()
-        checkAgreeSignUpBtn()
+        repeatOnStarted {
+            viewModel.allCheckBox.collect { isChecked ->
+                checkAgreeSignUpBtn(isChecked)
+            }
+        }
     }
 
     private fun initBindingViewModel() {
@@ -30,11 +34,21 @@ class PrivacyConsentFragment :
     }
 
     private fun initBinding() {
-        binding.allConsentCheckBox.setOnClickListener { onCheckChanged(binding.allConsentCheckBox) }
-        binding.subCheckBox1.setOnClickListener { onCheckChanged(binding.subCheckBox1) }
-        binding.subCheckBox2.setOnClickListener { onCheckChanged(binding.subCheckBox2) }
-        binding.subCheckBox3.setOnClickListener { onCheckChanged(binding.subCheckBox3) }
-        binding.subCheckBox4.setOnClickListener { onCheckChanged(binding.subCheckBox4) }
+        binding.allConsentCheckBox.setOnClickListener {
+            setSubCheckBoxesValue()
+        }
+        binding.subCheckBox1.setOnClickListener {
+            viewModel.subCheckBox1.value = binding.subCheckBox1.isChecked
+        }
+        binding.subCheckBox2.setOnClickListener {
+            viewModel.subCheckBox2.value = binding.subCheckBox2.isChecked
+        }
+        binding.subCheckBox3.setOnClickListener {
+            viewModel.subCheckBox3.value = binding.subCheckBox3.isChecked
+        }
+        binding.subCheckBox4.setOnClickListener {
+            viewModel.subCheckBox4.value = binding.subCheckBox4.isChecked
+        }
         binding.webTermsOfUseDetail.setOnClickListener {
             findNavController().navigate(
                 SignUpFragmentDirections.actionSignUpFragmentToWebViewFragment(WebViewUrl.TERMS_OF_USE)
@@ -54,42 +68,21 @@ class PrivacyConsentFragment :
             viewModel.join(Authentication.Kakao("카카오 이메일", "패스워드"))
             findNavController().popBackStack()
         }
-
     }
 
-    private fun onCheckChanged(checkBox: MaterialCheckBox) {
-        if (checkBox.id == R.id.all_consent_check_box) {
-            viewModel.allCheckBox.value = checkBox.isChecked
-            setSubCheckBox(checkBox.isChecked)
-        } else {
-            when (checkBox) {
-                binding.subCheckBox1 -> viewModel.checkBox1.value = checkBox.isChecked
-                binding.subCheckBox2 -> viewModel.checkBox2.value = checkBox.isChecked
-                binding.subCheckBox3 -> viewModel.checkBox3.value = checkBox.isChecked
-                binding.subCheckBox4 -> viewModel.checkBox4.value = checkBox.isChecked
-            }
-            viewModel.allCheckBox.value = checkAllSubCheckBox()
-        }
-        checkAgreeSignUpBtn()
-    }
+    private fun setSubCheckBoxesValue() {
+        val allConsentCheckBoxChecked = binding.allConsentCheckBox.isChecked
 
-    private fun setSubCheckBox(checked: Boolean) {
-        binding.apply {
-            viewModel!!.checkBox1.value = checked
-            viewModel!!.checkBox2.value = checked
-            viewModel!!.checkBox3.value = checked
-            viewModel!!.checkBox4.value = checked
+        viewModel.apply {
+            subCheckBox1.value = allConsentCheckBoxChecked
+            subCheckBox2.value = allConsentCheckBoxChecked
+            subCheckBox3.value = allConsentCheckBoxChecked
+            subCheckBox4.value = allConsentCheckBoxChecked
         }
     }
 
-    private fun checkAllSubCheckBox() =
-        binding.subCheckBox1.isChecked &&
-                binding.subCheckBox2.isChecked &&
-                binding.subCheckBox3.isChecked &&
-                binding.subCheckBox4.isChecked
-
-    private fun checkAgreeSignUpBtn() {
-        if (viewModel.allCheckBox.value)
+    private fun checkAgreeSignUpBtn(check: Boolean) {
+        if (check)
             activeAgreeSignUpBtn()
         else
             inActiveAgreeSignUpBtn()

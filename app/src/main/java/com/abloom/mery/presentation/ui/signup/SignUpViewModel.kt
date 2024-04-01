@@ -7,7 +7,11 @@ import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.usecase.JoinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -25,11 +29,16 @@ class SignUpViewModel @Inject constructor(
 
     val name = MutableStateFlow("")
 
-    var allCheckBox = MutableStateFlow(false)
-    var checkBox1 = MutableStateFlow(false)
-    val checkBox2 = MutableStateFlow(false)
-    val checkBox3 = MutableStateFlow(false)
-    val checkBox4 = MutableStateFlow(false)
+    var subCheckBox1 = MutableStateFlow(false)
+    var subCheckBox2 = MutableStateFlow(false)
+    var subCheckBox3 = MutableStateFlow(false)
+    var subCheckBox4 = MutableStateFlow(false)
+
+    var allCheckBox: StateFlow<Boolean> = combine(
+        subCheckBox1, subCheckBox2, subCheckBox3, subCheckBox4
+    ) { checkBoxStates ->
+        checkBoxStates.all { it }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     fun selectSex(sex: Sex) {
         _selectedSex.value = sex
