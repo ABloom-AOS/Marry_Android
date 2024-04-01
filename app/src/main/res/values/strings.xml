@@ -145,6 +145,9 @@
     <string name="profilemenu_congratulate_for_wedding">결혼을 축하드려요!</string>
     <string name="profilemenu_since_marriage_date_format">결혼한지 %d일 지났어요.</string>
     <string name="profilemenu_login_confirm_dialog_title">로그인이 필요한 서비스예요.</string>
+    <string name="profilemenu_logout_confirm_dialog_message">로그아웃하더라도 데이터는 보관되니\n안심하고 로그아웃하셔도 돼요.</string>
+    <string name="profilemenu_logout_confirm_dialog_title">로그아웃할까요?</string>
+    <string name="profilemenu_logout_confirm_dialog_positive_button_label">로그아웃</string>
 
     <string name="writeanswer_limit_textsize_format">" / %d"</string>
     <string name="writeanswer_exit">나가기</string>
