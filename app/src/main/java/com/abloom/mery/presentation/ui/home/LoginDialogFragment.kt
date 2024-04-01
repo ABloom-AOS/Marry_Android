@@ -59,13 +59,11 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
     }
 
     /* 카카오 로그인 관련 코드 */
+
     private fun checkUserKakaoApiClient() {
-
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-
             if (error != null) {
                 when (error.toString()) {
-
                     AuthErrorCause.AccessDenied.toString() -> {
                         context?.showToast(R.string.access_denied)
                     }
@@ -101,11 +99,9 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
                     else -> {
                         context?.showToast(R.string.other_error)
                     } // Unknown
-
                 }
-            } else if (token != null) {
-                kakaoLoginSuccess()
-            }
+            } else if (token != null)
+                getKakaoEmail()
         }
 
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext()))
@@ -116,23 +112,37 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private fun kakaoAutoLogin() {
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null)
+            if (error != null) {
                 context?.showToast(R.string.kakao_login_failed)
-            else if (tokenInfo != null)
-                kakaoLoginSuccess()
+            } else if (tokenInfo != null) {
+                getKakaoEmail()
+            }
         }
     }
 
-    private fun kakaoLoginSuccess() {
+    private fun getKakaoEmail() {
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                context?.showToast(R.string.kakao_get_email_failed)
+            } else {
+                val kakaoUserEmail = user?.kakaoAccount?.email.toString()
+                kakaoLoginSuccess(kakaoUserEmail)
+            }
+        }
+    }
+
+    private fun kakaoLoginSuccess(kakaoUserEmail: String) {
         context?.showToast(R.string.kakao_login_text)
         // TODO("(카카오) 파이어베이스를 조회하여 기존 회원이 아닌 경우 회원가입 화면으로 이동하는 로직 구현")
         dismiss()
     }
+
     /* 카카오 로그인 관련 코드 */
 
     /* 애플 로그인 관련 코드 *//* 애플 로그인 관련 코드 */
 
     /* 구글 로그인 관련 코드 */
+
     private fun requestGoogleLogin() {
         googleSignInClient.signOut()
         val signInIntent = googleSignInClient.signInIntent
@@ -147,5 +157,4 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
     }
 
     /* 구글 로그인 관련 코드 */
-
 }
