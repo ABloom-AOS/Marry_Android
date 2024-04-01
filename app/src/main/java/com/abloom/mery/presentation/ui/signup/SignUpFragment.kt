@@ -210,7 +210,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             title = ""
             navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_up_button)
             actionText = getString(R.string.all_next)
-            isActionEnabled = false
+            isActionEnabled = signUpViewModel.name.value.isNotEmpty()
         }
     }
 
