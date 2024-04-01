@@ -54,10 +54,10 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/consent_checkbox_background"
                 android:button="@null"
                 android:checked="@{viewModel.allCheckBox}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,11 +67,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/entire_consent"
                 android:textColor="@color/neutral_100"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/all_consent_check_box"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,10 +90,10 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
                 android:checked="@{viewModel.checkBox1}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -104,10 +104,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/consent_required_age"
                 android:textColor="@color/neutral_90"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/sub_checkBox1"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -125,10 +125,10 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
                 android:checked="@{viewModel.checkBox2}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -137,10 +137,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/consent_required_service"
                 android:textColor="@color/neutral_90"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/sub_checkBox2"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -149,11 +149,12 @@
                 style="@style/subheadline_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
                 android:layout_marginEnd="20dp"
-                android:gravity="center"
+                android:padding="10dp"
                 android:text="@string/consent_detail_look_text"
+                android:textAlignment="center"
                 android:textColor="@color/neutral_90"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -171,10 +172,10 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
                 android:checked="@{viewModel.checkBox3}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -183,10 +184,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/consent_required_sensitive"
                 android:textColor="@color/neutral_90"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/sub_checkBox3"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -195,11 +196,12 @@
                 style="@style/subheadline_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
                 android:gravity="center"
+                android:padding="10dp"
                 android:text="@string/consent_detail_look_text"
                 android:textColor="@color/neutral_90"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -218,10 +220,10 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/consent_detail_checkbox_background"
                 android:button="@null"
                 android:checked="@{viewModel.checkBox4}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -230,10 +232,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/consent_required_privacy"
                 android:textColor="@color/neutral_90"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/sub_checkBox4"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -242,11 +244,11 @@
                 style="@style/subheadline_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
-                android:gravity="center"
+                android:padding="10dp"
                 android:text="@string/consent_detail_look_text"
                 android:textColor="@color/neutral_90"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
