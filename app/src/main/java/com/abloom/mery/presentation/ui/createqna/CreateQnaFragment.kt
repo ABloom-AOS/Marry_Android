@@ -40,8 +40,13 @@ class CreateQnaFragment : BaseFragment<FragmentCreateQnaBinding>(R.layout.fragme
         repeatOnStarted {
             viewModel.isLogin.filterNotNull().collect { isLogin ->
                 when (isLogin) {
-                    true -> { loginFlag = isLogin }
-                    false -> { loginFlag = isLogin }
+                    true -> {
+                        loginFlag = isLogin
+                    }
+
+                    false -> {
+                        loginFlag = isLogin
+                    }
                 }
             }
         }
@@ -63,13 +68,16 @@ class CreateQnaFragment : BaseFragment<FragmentCreateQnaBinding>(R.layout.fragme
 
         binding.clQuestion.setOnClickListener {
             repeatOnStarted {
-                when(loginFlag){
-                    true -> {viewModel.todayRecommendationQuestion.filterNotNull().collect {
-                        findNavController().navigate(
-                            CreateQnaFragmentDirections.actionGlobalWriteAnswerFragment(it.id)
-                        )
-                    }}
-                    false ->{
+                when (loginFlag) {
+                    true -> {
+                        viewModel.todayRecommendationQuestion.filterNotNull().collect {
+                            findNavController().navigate(
+                                CreateQnaFragmentDirections.actionGlobalWriteAnswerFragment(it.id)
+                            )
+                        }
+                    }
+
+                    false -> {
                         mainViewModel.dispatchLoginEvent()
                         findNavController().popBackStack(R.id.homeFragment, false)
                     }
