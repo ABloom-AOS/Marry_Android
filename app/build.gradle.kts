@@ -32,6 +32,8 @@ android {
 
         buildConfigField("String", "KAKAO_API_KEY", properties.getProperty("KAKAO_API_KEY"))
         resValue("string", "kakao_scheme", properties.getProperty("KAKAO_SCHEME"))
+
+        buildConfigField("String", "GOOGLE_CLIENT_ID", properties.getProperty("GOOGLE_CLIENT_ID"))
     }
 
     buildTypes {
@@ -70,8 +72,6 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
 
     implementation(libs.hilt.android)
-    implementation(libs.play.services.base)
-    implementation(libs.play.services.base)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.fragment)
 
@@ -83,4 +83,6 @@ dependencies {
     implementation(libs.wheelpicker)
     implementation(libs.kizitonwose.calendar.view)
 
+    implementation(libs.play.services.base)
+    implementation(libs.play.services.auth)
 }
