@@ -27,8 +27,8 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
     private val googleSignInClient: GoogleSignInClient by lazy { getGoogleClient() }
     private val googleAuthLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            val account = task.getResult(ApiException::class.java)
+            val account = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                .getResult(ApiException::class.java)
             val googleToken = account.idToken
             // TODO("(구글) 파이어베이스를 조회하여 기존 회원이 아닌 경우 회원가입 화면으로 이동하는 로직 구현")
             dismiss()
