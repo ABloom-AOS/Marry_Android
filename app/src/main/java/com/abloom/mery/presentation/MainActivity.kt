@@ -6,20 +6,26 @@ import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.abloom.mery.R
 import com.abloom.mery.databinding.ActivityMainBinding
+import com.abloom.mery.presentation.common.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val navHostFragment: NavHostFragment by lazy {
-        supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        supportFragmentManager.findFragmentById(R.id.mainScreen) as NavHostFragment
     }
 
     private val navController: NavController by lazy { navHostFragment.navController }
@@ -28,22 +34,52 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private var backPressedTime: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+        removeSplashScreenLazily()
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+
+        setupWindowInsetsListener()
+        setupBackPressedDispatcher()
+        setupDestinationChangedListener()
+    }
+
+    private fun removeSplashScreenLazily() {
+        lifecycleScope.launch {
+            delay(SPLASH_DURATION)
+            binding.splashscreen.isVisible = false
+        }
+    }
+
+    private fun setupWindowInsetsListener() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainScreen) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        setupBackPressed()
-        setupDestinationChangedListener()
     }
 
-    private fun setupBackPressed() {
-        onBackPressedDispatcher.addCallback {
-            navController.navigateUp() || onSupportNavigateUp()
+    private fun setupBackPressedDispatcher() {
+        onBackPressedDispatcher.addCallback { handleBackPressed() }
+    }
+
+    private fun handleBackPressed() {
+        val destination = navController.currentDestination ?: return
+        if (destination.id == R.id.homeFragment) finishSoftly() else navController.navigateUp()
+    }
+
+    private fun finishSoftly() {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - backPressedTime < ASK_AGAIN_EXIT_DURATION) {
+            finish()
+        } else {
+            backPressedTime = currentTime
+            showToast(R.string.app_finish_confirm_message)
         }
     }
 
@@ -64,6 +100,12 @@ class MainActivity : AppCompatActivity() {
                 ).isAppearanceLightStatusBars = false
             }
         }
+    }
+
+    companion object {
+
+        private const val SPLASH_DURATION = 1_500L
+        private const val ASK_AGAIN_EXIT_DURATION = 2_000
     }
 }
 
