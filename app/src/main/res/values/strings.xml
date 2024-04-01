@@ -95,6 +95,8 @@
 
     <string name="createqna_category_title">카테고리 선택하기</string>
     <string name="createqna_recommend_question_title">오늘의 추천 질문</string>
+    <string name="createqna_blank_todayRecommendationQuestion">오늘의 추천 질문은 없습니다.</string>
+
 
     <string name="marry_date_guide_text">결혼예정일을 알려주세요.</string>
     <string name="marry_date_guide_detail_text">결혼까지 남은 기간에 따라 문답을 추천해드릴게요.\n정확한 예정일이 없다면 대략적으로 선택해주세요.</string>
