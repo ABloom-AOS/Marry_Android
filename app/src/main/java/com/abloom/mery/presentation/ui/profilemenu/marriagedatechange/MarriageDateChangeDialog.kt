@@ -17,6 +17,7 @@ import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.yearMonth
 import kotlinx.coroutines.flow.filterNotNull
+import sh.tyy.wheelpicker.DatePickerView
 import java.time.DayOfWeek
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -65,8 +66,10 @@ class MarriageDateChangeDialog : BottomSheetDialogFragment() {
         setupSelectedDate()
         setupCalendar()
         setupDayOfWeekHeader()
+        setupMonthPicker()
 
         observeSelectedDate()
+        observeIsCalendarState()
     }
 
     private fun FrameLayout.setupBackground() {
@@ -78,6 +81,7 @@ class MarriageDateChangeDialog : BottomSheetDialogFragment() {
         val behavior = BottomSheetBehavior.from(this)
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
         behavior.skipCollapsed = true
+        behavior.isHideable = false
     }
 
     private fun setupDataBinding() {
@@ -87,6 +91,10 @@ class MarriageDateChangeDialog : BottomSheetDialogFragment() {
     }
 
     private fun handleCompleteButtonClick() {
+        if (!marriageDateChangeViewModel.isCalendarState.value) {
+            marriageDateChangeViewModel.toggleCalendarState()
+            return
+        }
         val selectedDate = marriageDateChangeViewModel.selectedDate.value ?: return
         profileMenuViewModel.changeMarriageDate(selectedDate)
         dismiss()
@@ -99,11 +107,18 @@ class MarriageDateChangeDialog : BottomSheetDialogFragment() {
     }
 
     private fun setupCalendar() {
-        val currentMonth = YearMonth.now()
-        val startMonth = currentMonth.minusMonths(100)
-        val endMonth = currentMonth.plusMonths(100)
-
         binding.cvMarriagedatechangedialogCalender.dayBinder = calendarDayAdapter
+
+        binding.cvMarriagedatechangedialogCalender.monthScrollListener = { date ->
+            marriageDateChangeViewModel.setVisibleMonth(date.yearMonth)
+        }
+
+        updateCalendar(YearMonth.now())
+    }
+
+    private fun updateCalendar(visibleMonth: YearMonth) {
+        val startMonth = visibleMonth.minusMonths(SCROLLABLE_MONTH_COUNT)
+        val endMonth = visibleMonth.plusMonths(SCROLLABLE_MONTH_COUNT)
 
         binding.cvMarriagedatechangedialogCalender.setup(
             startMonth = startMonth,
@@ -111,11 +126,7 @@ class MarriageDateChangeDialog : BottomSheetDialogFragment() {
             firstDayOfWeek = daysOfWeek().first()
         )
 
-        binding.cvMarriagedatechangedialogCalender.monthScrollListener = { date ->
-            marriageDateChangeViewModel.setVisibleMonth(date.yearMonth)
-        }
-
-        binding.cvMarriagedatechangedialogCalender.scrollToMonth(currentMonth)
+        binding.cvMarriagedatechangedialogCalender.scrollToMonth(visibleMonth)
     }
 
     private fun setupDayOfWeekHeader() {
@@ -135,12 +146,62 @@ class MarriageDateChangeDialog : BottomSheetDialogFragment() {
             DayOfWeek.SATURDAY.getDisplayName(TextStyle.SHORT, Locale.getDefault())
     }
 
+    private fun setupMonthPicker() {
+        binding.dpvMarriagedatechangedialogMonthPicker.mode = DatePickerView.Mode.YEAR_MONTH
+        val visibleMonth = marriageDateChangeViewModel.visibleMonth.value
+        binding.dpvMarriagedatechangedialogMonthPicker.setDate(
+            year = visibleMonth.year,
+            month = visibleMonth.monthValue,
+            day = 1
+        )
+    }
+
     private fun observeSelectedDate() {
         repeatOnStarted {
-            marriageDateChangeViewModel.selectedDate.filterNotNull().collect { selectedDate ->
-                calendarDayAdapter.selectedDate = selectedDate
-                binding.cvMarriagedatechangedialogCalender.notifyMonthChanged(selectedDate.yearMonth)
-            }
+            marriageDateChangeViewModel.selectedDate
+                .filterNotNull()
+                .collect { selectedDate ->
+                    calendarDayAdapter.selectedDate = selectedDate
+                    binding.cvMarriagedatechangedialogCalender.notifyMonthChanged(selectedDate.yearMonth)
+                }
         }
+    }
+
+    private fun observeIsCalendarState() {
+        repeatOnStarted {
+            marriageDateChangeViewModel.isCalendarState
+                .collect { isCalendarState ->
+                    if (isCalendarState) {
+                        updateCalendarState()
+                    } else {
+                        updateYearMonthSpinner()
+                    }
+                }
+        }
+    }
+
+    private fun updateCalendarState() {
+        val year = binding.dpvMarriagedatechangedialogMonthPicker.year
+        val month = binding.dpvMarriagedatechangedialogMonthPicker.month
+        if (!isValidDate(year, month)) return
+        val visibleMonth = YearMonth.of(year, month)
+        updateCalendar(visibleMonth)
+        marriageDateChangeViewModel.setVisibleMonth(visibleMonth)
+    }
+
+    private fun isValidDate(year: Int, month: Int): Boolean = year > 0 && month in 1..12
+
+    private fun updateYearMonthSpinner() {
+        val visibleMonth = marriageDateChangeViewModel.visibleMonth.value
+        binding.dpvMarriagedatechangedialogMonthPicker.setDate(
+            year = visibleMonth.year,
+            month = visibleMonth.monthValue,
+            day = 1
+        )
+    }
+
+    companion object {
+
+        private const val SCROLLABLE_MONTH_COUNT = 100L
     }
 }

@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.abloom.mery.presentation.ui.profilemenu.marriagedatechange.MarriageDateChangeViewModel" />
@@ -57,6 +59,7 @@
             android:gravity="center"
             android:paddingVertical="2dp"
             android:textColor="#4D3C3C43"
+            android:visibility="@{viewModel.isCalendarState ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_monday_header"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +74,7 @@
             android:gravity="center"
             android:paddingVertical="2dp"
             android:textColor="#4D3C3C43"
+            android:visibility="@{viewModel.isCalendarState ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_tuesday_header"
             app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_sunday_header"
             app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
@@ -84,6 +88,7 @@
             android:gravity="center"
             android:paddingVertical="2dp"
             android:textColor="#4D3C3C43"
+            android:visibility="@{viewModel.isCalendarState ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_wednesday_header"
             app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_monday_header"
             app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
@@ -97,6 +102,7 @@
             android:gravity="center"
             android:paddingVertical="2dp"
             android:textColor="#4D3C3C43"
+            android:visibility="@{viewModel.isCalendarState ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_thursday_header"
             app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_tuesday_header"
             app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
@@ -110,6 +116,7 @@
             android:gravity="center"
             android:paddingVertical="2dp"
             android:textColor="#4D3C3C43"
+            android:visibility="@{viewModel.isCalendarState ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_friday_header"
             app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_wednesday_header"
             app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
@@ -123,6 +130,7 @@
             android:gravity="center"
             android:paddingVertical="2dp"
             android:textColor="#4D3C3C43"
+            android:visibility="@{viewModel.isCalendarState ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/tv_marriagedatechangedialog_saturday_header"
             app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_thursday_header"
             app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
@@ -137,6 +145,7 @@
             android:gravity="center"
             android:paddingVertical="2dp"
             android:textColor="#4D3C3C43"
+            android:visibility="@{viewModel.isCalendarState ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_marriagedatechangedialog_friday_header"
             app:layout_constraintTop_toTopOf="@+id/tv_marriagedatechangedialog_sunday_header"
@@ -148,10 +157,21 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="10dp"
+            android:visibility="@{viewModel.isCalendarState ? View.VISIBLE : View.INVISIBLE}"
             app:cv_dayViewResource="@layout/layout_marriagedatechangedialog_day"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_marriagedatechangedialog_sunday_header" />
+
+        <sh.tyy.wheelpicker.DatePickerView
+            android:id="@+id/dpv_marriagedatechangedialog_month_picker"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:is_visible="@{!viewModel.isCalendarState}"
+            app:layout_constraintBottom_toBottomOf="@id/cv_marriagedatechangedialog_calender"
+            app:layout_constraintEnd_toEndOf="@id/cv_marriagedatechangedialog_calender"
+            app:layout_constraintStart_toStartOf="@id/cv_marriagedatechangedialog_calender"
+            app:layout_constraintTop_toTopOf="@id/cv_marriagedatechangedialog_calender" />
 
         <TextView
             android:id="@+id/tv_marriagedatechangedialog_complete_button"
