@@ -11,6 +11,9 @@ activity = "1.8.2"
 constraintlayout = "2.1.4"
 material = "1.11.0"
 
+# Splash
+splash = "1.0.1"
+
 # 코루틴
 coroutine = "1.8.0"
 
@@ -47,6 +50,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
 
 # 코루틴
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine" }
