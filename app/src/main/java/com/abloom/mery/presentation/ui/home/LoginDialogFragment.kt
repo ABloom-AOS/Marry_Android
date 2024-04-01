@@ -1,6 +1,5 @@
 package com.abloom.mery.presentation.ui.home
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,9 +53,8 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         binding.onGoogleButtonClick = ::requestGoogleLogin
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme)
-    }
+    override fun onCreateDialog(savedInstanceState: Bundle?) =
+        BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme)
 
     /* 카카오 로그인 관련 코드 */
 
