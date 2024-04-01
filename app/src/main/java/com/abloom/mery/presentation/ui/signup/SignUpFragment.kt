@@ -25,6 +25,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     private val brideGroomSelectionFragment by lazy { BrideGroomSelectionFragment() }
     private val inputNameFragment by lazy { InputNameFragment() }
     private val privacyConsentFragment by lazy { PrivacyConsentFragment() }
+    private val fragmentList =
+        listOf(brideGroomSelectionFragment, inputNameFragment, privacyConsentFragment)
 
     private val signUpFragmentManager by lazy { childFragmentManager }
 
@@ -99,37 +101,18 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     }
 
     private fun replaceBrideGroomSelectionFragment() {
-        signUpFragmentManager.beginTransaction().apply {
-            setCustomAnimations(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out,
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
-            replace(
-                R.id.fragmentContainerView,
-                brideGroomSelectionFragment,
-            )
-            addToBackStack(null)
-            commit()
-        }
+        fragmentTransaction(0)
     }
 
     private fun replaceInputNameFragment() {
-        signUpFragmentManager.beginTransaction().apply {
-            setCustomAnimations(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out,
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
-            replace(R.id.fragmentContainerView, inputNameFragment)
-            addToBackStack(null)
-            commit()
-        }
+        fragmentTransaction(1)
     }
 
     private fun replacePrivacyConsentFragment() {
+        fragmentTransaction(2)
+    }
+
+    private fun fragmentTransaction(fragmentIdx: Int) {
         signUpFragmentManager.beginTransaction().apply {
             setCustomAnimations(
                 android.R.anim.fade_in,
@@ -137,7 +120,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                 android.R.anim.fade_in,
                 android.R.anim.fade_out
             )
-            replace(R.id.fragmentContainerView, privacyConsentFragment)
+            replace(R.id.fragmentContainerView, fragmentList[fragmentIdx])
             addToBackStack(null)
             commit()
         }
