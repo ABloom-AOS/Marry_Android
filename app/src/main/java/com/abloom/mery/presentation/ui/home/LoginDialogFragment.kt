@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.viewModels
 import com.abloom.mery.BuildConfig
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentLoginDialogBinding
@@ -29,13 +28,10 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
     private val googleAuthLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                val googleToken = account.idToken
-                // TODO("(구글) 파이어베이스를 조회하여 기존 회원이 아닌 경우 회원가입 화면으로 이동하는 로직 구현")
-                dismiss()
-            } catch (e: ApiException) {
-            }
+            val account = task.getResult(ApiException::class.java)
+            val googleToken = account.idToken
+            // TODO("(구글) 파이어베이스를 조회하여 기존 회원이 아닌 경우 회원가입 화면으로 이동하는 로직 구현")
+            dismiss()
         }
 
     override fun onCreateView(
