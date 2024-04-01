@@ -35,5 +35,4 @@ class WebViewFragment : BaseFragment<FragmentWebViewBinding>(R.layout.fragment_w
             loadUrl(args.url.url)
         }
     }
-
 }

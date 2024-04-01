@@ -11,6 +11,9 @@ activity = "1.8.2"
 constraintlayout = "2.1.4"
 material = "1.11.0"
 
+# Splash
+splash = "1.0.1"
+
 # 코루틴
 coroutine = "1.8.0"
 
@@ -40,8 +43,8 @@ kakaoSdk = "2.20.0"
 # WheelPicker 의존성 버전
 wheelpicker = "0.4.0"
 
-# Google oAuth
-playServicesBase = "18.3.0"
+# Kizitonwose Carlendar
+kizitonwoseCalendar = "2.5.0"
 
 [libraries]
 # 안드로이드
@@ -50,6 +53,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
 
 # 코루틴
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine" }
@@ -81,7 +85,9 @@ kakao-sdk-all = { module = "com.kakao.sdk:v2-all", version.ref = "kakaoSdk" }
 
 # WheelPicker
 wheelpicker = { module = "sh.tyy:wheelpicker", version.ref = "wheelpicker" }
-play-services-base = { group = "com.google.android.gms", name = "play-services-base", version.ref = "playServicesBase" }
+
+# Kizitonwose Calendar
+kizitonwose-calendar-view = { module = "com.kizitonwose.calendar:view", version.ref = "kizitonwoseCalendar" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

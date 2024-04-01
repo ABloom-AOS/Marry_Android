@@ -6,12 +6,25 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import com.abloom.mery.R
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 @BindingAdapter("app:date_text")
 fun TextView.setDateText(date: LocalDate) {
     text = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
+}
+
+@BindingAdapter("app:monthText")
+fun TextView.setMonthText(month: YearMonth) {
+    val yearMonthFormat = context.getString(R.string.all_year_month_format)
+    val formatter = DateTimeFormatter.ofPattern(yearMonthFormat)
+    text = month.format(formatter)
+}
+
+@BindingAdapter("app:dayText")
+fun TextView.setDayText(date: LocalDate) {
+    text = date.dayOfMonth.toString()
 }
 
 @BindingAdapter("app:font")

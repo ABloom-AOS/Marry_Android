@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="onNameChangeButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onMarriageDateChangeButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onCancelButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="6.5dp"
+        android:paddingVertical="9dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_all_dialog"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{() -> onNameChangeButtonClick.invoke()}"
+                android:paddingVertical="18dp"
+                android:text="@string/profilemenu_name_change"
+                android:textAppearance="@style/headline"
+                android:textColor="@color/primary_60" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                app:dividerColor="#3C3C435C" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{() -> onMarriageDateChangeButtonClick.invoke()}"
+                android:paddingVertical="18dp"
+                android:text="@string/profilemenu_detail_dialog_marriage_date_change_button_text"
+                android:textAppearance="@style/headline"
+                android:textColor="@color/primary_60" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_all_dialog"
+            android:gravity="center"
+            android:onClick="@{() -> onCancelButtonClick.invoke()}"
+            android:paddingVertical="18dp"
+            android:text="@string/all_cancel"
+            android:textAppearance="@style/headline"
+            android:textColor="@color/primary_60"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</layout>

@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    implementation(libs.androidx.core.splashscreen)
+
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 
@@ -78,5 +80,6 @@ dependencies {
 
     implementation(libs.kakao.sdk.all)
     implementation(libs.wheelpicker)
+    implementation(libs.kizitonwose.calendar.view)
 
 }
