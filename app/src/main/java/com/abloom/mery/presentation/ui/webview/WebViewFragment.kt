@@ -1,7 +1,9 @@
 package com.abloom.mery.presentation.ui.webview
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebViewClient
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.abloom.mery.R
@@ -17,9 +19,21 @@ class WebViewFragment : BaseFragment<FragmentWebViewBinding>(R.layout.fragment_w
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initBinding()
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun initBinding() {
         binding.appbarWebView.title = getString(args.url.titleId)
         binding.appbarWebView.setOnActionClick {
             findNavController().popBackStack()
         }
+        binding.webview.apply {
+            settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
+            webViewClient = WebViewClient()
+            loadUrl(args.url.url)
+        }
     }
+
 }
