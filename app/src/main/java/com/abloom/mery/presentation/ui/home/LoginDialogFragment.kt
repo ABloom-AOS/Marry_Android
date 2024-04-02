@@ -57,7 +57,6 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme)
 
     /* 카카오 로그인 관련 코드 */
-
     private fun checkUserKakaoApiClient() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
@@ -134,13 +133,9 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         // TODO("(카카오) 파이어베이스를 조회하여 기존 회원이 아닌 경우 회원가입 화면으로 이동하는 로직 구현")
         dismiss()
     }
-
-    /* 카카오 로그인 관련 코드 */
-
-    /* 애플 로그인 관련 코드 *//* 애플 로그인 관련 코드 */
+    /* 애플 로그인 관련 코드 */
 
     /* 구글 로그인 관련 코드 */
-
     private fun requestGoogleLogin() {
         googleSignInClient.signOut()
         val signInIntent = googleSignInClient.signInIntent
@@ -153,6 +148,4 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             .build()
         return GoogleSignIn.getClient(requireActivity(), googleSignInOption)
     }
-
-    /* 구글 로그인 관련 코드 */
 }
