@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import com.abloom.domain.user.model.Authentication
 import com.abloom.mery.BuildConfig
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentLoginDialogBinding
+import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.util.showToast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -19,18 +22,19 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 
+
 class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentLoginDialogBinding
+    private val homeViewModel: HomeViewModel by viewModels()
 
     private val googleSignInClient: GoogleSignInClient by lazy { getGoogleClient() }
     private val googleAuthLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val account = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 .getResult(ApiException::class.java)
-            val googleToken = account.idToken
-            // TODO("(구글) 파이어베이스를 조회하여 기존 회원이 아닌 경우 회원가입 화면으로 이동하는 로직 구현")
-            dismiss()
+            val googleToken = account.idToken.toString()
+            homeViewModel.login(Authentication.Google(googleToken))
         }
 
     override fun onCreateView(
@@ -46,6 +50,19 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         kakaoAutoLogin()
         initBinding()
+        observeLoginFail()
+    }
+
+    private fun observeLoginFail() {
+        repeatOnStarted {
+            homeViewModel.event.collect { homeEvent ->
+                when (homeEvent) {
+                    is HomeEvent.LoginFail -> {
+                        //TODO("가입하기 정보화면으로 이동")
+                    }
+                }
+            }
+        }
     }
 
     private fun initBinding() {
@@ -130,8 +147,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private fun kakaoLoginSuccess(kakaoUserEmail: String) {
         context?.showToast(R.string.kakao_login_text)
-        // TODO("(카카오) 파이어베이스를 조회하여 기존 회원이 아닌 경우 회원가입 화면으로 이동하는 로직 구현")
-        dismiss()
+        homeViewModel.login(Authentication.Kakao(kakaoUserEmail, "패스워드"))
     }
     /* 애플 로그인 관련 코드 */
 
