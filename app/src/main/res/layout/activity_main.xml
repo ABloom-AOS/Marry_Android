@@ -39,10 +39,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="132dp"
+                android:layout_height="132dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_splash" />
+                android:src="@drawable/img_mery_logo_flat" />
 
             <TextView
                 android:layout_width="wrap_content"

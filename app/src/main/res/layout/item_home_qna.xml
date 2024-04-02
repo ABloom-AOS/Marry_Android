@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="kotlin.Unit" />
+
+        <variable
+            name="qna"
+            type="com.abloom.domain.qna.model.Qna" />
+
+        <variable
+            name="onQnaClick"
+            type="kotlin.jvm.functions.Function1&lt;Long, Unit>" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> onQnaClick.invoke(qna.question.id)}"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="19dp">
+
+            <TextView
+                android:id="@+id/tv_homeqna_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:text="@{qna.question.content}"
+                android:textAppearance="@style/subheadline"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="동해물과 백두산이 마르고 닳도록" />
+
+            <TextView
+                android:id="@+id/tv_homeqna_created_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="@style/caption2"
+                android:textColor="@color/neutral_40"
+                android:textStyle="bold"
+                app:date_text="@{qna.createdAt.toLocalDate()}"
+                app:layout_constraintStart_toStartOf="@id/tv_homeqna_question"
+                app:layout_constraintTop_toBottomOf="@id/tv_homeqna_question"
+                tools:text="2024년 11월 13일" />
+
+            <TextView
+                android:id="@+id/tv_homeqna_category_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_homeqna_category_tag"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:textAppearance="@style/caption2"
+                android:textColor="@color/neutral_60"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_homeqna_created_at"
+                tools:text="경제" />
+
+            <TextView
+                android:id="@+id/tv_homeqna_info_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:textAppearance="@style/caption2"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/tv_homeqna_category_tag"
+                app:layout_constraintStart_toEndOf="@id/tv_homeqna_category_tag"
+                app:layout_constraintTop_toTopOf="@id/tv_homeqna_category_tag"
+                tools:background="@drawable/bg_homeqna_request_tag"
+                tools:text="답변해주세요 >"
+                tools:textColor="@color/white" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

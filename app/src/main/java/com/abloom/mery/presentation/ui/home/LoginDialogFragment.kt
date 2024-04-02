@@ -22,7 +22,6 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 
-
 class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentLoginDialogBinding
@@ -52,7 +51,6 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         initBinding()
         observeLoginFail()
     }
-
 
     private fun initBinding() {
         binding.onKakaoButtonClick = ::checkUserKakaoApiClient
