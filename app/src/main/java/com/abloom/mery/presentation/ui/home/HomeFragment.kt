@@ -35,7 +35,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSignUpFragment())
         }
 
+        showLoginDialog()
         observeMainEvent()
+    }
+
+    private fun showLoginDialog() {
+        val bottomSheetFragment = LoginDialogFragment()
+        bottomSheetFragment.show(childFragmentManager, LoginDialogFragment().tag)
     }
 
     private fun observeMainEvent() {

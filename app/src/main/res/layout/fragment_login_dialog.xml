@@ -5,6 +5,14 @@
 
     <data>
 
+        <variable
+            name="onKakaoButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onGoogleButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,6 +62,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/kakao_btn_background"
+            android:onClick="@{() -> onKakaoButtonClick.invoke()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/login_text_layout">
@@ -142,6 +151,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/google_btn_background"
+            android:onClick="@{() -> onGoogleButtonClick.invoke()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/apple_login_btn">
