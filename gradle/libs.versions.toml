@@ -46,6 +46,10 @@ wheelpicker = "0.4.0"
 # Kizitonwose Carlendar
 kizitonwoseCalendar = "2.5.0"
 
+# Google Service 의존성 버전
+playServicesBase = "18.3.0"
+playServicesAuth = "21.0.0"
+
 [libraries]
 # 안드로이드
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -88,6 +92,10 @@ wheelpicker = { module = "sh.tyy:wheelpicker", version.ref = "wheelpicker" }
 
 # Kizitonwose Calendar
 kizitonwose-calendar-view = { module = "com.kizitonwose.calendar:view", version.ref = "kizitonwoseCalendar" }
+
+# Google Services
+play-services-base = { group = "com.google.android.gms", name = "play-services-base", version.ref = "playServicesBase" }
+play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
