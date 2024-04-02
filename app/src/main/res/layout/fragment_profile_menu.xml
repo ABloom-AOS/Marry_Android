@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_profilemenu_user_image"
                     android:layout_width="61dp"
                     android:layout_height="61dp"
@@ -70,7 +70,7 @@
                     android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/img_profilemenu_groom" />
+                    tools:src="@drawable/img_all_bride" />
 
                 <TextView
                     android:id="@+id/tv_profilemenu_user_name"

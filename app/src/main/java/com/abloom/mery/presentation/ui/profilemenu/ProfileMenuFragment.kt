@@ -123,12 +123,12 @@ class ProfileMenuFragment :
 
                 user.sex == Sex.MALE -> ContextCompat.getDrawable(
                     requireContext(),
-                    R.drawable.img_profilemenu_groom
+                    R.drawable.img_all_groom
                 )
 
                 user.sex == Sex.FEMALE -> ContextCompat.getDrawable(
                     requireContext(),
-                    R.drawable.img_profilemenu_bride
+                    R.drawable.img_all_groom
                 )
 
                 else -> throw AssertionError("여기까지 올리가 없음.")
