@@ -38,10 +38,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         setupQnaRecyclerView()
         setupDataBinding()
 
-        showLoginDialog()
+        checkLoginState()
+
         observeMainEvent()
         observeQnas()
         observeLoginUser()
+    }
+
+    private fun checkLoginState() {
+        if (homeViewModel.isLogin.value == null)
+            showLoginDialog()
     }
 
     private fun setupQnaRecyclerView() {
