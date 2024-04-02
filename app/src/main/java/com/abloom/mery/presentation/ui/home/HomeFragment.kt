@@ -88,8 +88,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun updateUserImage(loginUser: User?) {
         val drawableRes = when {
             loginUser == null -> R.drawable.img_profilemenu_not_login_user
-            loginUser.sex == Sex.MALE -> R.drawable.img_profilemenu_groom
-            loginUser.sex == Sex.FEMALE -> R.drawable.img_profilemenu_bride
+            loginUser.sex == Sex.MALE -> R.drawable.img_all_groom
+            loginUser.sex == Sex.FEMALE -> R.drawable.img_all_bride
             else -> throw AssertionError("여기까지 올 리 없음.")
         }
         val drawable = ContextCompat.getDrawable(requireContext(), drawableRes)
