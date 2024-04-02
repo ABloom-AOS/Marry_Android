@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Mery</string>
+    <string name="app_title">MERY</string>
+    <string name="app_finish_confirm_message">한 번 더 누르면 종료됩니다.</string>
+
+    <string name="main_splash_message">우리 둘만의 결혼 문답</string>
 
     <string name="login_text">로그인</string>
     <string name="login_to_text">로 로그인</string>
