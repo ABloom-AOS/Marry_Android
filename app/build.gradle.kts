@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.googleServices)
     kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
 }
@@ -85,4 +86,6 @@ dependencies {
 
     implementation(libs.play.services.base)
     implementation(libs.play.services.auth)
+
+    implementation(libs.firebase.firestore)
 }
