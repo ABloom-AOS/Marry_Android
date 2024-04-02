@@ -26,7 +26,7 @@ import com.kakao.sdk.user.UserApiClient
 class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentLoginDialogBinding
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     private val googleSignInClient: GoogleSignInClient by lazy { getGoogleClient() }
     private val googleAuthLauncher =
@@ -53,6 +53,12 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         observeLoginFail()
     }
 
+
+    private fun initBinding() {
+        binding.onKakaoButtonClick = ::checkUserKakaoApiClient
+        binding.onGoogleButtonClick = ::requestGoogleLogin
+    }
+
     private fun observeLoginFail() {
         repeatOnStarted {
             homeViewModel.event.collect { homeEvent ->
@@ -61,13 +67,9 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
                         //TODO("가입하기 정보화면으로 이동")
                     }
                 }
+                dismiss()
             }
         }
-    }
-
-    private fun initBinding() {
-        binding.onKakaoButtonClick = ::checkUserKakaoApiClient
-        binding.onGoogleButtonClick = ::requestGoogleLogin
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?) =
@@ -140,14 +142,15 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
                 context?.showToast(R.string.kakao_get_email_failed)
             } else {
                 val kakaoUserEmail = user?.kakaoAccount?.email.toString()
-                kakaoLoginSuccess(kakaoUserEmail)
+                val kakaoPassword = user?.id.toString()
+                kakaoLoginSuccess(kakaoUserEmail, kakaoPassword)
             }
         }
     }
 
-    private fun kakaoLoginSuccess(kakaoUserEmail: String) {
+    private fun kakaoLoginSuccess(kakaoUserEmail: String, kakaoPassword: String) {
         context?.showToast(R.string.kakao_login_text)
-        homeViewModel.login(Authentication.Kakao(kakaoUserEmail, "패스워드"))
+        homeViewModel.login(Authentication.Kakao(kakaoUserEmail, kakaoPassword))
     }
     /* 애플 로그인 관련 코드 */
 
