@@ -80,5 +80,6 @@ dependencies {
     implementation(libs.kakao.sdk.all)
     implementation(libs.wheelpicker)
     implementation(libs.kizitonwose.calendar.view)
+    implementation(libs.hdobenhof.circleimageview)
 
 }

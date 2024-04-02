@@ -46,6 +46,9 @@ wheelpicker = "0.4.0"
 # Kizitonwose Carlendar
 kizitonwoseCalendar = "2.5.0"
 
+# CircleImageView
+circleImageView = "3.1.0"
+
 [libraries]
 # 안드로이드
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -88,6 +91,9 @@ wheelpicker = { module = "sh.tyy:wheelpicker", version.ref = "wheelpicker" }
 
 # Kizitonwose Calendar
 kizitonwose-calendar-view = { module = "com.kizitonwose.calendar:view", version.ref = "kizitonwoseCalendar" }
+
+# hdobenhof CircleImageView
+hdobenhof-circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleImageView" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
