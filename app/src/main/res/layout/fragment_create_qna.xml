@@ -5,6 +5,13 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.createqna.CreateQnaViewModel" />
+
+        <variable
+            name="goWriteAnswerOnClick"
+            type="kotlin.jvm.functions.Function0" />
     </data>
 
 
@@ -68,7 +75,7 @@
                         android:layout_marginTop="35dp"
                         android:gravity="top"
                         android:lineSpacingExtra="8sp"
-                        android:text="동해물과 백두산이 마르고 닳도록\n하느님이 보우하사 우리나라 만세 \n무궁화 삼철미화려강산"
+                        android:text="@{viewModel.todayRecommendationQuestion.content}"
                         android:textColor="@color/white"
                         android:translationY="-4.21sp"
                         app:layout_constraintBottom_toBottomOf="parent"
