@@ -13,7 +13,6 @@ import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import com.abloom.mery.presentation.ui.category.CategoryArgs
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 
@@ -42,13 +41,8 @@ class CreateQnaFragment : BaseFragment<FragmentCreateQnaBinding>(R.layout.fragme
         repeatOnStarted {
             createQnaViewModel.isLogin.filterNotNull().collect { isLogin ->
                 when (isLogin) {
-                    true -> {
-                        loginFlag = isLogin
-                    }
-
-                    false -> {
-                        loginFlag = isLogin
-                    }
+                    true -> { loginFlag = isLogin }
+                    false -> { loginFlag = isLogin }
                 }
             }
         }
