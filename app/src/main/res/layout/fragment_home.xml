@@ -8,9 +8,18 @@
         <variable
             name="viewModel"
             type="com.abloom.mery.presentation.ui.home.HomeViewModel" />
+
+        <variable
+            name="onProfileMenuButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onCreateQnaButtonClick"
+            type="kotlin.jvm.functions.Function0" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.ui.home.HomeFragment">
@@ -31,14 +40,27 @@
 
         <ImageView
             android:id="@+id/iv_home_user_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="20dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="14dp"
             android:contentDescription="@string/home_profile_menu_button_description"
+            android:onClick="@{() -> onProfileMenuButtonClick.invoke()}"
+            android:padding="6dp"
             app:layout_constraintBottom_toBottomOf="@id/tv_home_app_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_home_app_title"
-            tools:src="@drawable/img_profilemenu_groom" />
+            tools:src="@drawable/img_profilemenu_not_login_user" />
+
+        <ImageView
+            android:id="@+id/iv_home_unconnected_notifier"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_margin="6dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_all_unconnected_notifier"
+            app:is_visible="@{viewModel.loginUser != null &amp;&amp; !viewModel.loginUser.linkedWithFiance}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_home_user_icon"
+            app:layout_constraintEnd_toEndOf="@id/iv_home_user_icon" />
 
         <ImageView
             android:id="@+id/iv_home_empty_questions"
@@ -85,6 +107,40 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_home_empty_questions_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_qnas"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
+            android:scrollbars="none"
+            app:itemSpacing_dp="@{12}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_home_app_title"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_home_qna" />
+
+        <ImageView
+            android:id="@+id/fab_home_create_qna_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="27dp"
+            android:background="@drawable/bg_home_create_qna_button"
+            android:contentDescription="@string/home_create_qna_button_description"
+            android:elevation="20dp"
+            android:onClick="@{() -> onCreateQnaButtonClick.invoke()}"
+            android:padding="25dp"
+            android:src="@drawable/ic_home_create_qna_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
