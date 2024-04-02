@@ -127,17 +127,15 @@
             tools:itemCount="10"
             tools:listitem="@layout/item_home_qna" />
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_home_create_qna_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="27dp"
-            android:background="@drawable/bg_home_create_qna_button"
             android:contentDescription="@string/home_create_qna_button_description"
-            android:elevation="20dp"
             android:onClick="@{() -> onCreateQnaButtonClick.invoke()}"
-            android:padding="25dp"
             android:src="@drawable/ic_home_create_qna_button"
+            app:fabCustomSize="72dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
