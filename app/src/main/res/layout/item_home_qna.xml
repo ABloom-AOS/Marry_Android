@@ -57,7 +57,7 @@
                 tools:text="2024년 11월 13일" />
 
             <TextView
-                android:id="@+id/tv_homeqna_category"
+                android:id="@+id/tv_homeqna_category_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -72,7 +72,7 @@
                 tools:text="경제" />
 
             <TextView
-                android:id="@+id/tv_homeqna_status"
+                android:id="@+id/tv_homeqna_info_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
@@ -80,9 +80,9 @@
                 android:paddingVertical="6dp"
                 android:textAppearance="@style/caption2"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/tv_homeqna_category"
-                app:layout_constraintStart_toEndOf="@id/tv_homeqna_category"
-                app:layout_constraintTop_toTopOf="@id/tv_homeqna_category"
+                app:layout_constraintBottom_toBottomOf="@id/tv_homeqna_category_tag"
+                app:layout_constraintStart_toEndOf="@id/tv_homeqna_category_tag"
+                app:layout_constraintTop_toTopOf="@id/tv_homeqna_category_tag"
                 tools:background="@drawable/bg_homeqna_request_tag"
                 tools:text="답변해주세요 >"
                 tools:textColor="@color/white" />
