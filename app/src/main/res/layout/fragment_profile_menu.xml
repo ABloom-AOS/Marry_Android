@@ -190,7 +190,7 @@
                         android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_profilemenu_unconnected_notifier"
+                        android:src="@drawable/ic_all_unconnected_notifier"
                         app:is_visible="@{viewModel.loginUser != null &amp;&amp; !viewModel.loginUser.linkedWithFiance}"
                         app:layout_constraintStart_toEndOf="@id/tv_profilemenu_connect_setting"
                         app:layout_constraintTop_toTopOf="@id/tv_profilemenu_connect_setting" />
