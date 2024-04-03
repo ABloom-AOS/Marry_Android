@@ -149,7 +149,6 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         context?.showToast(R.string.kakao_login_text)
         viewModel.login(Authentication.Kakao(kakaoUserEmail, kakaoPassword))
     }
-    /* 애플 로그인 관련 코드 */
 
     /* 구글 로그인 관련 코드 */
     private fun requestGoogleLogin() {
