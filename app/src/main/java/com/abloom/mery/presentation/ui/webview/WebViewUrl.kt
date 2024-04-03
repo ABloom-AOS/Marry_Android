@@ -16,6 +16,6 @@ enum class WebViewUrl(val url: String, @StringRes val titleId: Int) {
         "https://jaeseoklee.notion.site/d2acdd4992e44d969f8b2553424c9e54",
         R.string.webview_sensitive_privacy
     ),
-    QUESTION_FACTORY("/questionFactory", R.string.webview_question_factory),
-    CS_CENTER("/csCenter", R.string.webview_cs_center);
+    QUESTION_FACTORY("https://smore.im/form/GCmzTMTiGQ", R.string.webview_question_factory),
+    CS_CENTER("https://abloom.channel.io/home", R.string.webview_cs_center);
 }
