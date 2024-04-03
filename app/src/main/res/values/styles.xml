@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="RoundBottomSheetDialogStyle" parent="Theme.Material3.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundBottomSheetModalStyle</item>
+    </style>
+
+    <style name="RoundBottomSheetModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_all_bottom_sheet_dialog</item>
+    </style>
+
     <style name="DatePickerDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="colorAccent">@color/primary_60</item>
         <item name="android:textColorPrimary">@color/black</item>
