@@ -51,23 +51,8 @@ class MainActivity : AppCompatActivity() {
         setupWindowInsetsListener()
         setupBackPressedDispatcher()
         setupDestinationChangedListener()
+
         askNotificationPermission()
-
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.e(TAG, "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-            Log.e("TAG",token)
-            // Log and toast
-
-
-        })
-
-
     }
 
     // Declare the launcher at the top of your Activity/Fragment:
