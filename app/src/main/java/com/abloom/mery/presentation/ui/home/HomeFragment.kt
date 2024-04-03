@@ -38,16 +38,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         setupQnaRecyclerView()
         setupDataBinding()
 
-        checkLoginState()
-
         observeMainEvent()
         observeQnas()
         observeLoginUser()
-    }
-
-    private fun checkLoginState() {
-        if (homeViewModel.isLogin.value == null)
-            showLoginDialog()
     }
 
     private fun setupQnaRecyclerView() {
@@ -68,25 +61,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateQna())
     }
 
-    private fun showLoginDialog() {
-        val bottomSheetFragment = LoginDialogFragment()
-        bottomSheetFragment.show(childFragmentManager, LoginDialogFragment().tag)
-    }
-
     private fun observeMainEvent() {
         repeatOnStarted {
             mainViewModel.loginEvent
                 .combine(homeViewModel.isLogin) { _, isLogin -> isLogin }
                 .filterNotNull()
-                .collect(::showLoginDialog)
+                .collect { isLogin -> if (!isLogin) showLoginDialog() }
         }
     }
 
-    private fun showLoginDialog(isLogin: Boolean) {
-        if (!isLogin) {
-            val bottomSheetFragment = LoginDialogFragment()
-            bottomSheetFragment.show(childFragmentManager, LoginDialogFragment().tag)
-        }
+    private fun showLoginDialog() {
+        val bottomSheetFragment = LoginDialogFragment()
+        bottomSheetFragment.show(childFragmentManager, LoginDialogFragment().tag)
     }
 
     private fun observeQnas() {
