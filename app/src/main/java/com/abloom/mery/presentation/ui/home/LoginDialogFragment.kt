@@ -18,7 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
@@ -78,9 +77,6 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             HomeFragmentDirections.actionHomeFragmentToSignUpFragment(event.authentication.asArgs())
         )
     }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?) =
-        BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme)
 
     /* 카카오 로그인 관련 코드 */
     private fun checkUserKakaoApiClient() {
