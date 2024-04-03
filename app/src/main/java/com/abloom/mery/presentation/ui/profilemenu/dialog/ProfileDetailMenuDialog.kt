@@ -1,4 +1,4 @@
-package com.abloom.mery.presentation.ui.profilemenu
+package com.abloom.mery.presentation.ui.profilemenu.dialog
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.viewModels
 import com.abloom.mery.R
 import com.abloom.mery.databinding.DialogProfileDetailMenuBinding
+import com.abloom.mery.presentation.ui.profilemenu.ProfileMenuViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.LocalDate
