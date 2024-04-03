@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.abloom.mery.presentation.ui.profilemenu.marriagedatechange.MarriageDateChangeViewModel" />
+            type="com.abloom.mery.presentation.ui.profilemenu.dialog.marriagedatechange.MarriageDateChangeViewModel" />
 
         <variable
             name="onCompleteButtonClick"

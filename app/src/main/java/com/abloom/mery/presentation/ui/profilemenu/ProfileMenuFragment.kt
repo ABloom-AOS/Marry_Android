@@ -16,6 +16,7 @@ import com.abloom.mery.presentation.common.base.BaseFragment
 import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.view.ConfirmDialog
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
+import com.abloom.mery.presentation.ui.profilemenu.dialog.ProfileDetailMenuDialog
 import com.abloom.mery.presentation.ui.webview.WebViewUrl
 import dagger.hilt.android.AndroidEntryPoint
 

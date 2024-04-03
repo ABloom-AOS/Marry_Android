@@ -1,4 +1,4 @@
-package com.abloom.mery.presentation.ui.profilemenu.marriagedatechange
+package com.abloom.mery.presentation.ui.profilemenu.dialog.marriagedatechange
 
 import android.view.View
 import com.kizitonwose.calendar.core.CalendarDay
