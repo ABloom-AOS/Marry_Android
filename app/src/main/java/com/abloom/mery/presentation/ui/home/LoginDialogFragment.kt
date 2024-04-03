@@ -47,7 +47,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        kakaoAutoLogin()
+
         initBinding()
         observeLoginFail()
     }
@@ -122,16 +122,6 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             UserApiClient.instance.loginWithKakaoTalk(requireContext(), callback = callback)
         else
             UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
-    }
-
-    private fun kakaoAutoLogin() {
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-                context?.showToast(R.string.kakao_login_failed)
-            } else if (tokenInfo != null) {
-                getKakaoEmail()
-            }
-        }
     }
 
     private fun getKakaoEmail() {

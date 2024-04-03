@@ -10,16 +10,12 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.abloom.mery.R
 import com.abloom.mery.databinding.ActivityMainBinding
 import com.abloom.mery.presentation.common.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -38,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        removeSplashScreenLazily()
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -49,15 +44,8 @@ class MainActivity : AppCompatActivity() {
         setupDestinationChangedListener()
     }
 
-    private fun removeSplashScreenLazily() {
-        lifecycleScope.launch {
-            delay(SPLASH_DURATION)
-            binding.splashscreen.isVisible = false
-        }
-    }
-
     private fun setupWindowInsetsListener() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.mainScreen) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -104,7 +92,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
 
-        private const val SPLASH_DURATION = 1_500L
         private const val ASK_AGAIN_EXIT_DURATION = 2_000
     }
 }
