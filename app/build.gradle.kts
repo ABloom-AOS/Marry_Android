@@ -88,4 +88,6 @@ dependencies {
     implementation(libs.play.services.auth)
 
     implementation(libs.firebase.firestore)
+
+    implementation(libs.firebase.messaging)
 }
