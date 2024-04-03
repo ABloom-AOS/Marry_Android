@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.abloom.domain.user.model.Authentication
 import com.abloom.mery.BuildConfig
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentLoginDialogBinding
 import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.util.showToast
+import com.abloom.mery.presentation.ui.signup.asArgs
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -21,11 +23,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentLoginDialogBinding
-    private val homeViewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val viewModel: LoginViewModel by viewModels()
 
     private val googleSignInClient: GoogleSignInClient by lazy { getGoogleClient() }
     private val googleAuthLauncher =
@@ -33,7 +37,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             val account = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 .getResult(ApiException::class.java)
             val googleToken = account.idToken.toString()
-            homeViewModel.login(Authentication.Google(googleToken))
+            viewModel.login(Authentication.Google(googleToken))
         }
 
     override fun onCreateView(
@@ -53,21 +57,26 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.onKakaoButtonClick = ::checkUserKakaoApiClient
         binding.onGoogleButtonClick = ::requestGoogleLogin
     }
 
     private fun observeLoginFail() {
         repeatOnStarted {
-            homeViewModel.event.collect { homeEvent ->
-                when (homeEvent) {
-                    is HomeEvent.LoginFail -> {
-                        //TODO("가입하기 정보화면으로 이동")
-                    }
+            viewModel.event.collect { event ->
+                when (event) {
+                    is LoginEvent.LoginFail -> handleLoginFail(event)
                 }
                 dismiss()
             }
         }
+    }
+
+    private fun handleLoginFail(event: LoginEvent.LoginFail) {
+        requireParentFragment().findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToSignUpFragment(event.authentication.asArgs())
+        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?) =
@@ -138,7 +147,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private fun kakaoLoginSuccess(kakaoUserEmail: String, kakaoPassword: String) {
         context?.showToast(R.string.kakao_login_text)
-        homeViewModel.login(Authentication.Kakao(kakaoUserEmail, kakaoPassword))
+        viewModel.login(Authentication.Kakao(kakaoUserEmail, kakaoPassword))
     }
     /* 애플 로그인 관련 코드 */
 

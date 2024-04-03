@@ -1,5 +1,6 @@
 package com.abloom.mery.presentation.ui.signup
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abloom.domain.user.model.Authentication
@@ -18,8 +19,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val joinUseCase: JoinUseCase
 ) : ViewModel() {
+
+    private val authentication: Authentication = savedStateHandle
+        .get<AuthenticationArgs>("authentication")
+        ?.asAuthentication()
+        ?: throw IllegalArgumentException("회원가입 화면으로 이동할 때 AuthenticationArgs 인자를 넘기지 않았습니다.")
 
     private val _selectedSex = MutableStateFlow<Sex?>(null)
     val selectedSex = _selectedSex.asStateFlow()
@@ -70,7 +77,7 @@ class SignUpViewModel @Inject constructor(
         isPrivacyPolicyChecked.value = true
     }
 
-    fun join(authentication: Authentication) = viewModelScope.launch {
+    fun join() = viewModelScope.launch {
         val selectedSex = _selectedSex.value ?: return@launch
         joinUseCase(
             authentication = authentication,

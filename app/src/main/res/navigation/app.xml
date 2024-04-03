@@ -56,6 +56,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/slide_down" />
+        <argument
+            android:name="authentication"
+            app:argType="com.abloom.mery.presentation.ui.signup.AuthenticationArgs" />
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
