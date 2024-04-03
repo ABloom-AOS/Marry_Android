@@ -124,16 +124,6 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
     }
 
-    private fun kakaoAutoLogin() {
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-                context?.showToast(R.string.kakao_login_failed)
-            } else if (tokenInfo != null) {
-                getKakaoEmail()
-            }
-        }
-    }
-
     private fun getKakaoEmail() {
         UserApiClient.instance.me { user, error ->
             if (error != null) {
