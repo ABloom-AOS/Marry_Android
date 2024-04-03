@@ -4,20 +4,18 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
+class MeryFirebaseMessagingService : FirebaseMessagingService() {
 
-class MyFirebaseMessagingService : FirebaseMessagingService() {
-
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-    }
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {}
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.e("IDService", "Refreshed token: $token")
-
         sendRegistrationToServer(token)
     }
 
     private fun sendRegistrationToServer(token: String) {
         // 디바이스 토큰이 생성되거나 재생성 될 시 동작할 코드 작성
     }
+
 }
