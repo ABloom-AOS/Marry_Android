@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/splashscreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ECE2F2"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="132dp"
+            android:layout_height="132dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/img_mery_logo_flat" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:paddingVertical="4dp"
+            android:text="@string/main_splash_message"
+            android:textAppearance="@style/body"
+            android:textColor="@color/neutral_60"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanum_square_neo_extra_bold"
+            android:paddingVertical="10dp"
+            android:text="@string/app_title"
+            android:textAppearance="@style/title1"
+            android:textColor="@color/neutral_90" />
+    </LinearLayout>
+</layout>

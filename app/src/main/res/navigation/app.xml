@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -174,4 +174,12 @@
             android:name="com.abloom.mery.presentation.ui.leave.LeaveFragment"
             android:label="LeaveFragment" />
     </navigation>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.abloom.mery.presentation.ui.splash.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
