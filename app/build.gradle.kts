@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.googleServices)
     kotlin("kapt")
+    id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
 }
 

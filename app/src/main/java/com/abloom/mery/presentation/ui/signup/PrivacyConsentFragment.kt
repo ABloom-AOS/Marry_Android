@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.abloom.domain.user.model.Authentication
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentPrivacyConsentBinding
 import com.abloom.mery.presentation.common.base.BaseFragment
@@ -36,7 +35,7 @@ class PrivacyConsentFragment :
     }
 
     private fun handleSignUpButtonClick() {
-        viewModel.join(Authentication.Kakao("카카오 이메일", "패스워드"))
+        viewModel.join()
         findNavController().popBackStack()
     }
 }
