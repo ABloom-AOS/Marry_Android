@@ -12,7 +12,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        Log.d("IDService", "Refreshed token: $token")
+        Log.e("IDService", "Refreshed token: $token")
 
         sendRegistrationToServer(token)
     }
