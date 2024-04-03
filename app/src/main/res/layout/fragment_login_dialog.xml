@@ -19,16 +19,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="20dp"
+        android:paddingTop="28dp"
         android:paddingEnd="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/login_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toTopOf="@+id/kakao_login_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/loginText"
@@ -60,12 +61,13 @@
             android:id="@+id/kakao_login_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="28dp"
+
+            android:layout_marginBottom="12dp"
             android:background="@drawable/kakao_btn_background"
             android:onClick="@{() -> onKakaoButtonClick.invoke()}"
+            app:layout_constraintBottom_toTopOf="@+id/google_login_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_text_layout">
+            app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
                 android:id="@+id/kakao_logo_img"
@@ -100,11 +102,12 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
+            android:layout_marginBottom="43dp"
             android:background="@drawable/google_btn_background"
             android:onClick="@{() -> onGoogleButtonClick.invoke()}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kakao_login_btn">
+            app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
                 android:id="@+id/google_logo_img"
