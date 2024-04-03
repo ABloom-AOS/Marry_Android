@@ -37,6 +37,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
                 .getResult(ApiException::class.java)
             val googleToken = account.idToken.toString()
             viewModel.login(Authentication.Google(googleToken))
+            dismiss()
         }
 
     override fun onCreateView(
@@ -142,8 +143,8 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun kakaoLoginSuccess(kakaoUserEmail: String, kakaoPassword: String) {
-        context?.showToast(R.string.kakao_login_text)
         viewModel.login(Authentication.Kakao(kakaoUserEmail, kakaoPassword))
+        dismiss()
     }
 
     /* 구글 로그인 관련 코드 */
