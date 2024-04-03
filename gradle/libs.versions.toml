@@ -57,6 +57,9 @@ firebaseFirestore = "24.11.0"
 # Firebase Message 의존성 버전 (FCM)
 firebaseMessaging = "23.4.1"
 
+# Firebase Analytics 의존성 버전 (FCM)
+firebaseAnalytics = "21.6.1"
+
 [libraries]
 # 안드로이드
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -106,6 +109,7 @@ play-services-auth = { group = "com.google.android.gms", name = "play-services-a
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
