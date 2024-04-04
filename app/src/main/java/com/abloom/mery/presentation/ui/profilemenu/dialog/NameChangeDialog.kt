@@ -1,4 +1,4 @@
-package com.abloom.mery.presentation.ui.profilemenu
+package com.abloom.mery.presentation.ui.profilemenu.dialog
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.abloom.mery.databinding.DialogNameChangeBinding
 import com.abloom.mery.presentation.common.util.dp
+import com.abloom.mery.presentation.ui.profilemenu.ProfileMenuViewModel
 
 class NameChangeDialog : DialogFragment() {
 
