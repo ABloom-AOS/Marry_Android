@@ -17,9 +17,13 @@ import com.google.firebase.messaging.RemoteMessage
 class MeryFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        if (remoteMessage.data.isNotEmpty()) {
 
-            Log.e("TAG", "token 메세지 받음")
+        // 포그라운드일때만 실행 됨. 즉 포그라운드와 백그라운드일때 처리가 달라짐.
+        // 백그라운드는 그냥 앱만 켜지고, 포그라운드는 해당 지점까지는 이동 But 스택은 쌓이지 않음.
+
+        if (remoteMessage.data.isEmpty()) {
+
+            Log.e("TAG", "token 메세지 받음 , 현재 빈 데이터")
 
             val args = Bundle().apply {
                 putInt("id", 4)
@@ -27,7 +31,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
 
             val pending = NavDeepLinkBuilder(applicationContext)
                 .setGraph(R.navigation.app)
-                .setDestination(R.id.homeFragment)
+                .setDestination(R.id.profileMenuFragment)
                 .setArguments(args)
                 .createPendingIntent()
 
@@ -45,7 +49,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
 
         val notifyId = (System.currentTimeMillis() / 7).toInt()
 
-        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+        val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(body)
