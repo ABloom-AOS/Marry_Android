@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
 
     implementation(libs.hilt.android)
+    implementation(libs.firebase.auth.ktx)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.fragment)
 
@@ -92,4 +93,6 @@ dependencies {
 
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.functions)
+
 }

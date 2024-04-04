@@ -1,15 +1,16 @@
 package com.abloom.mery
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -35,18 +36,9 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
                 remoteMessage.notification?.body,
                 pending
             )
+        } else {
+
         }
-    }
-
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
-        Log.d("IDService", "Refreshed token: $token")
-
-        sendRegistrationToServer(token)
-    }
-
-    private fun sendRegistrationToServer(token: String) {
-        // 디바이스 토큰이 생성되거나 재생성 될 시 동작할 코드 작성
     }
 
     private fun sendNotification(title: String?, body: String?, pendingIntent: PendingIntent) {
@@ -64,16 +56,32 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_HIGH
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
 
         notificationManager.notify(notifyId, notificationBuilder.build())
+    }
+
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        Log.d("IDService", "Refreshed token: $token")
+        // updateFcmToken(token)
+        // 파이어베이스에 token 업로드 데이터를 직접 건드는 부분이기 때문에  주석처리 하였음.
+    }
+
+    private fun updateFcmToken(fcmToken: String) {
+        val myId = Firebase.auth.currentUser?.uid
+        if (myId != null) {
+            val userRef = Firebase.firestore.collection("users").document(myId)
+            userRef.update("fcmToken", fcmToken)
+                .addOnSuccessListener { Log.e("TAG", "FCM Token for user $myId updated") }
+                .addOnFailureListener { e ->
+                    Log.e(
+                        "TAG",
+                        "Error updating FCM Token for user $myId",
+                        e
+                    )
+                }
+        }
+
     }
 
     companion object {
