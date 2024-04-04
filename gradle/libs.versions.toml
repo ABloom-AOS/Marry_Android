@@ -54,14 +54,16 @@ googleServices = "4.4.1"
 # FireStore 의존성 버전
 firebaseFirestore = "24.11.0"
 
-# Firebase Message 의존성 버전 (FCM)
+# Firebase Message 의존성 버전
 firebaseMessaging = "23.4.1"
 
-# Firebase Analytics 의존성 버전 (FCM)
+# Firebase Analytics 의존성 버전
 firebaseAnalytics = "21.6.1"
 
-# Firebase Functions 의존성 버전 (FCM)
+# Firebase Functions 의존성 버전
 firebaseFunctions = "20.4.0"
+
+# Firebase Auth 의존성 버전
 firebaseAuthKtx = "22.3.1"
 
 [libraries]
