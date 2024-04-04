@@ -4,12 +4,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.abloom.mery.presentation.MainActivity
+import androidx.navigation.NavDeepLinkBuilder
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -17,9 +17,23 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if (remoteMessage.data.isNotEmpty()) {
+
+            Log.e("TAG", "token 메세지 받음")
+
+            val args = Bundle().apply {
+                putInt("id", 4)
+            }
+
+            val pending = NavDeepLinkBuilder(applicationContext)
+                .setGraph(R.navigation.app)
+                .setDestination(R.id.homeFragment)
+                .setArguments(args)
+                .createPendingIntent()
+
             sendNotification(
                 remoteMessage.notification?.title,
-                remoteMessage.notification?.body
+                remoteMessage.notification?.body,
+                pending
             )
         }
     }
@@ -35,20 +49,10 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
         // 디바이스 토큰이 생성되거나 재생성 될 시 동작할 코드 작성
     }
 
-    private fun sendNotification(title: String?, body: String?) {
+    private fun sendNotification(title: String?, body: String?, pendingIntent: PendingIntent) {
 
         val notifyId = (System.currentTimeMillis() / 7).toInt()
 
-        val intent = Intent(this, MainActivity::class.java).apply {
-            action = Intent.ACTION_MAIN
-            addCategory(Intent.CATEGORY_LAUNCHER)
-        }
-
-        val pendingIntent =
-            PendingIntent.getActivity(
-                this, notifyId, intent,
-                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
-            )
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
@@ -68,6 +72,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
             )
             notificationManager.createNotificationChannel(channel)
         }
+
         notificationManager.notify(notifyId, notificationBuilder.build())
     }
 
