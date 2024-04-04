@@ -17,6 +17,7 @@ import com.google.firebase.messaging.RemoteMessage
 class MeryFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
 
         // 포그라운드일때만 실행 됨. 즉 포그라운드와 백그라운드일때 처리가 달라짐.
         // 백그라운드는 그냥 앱만 켜지고, 포그라운드는 해당 지점까지는 이동 But 스택은 쌓이지 않음.
@@ -34,6 +35,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
                 .setDestination(R.id.profileMenuFragment)
                 .setArguments(args)
                 .createPendingIntent()
+
 
             sendNotification(
                 remoteMessage.notification?.title,
