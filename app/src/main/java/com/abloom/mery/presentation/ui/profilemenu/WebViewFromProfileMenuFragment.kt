@@ -1,7 +1,9 @@
 package com.abloom.mery.presentation.ui.profilemenu
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebViewClient
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.abloom.mery.R
@@ -19,7 +21,23 @@ class WebViewFromProfileMenuFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupAppBar()
+        setupWebView()
+    }
+
+    private fun setupAppBar() {
         binding.appbarWebView.title = getString(args.url.titleId)
         binding.appbarWebView.setOnNavigationClick { findNavController().popBackStack() }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun setupWebView() {
+        binding.webView.apply {
+            settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
+            webViewClient = WebViewClient()
+            loadUrl(args.url.url)
+        }
     }
 }
