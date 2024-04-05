@@ -98,7 +98,20 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
     }
 
     private fun observeLoginUser() {
-        repeatOnStarted { homeViewModel.loginUser.collect(::updateUserImage) }
+        repeatOnStarted { homeViewModel.loginUser.collect(::handleLoginUser) }
+    }
+
+    private fun handleLoginUser(uiState: UserUiState) {
+        when (uiState) {
+            UserUiState.Loading -> {}
+            is UserUiState.Login -> bindUser(uiState.user)
+            UserUiState.NotLogin -> bindUser(null)
+        }
+    }
+
+    private fun bindUser(user: User?) {
+        binding.loginUser = user
+        updateUserImage(user)
     }
 
     private fun updateUserImage(loginUser: User?) {

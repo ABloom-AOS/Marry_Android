@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.abloom.domain.qna.model.Qna
 import com.abloom.domain.qna.usecase.GetQnasUseCase
 import com.abloom.domain.user.model.Authentication
-import com.abloom.domain.user.model.User
 import com.abloom.domain.user.usecase.GetLoginUserUseCase
 import com.abloom.domain.user.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +13,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,18 +27,21 @@ class HomeViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
 ) : ViewModel() {
 
-    val loginUser: StateFlow<User?> = getLoginUserUseCase()
+    val loginUser: StateFlow<UserUiState> = getLoginUserUseCase()
+        .map { user -> UserUiState.from(user) }
         .stateIn(
-            initialValue = null,
+            initialValue = UserUiState.Loading,
             started = SharingStarted.WhileSubscribed(5_000),
             scope = viewModelScope
         )
 
-    val isLogin: StateFlow<Boolean?> = loginUser.map { it != null }.stateIn(
-        initialValue = null,
-        started = SharingStarted.WhileSubscribed(5_000),
-        scope = viewModelScope
-    )
+    val isLogin: SharedFlow<Boolean> = loginUser
+        .filter { it !is UserUiState.Loading }
+        .map { it is UserUiState.Login }
+        .shareIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed()
+        )
 
     val qnas: StateFlow<List<Qna>> = getQnasUseCase()
         .stateIn(

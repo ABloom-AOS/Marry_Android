@@ -81,6 +81,7 @@ class DefaultUserRepository @Inject constructor(
     override fun getLoginUser(): Flow<User?> = preferencesDataSource.loginUserId
         .flatMapLatest { loginUserId ->
             if (loginUserId == null) return@flatMapLatest flow { emit(null) }
+            check(userFirebaseDataSource.loginUserId == loginUserId) { "firebase의 유저 아이디와 로컬 데이터의 유저 아이디가 다릅니다." }
             userFirebaseDataSource.getUserDocumentFlow(loginUserId)
                 .map { userDocument -> userDocument?.asExternal() }
         }

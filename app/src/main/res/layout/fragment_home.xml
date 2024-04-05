@@ -10,6 +10,10 @@
             type="com.abloom.mery.presentation.ui.home.HomeViewModel" />
 
         <variable
+            name="loginUser"
+            type="com.abloom.domain.user.model.User" />
+
+        <variable
             name="onProfileMenuButtonClick"
             type="kotlin.jvm.functions.Function0" />
 
@@ -58,7 +62,7 @@
             android:layout_margin="6dp"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_all_unconnected_notifier"
-            app:is_visible="@{viewModel.loginUser != null &amp;&amp; !viewModel.loginUser.linkedWithFiance}"
+            app:is_visible="@{loginUser != null &amp;&amp; !loginUser.linkedWithFiance}"
             app:layout_constraintBottom_toBottomOf="@id/iv_home_user_icon"
             app:layout_constraintEnd_toEndOf="@id/iv_home_user_icon" />
 
