@@ -24,7 +24,6 @@ import com.abloom.mery.presentation.common.util.showToast
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -53,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         askNotificationPermission()
         logFirebaseToken()
+        backgroundPush()
     }
 
     private fun logFirebaseToken() {
@@ -126,6 +126,17 @@ class MainActivity : AppCompatActivity() {
                     window.decorView
                 ).isAppearanceLightStatusBars = false
             }
+        }
+    }
+
+    private fun backgroundPush() {
+        //TODO(백그라운 처리)
+        val bundle = intent.extras
+        var push = ""
+        var id = ""
+        bundle?.let {
+            push = it.getString("viewToOpen").toString()
+            id = it.getString("qid").toString()
         }
     }
 
