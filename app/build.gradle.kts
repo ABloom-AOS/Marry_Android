@@ -88,10 +88,6 @@ dependencies {
     implementation(libs.play.services.base)
     implementation(libs.play.services.auth)
 
-    implementation(libs.firebase.firestore)
+    implementation(platform(libs.firebase.bom))
 
-    implementation(libs.firebase.messaging)
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.functions)
-    implementation(libs.firebase.auth.ktx)
 }
