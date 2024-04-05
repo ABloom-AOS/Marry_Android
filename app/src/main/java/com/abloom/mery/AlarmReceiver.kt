@@ -14,8 +14,8 @@ class AlarmReceiver : BroadcastReceiver() {
             context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notification = NotificationCompat.Builder(context, CHANNEL_NAME)
-            .setContentTitle(R.string.push_today_question_receive.toString())
-            .setContentText(R.string.push_review_comment_search_each_mind.toString())
+            .setContentTitle( context.getString(R.string.push_today_question_receive))
+            .setContentText(context.getString(R.string.push_review_comment_search_each_mind))
             .setSmallIcon(R.drawable.ic_notification)
             .build()
 
