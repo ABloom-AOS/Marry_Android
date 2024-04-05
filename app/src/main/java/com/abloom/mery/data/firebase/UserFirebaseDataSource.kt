@@ -98,7 +98,6 @@ class UserFirebaseDataSource @Inject constructor(
             .await()
             .toObjects(UserDocument::class.java)
             .firstOrNull()
-
     }
 
     suspend fun updateFianceId(userId: String, fianceId: String?) = withContext(Dispatchers.IO) {
