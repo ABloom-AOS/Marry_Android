@@ -18,9 +18,12 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.ActivityMainBinding
 import com.abloom.mery.presentation.common.util.showToast
+import com.abloom.mery.presentation.ui.category.CategoryFragmentDirections
+import com.abloom.mery.presentation.ui.home.HomeFragmentDirections
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -131,12 +134,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun backgroundPush() {
         //TODO(백그라운 처리)
-        val bundle = intent.extras
-        var push = ""
-        var id = ""
-        bundle?.let {
-            push = it.getString("viewToOpen").toString()
-            id = it.getString("qid").toString()
+        val intent = intent
+        intent.getStringExtra("qid")?.let {
+            val questionId = it.toLong()
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToQnaFragment(questionId)
+            navController.navigate(action)
         }
     }
 
