@@ -30,6 +30,9 @@ navigation = "2.7.7"
 hilt = "2.50"
 hiltNavigation = "1.2.0"
 
+# Preferences DataStore
+preferencesDataStore = "1.0.0"
+
 # 테스트
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -78,6 +81,9 @@ androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:na
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigation" }
+
+# DataStroe
+preferences-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "preferencesDataStore" }
 
 # 테스트
 junit = { group = "junit", name = "junit", version.ref = "junit" }
