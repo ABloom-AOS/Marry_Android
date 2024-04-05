@@ -101,13 +101,15 @@ class DefaultUserRepository @Inject constructor(
             ?: return@async false
 
         val loginUserId = userFirebaseDataSource.loginUserId ?: return@async false
+        val loginUser = userFirebaseDataSource.getUserDocument(loginUserId) ?: return@async false
+        if (loginUser.fianceId != null) return@async false
 
         val loginUserLinkAsync = userFirebaseDataSource
-            .updateFianceId(loginUserId, fianceDocument.id)
+            .updateFianceId(loginUser.id, fianceDocument.id)
             .asDeferred()
 
         val fianceLinkAsync = userFirebaseDataSource
-            .updateFianceId(fianceDocument.id, loginUserId)
+            .updateFianceId(fianceDocument.id, loginUser.id)
             .asDeferred()
 
         awaitAll(loginUserLinkAsync, fianceLinkAsync)
