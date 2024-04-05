@@ -32,7 +32,6 @@ class DefaultUserRepository @Inject constructor(
     ): Boolean = externalScope.async {
         val loginUser = when (authentication) {
             is Authentication.Google -> userFirebaseDataSource.loginByGoogle(authentication.token)
-
             is Authentication.Kakao -> userFirebaseDataSource.loginByEmail(
                 email = authentication.email,
                 password = authentication.password
@@ -52,7 +51,6 @@ class DefaultUserRepository @Inject constructor(
     ) = externalScope.launch {
         val joinedUser = when (authentication) {
             is Authentication.Google -> userFirebaseDataSource.loginByGoogle(authentication.token)
-
             is Authentication.Kakao -> userFirebaseDataSource.signUpByEmail(
                 email = authentication.email,
                 password = authentication.password
@@ -99,20 +97,18 @@ class DefaultUserRepository @Inject constructor(
         val fianceDocument = userFirebaseDataSource
             .getUserDocumentByInvitationCode(fianceInvitationCode)
             ?: return@async false
-
         val loginUserId = userFirebaseDataSource.loginUserId ?: return@async false
         val loginUser = userFirebaseDataSource.getUserDocument(loginUserId) ?: return@async false
-        if (loginUser.fianceId != null) return@async false
+        if (loginUser.fianceId != null || fianceDocument.fianceId != null) return@async false
 
         val loginUserLinkAsync = userFirebaseDataSource
             .updateFianceId(loginUser.id, fianceDocument.id)
             .asDeferred()
-
         val fianceLinkAsync = userFirebaseDataSource
             .updateFianceId(fianceDocument.id, loginUser.id)
             .asDeferred()
-
         awaitAll(loginUserLinkAsync, fianceLinkAsync)
+
         return@async true
     }.await()
 
