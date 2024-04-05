@@ -5,6 +5,21 @@
 
     <data>
 
+        <import type="com.abloom.mery.presentation.ui.category.CategoryArgs" />
+
+        <import type="kotlin.Unit" />
+
+        <variable
+            name="viewModel"
+            type="com.abloom.mery.presentation.ui.category.CategoryViewModel" />
+
+        <variable
+            name="onUpButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onLoginButtonClick"
+            type="kotlin.jvm.functions.Function0" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +35,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_up_button" />
+            app:navigationIcon="@drawable/ic_up_button"
+            app:onNavigationClick="@{() -> onUpButtonClick.invoke()}" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tb"
@@ -135,6 +151,7 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,6 +163,7 @@
             android:layout_height="0dp"
             android:background="@drawable/category_gradient"
             android:clickable="true"
+            app:is_visible="@{!viewModel.isLogin}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -171,6 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="67dp"
+                android:onClick="@{() -> onLoginButtonClick.invoke()}"
                 android:paddingVertical="4dp"
                 android:text="@string/category_login_tag"
                 android:textColor="@color/white"
