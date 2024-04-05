@@ -26,12 +26,10 @@ class QuestionFirebaseDataSource @Inject constructor(
             }.flatMapLatest { ids -> getQuestionsByIds(ids) }
             .flowOn(Dispatchers.IO)
 
-    private fun getQuestionsByIds(ids: List<Long>): Flow<List<QuestionDocument>> =
-        db.collection(COLLECTION_QUESTIONS)
-            .whereNotIn(QuestionDocument.KEY_QUESTION_ID, ids)
-            .snapshots()
-            .map { snapshot -> snapshot.toObjects(QuestionDocument::class.java) }
-            .flowOn(Dispatchers.IO)
+    private fun getQuestionsByIds(
+        ids: List<Long>
+    ): Flow<List<QuestionDocument>> = getQuestions()
+        .map { questions -> questions.filter { it.id in ids } }
 
     fun getQuestions(): Flow<List<QuestionDocument>> = db.collection(COLLECTION_QUESTIONS)
         .snapshots()
