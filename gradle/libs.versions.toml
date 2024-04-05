@@ -51,20 +51,8 @@ playServicesBase = "18.3.0"
 playServicesAuth = "21.0.0"
 googleServices = "4.4.1"
 
-# FireStore 의존성 버전
-firebaseFirestore = "24.11.0"
-
-# Firebase Message 의존성 버전 (FCM)
-firebaseMessaging = "23.4.1"
-
-# Firebase Analytics 의존성 버전 (FCM)
-firebaseAnalytics = "21.6.1"
-
-# Firebase Functions 의존성 버전
-firebaseFunctions = "20.4.0"
-
-# Firebase Auth 의존성 버전
-firebaseAuthKtx = "22.3.1"
+# Firebase Bom 의존성 버전
+firebaseBom = "32.8.0"
 
 [libraries]
 # 안드로이드
@@ -115,11 +103,12 @@ play-services-auth = { group = "com.google.android.gms", name = "play-services-a
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
 
 # firebase
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
-firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
-firebase-functions = { group = "com.google.firebase", name = "firebase-functions", version.ref = "firebaseFunctions" }
-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore"}
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging"}
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics"}
+firebase-functions = { group = "com.google.firebase", name = "firebase-functions"}
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
