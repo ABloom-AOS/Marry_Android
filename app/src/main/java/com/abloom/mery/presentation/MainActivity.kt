@@ -1,10 +1,16 @@
 package com.abloom.mery.presentation
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
@@ -12,9 +18,13 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.ActivityMainBinding
 import com.abloom.mery.presentation.common.util.showToast
+import com.abloom.mery.presentation.ui.category.CategoryFragmentDirections
+import com.abloom.mery.presentation.ui.home.HomeFragmentDirections
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,6 +52,38 @@ class MainActivity : AppCompatActivity() {
         setupWindowInsetsListener()
         setupBackPressedDispatcher()
         setupDestinationChangedListener()
+
+        askNotificationPermission()
+        logFirebaseToken()
+        backgroundPush()
+    }
+
+    private fun logFirebaseToken() {
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener {
+            Log.e("TAG", "Token $it")
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+        } else {
+        }
+    }
+
+    private fun askNotificationPermission() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
     }
 
     private fun setupWindowInsetsListener() {
@@ -87,6 +129,17 @@ class MainActivity : AppCompatActivity() {
                     window.decorView
                 ).isAppearanceLightStatusBars = false
             }
+        }
+    }
+
+    private fun backgroundPush() {
+        //TODO(백그라운 처리)
+        val intent = intent
+        intent.getStringExtra("qid")?.let {
+            val questionId = it.toLong()
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToQnaFragment(questionId)
+            navController.navigate(action)
         }
     }
 
