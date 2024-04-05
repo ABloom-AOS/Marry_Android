@@ -6,8 +6,8 @@ import com.abloom.domain.user.model.User
 import com.abloom.domain.user.repository.UserRepository
 import com.abloom.mery.data.datastore.MeryPreferencesDataSource
 import com.abloom.mery.data.di.ApplicationScope
-import com.abloom.mery.data.firebase.user.UserDocument
-import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
+import com.abloom.mery.data.firebase.UserDocument
+import com.abloom.mery.data.firebase.UserFirebaseDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -24,24 +24,21 @@ import javax.inject.Inject
 class DefaultUserRepository @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope,
     private val preferencesDataSource: MeryPreferencesDataSource,
-    private val firebaseDataSource: UserFirebaseDataSource
+    private val userFirebaseDataSource: UserFirebaseDataSource
 ) : UserRepository {
-
-    override val loginUserId: String?
-        get() = firebaseDataSource.loginUserId
 
     override suspend fun login(
         authentication: Authentication
     ): Boolean = externalScope.async {
         val loginUser = when (authentication) {
-            is Authentication.Google -> firebaseDataSource.loginByGoogle(authentication.token)
-            is Authentication.Kakao -> firebaseDataSource.loginByEmail(
+            is Authentication.Google -> userFirebaseDataSource.loginByGoogle(authentication.token)
+            is Authentication.Kakao -> userFirebaseDataSource.loginByEmail(
                 email = authentication.email,
                 password = authentication.password
             )
         } ?: return@async false
 
-        val isJoined = firebaseDataSource.isExist(loginUser.uid)
+        val isJoined = userFirebaseDataSource.isExist(loginUser.uid)
         if (isJoined) preferencesDataSource.updateLoginUserId(loginUser.uid)
         return@async isJoined
     }.await()
@@ -53,8 +50,8 @@ class DefaultUserRepository @Inject constructor(
         name: String
     ) = externalScope.launch {
         val joinedUser = when (authentication) {
-            is Authentication.Google -> firebaseDataSource.loginByGoogle(authentication.token)
-            is Authentication.Kakao -> firebaseDataSource.signUpByEmail(
+            is Authentication.Google -> userFirebaseDataSource.loginByGoogle(authentication.token)
+            is Authentication.Kakao -> userFirebaseDataSource.signUpByEmail(
                 email = authentication.email,
                 password = authentication.password
             )
@@ -68,7 +65,7 @@ class DefaultUserRepository @Inject constructor(
             invitationCode = createInvitationCodeFrom(joinedUser.uid)
         )
 
-        firebaseDataSource.createUserDocument(userDocument)
+        userFirebaseDataSource.createUserDocument(userDocument)
         preferencesDataSource.updateLoginUserId(joinedUser.uid)
     }.join()
 
@@ -81,8 +78,8 @@ class DefaultUserRepository @Inject constructor(
     override fun getLoginUser(): Flow<User?> = preferencesDataSource.loginUserId
         .flatMapLatest { loginUserId ->
             if (loginUserId == null) return@flatMapLatest flow { emit(null) }
-            check(firebaseDataSource.loginUserId == loginUserId) { "firebase의 유저 아이디와 로컬 데이터의 유저 아이디가 다릅니다." }
-            firebaseDataSource.getUserDocumentFlow(loginUserId)
+            check(userFirebaseDataSource.loginUserId == loginUserId) { "firebase의 유저 아이디와 로컬 데이터의 유저 아이디가 다릅니다." }
+            userFirebaseDataSource.getUserDocumentFlow(loginUserId)
                 .map { userDocument -> userDocument?.asExternal() }
         }
 
@@ -90,24 +87,24 @@ class DefaultUserRepository @Inject constructor(
     override fun getFiance(): Flow<User?> = getLoginUser().flatMapLatest { loginUser ->
         if (loginUser == null) return@flatMapLatest flow { emit(null) }
         val fianceId = loginUser.fianceId ?: return@flatMapLatest flow { emit(null) }
-        firebaseDataSource.getUserDocumentFlow(fianceId)
+        userFirebaseDataSource.getUserDocumentFlow(fianceId)
             .map { userDocument -> userDocument?.asExternal() }
     }
 
     override suspend fun connectWithFiance(
         fianceInvitationCode: String
     ): Boolean = externalScope.async {
-        val fianceDocument = firebaseDataSource
+        val fianceDocument = userFirebaseDataSource
             .getUserDocumentByInvitationCode(fianceInvitationCode)
             ?: return@async false
-        val loginUserId = firebaseDataSource.loginUserId ?: return@async false
-        val loginUser = firebaseDataSource.getUserDocument(loginUserId) ?: return@async false
+        val loginUserId = userFirebaseDataSource.loginUserId ?: return@async false
+        val loginUser = userFirebaseDataSource.getUserDocument(loginUserId) ?: return@async false
         if (loginUser.fianceId != null || fianceDocument.fianceId != null) return@async false
 
-        val loginUserLinkAsync = firebaseDataSource
+        val loginUserLinkAsync = userFirebaseDataSource
             .updateFianceId(loginUser.id, fianceDocument.id)
             .asDeferred()
-        val fianceLinkAsync = firebaseDataSource
+        val fianceLinkAsync = userFirebaseDataSource
             .updateFianceId(fianceDocument.id, loginUser.id)
             .asDeferred()
         awaitAll(loginUserLinkAsync, fianceLinkAsync)
@@ -116,27 +113,29 @@ class DefaultUserRepository @Inject constructor(
     }.await()
 
     override suspend fun changeLoginUserName(name: String) = externalScope.launch {
-        val loginUserId = firebaseDataSource.loginUserId ?: return@launch
-        firebaseDataSource.updateName(loginUserId, name)
+        val loginUserId = userFirebaseDataSource.loginUserId ?: return@launch
+        userFirebaseDataSource.updateName(loginUserId, name)
     }.join()
 
     override suspend fun changeLoginUserMarriageDate(
         marriageDate: LocalDate
     ) = externalScope.launch {
-        val loginUserId = firebaseDataSource.loginUserId ?: return@launch
-        firebaseDataSource.updateMarriageDate(loginUserId, marriageDate)
+        val loginUserId = userFirebaseDataSource.loginUserId ?: return@launch
+        userFirebaseDataSource.updateMarriageDate(loginUserId, marriageDate)
     }.join()
 
     override suspend fun logout() = externalScope.launch {
         preferencesDataSource.removeLoginUserId()
-        firebaseDataSource.signOut()
+        userFirebaseDataSource.signOut()
     }.join()
 
     override suspend fun leave() = externalScope.launch {
-        val loginUserId = firebaseDataSource.loginUserId ?: return@launch
-        val loginUser = firebaseDataSource.getUserDocument(loginUserId) ?: return@launch
-        if (loginUser.fianceId != null) firebaseDataSource.updateFianceId(loginUser.fianceId, null)
-        firebaseDataSource.delete(loginUserId)
+        val loginUserId = userFirebaseDataSource.loginUserId ?: return@launch
+        val loginUser = userFirebaseDataSource.getUserDocument(loginUserId) ?: return@launch
+        if (loginUser.fianceId != null) {
+            userFirebaseDataSource.updateFianceId(loginUser.fianceId, null)
+        }
+        userFirebaseDataSource.delete(loginUserId)
         preferencesDataSource.removeLoginUserId()
     }.join()
 
