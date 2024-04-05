@@ -1,12 +1,10 @@
 package com.abloom.mery.data.firebase
 
-import com.abloom.mery.data.di.ApplicationScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.snapshots
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -19,7 +17,6 @@ import javax.inject.Singleton
 
 @Singleton
 class UserFirebaseDataSource @Inject constructor(
-    @ApplicationScope private val externalScope: CoroutineScope,
     private val auth: FirebaseAuth,
     private val db: FirebaseFirestore
 ) {
@@ -74,11 +71,13 @@ class UserFirebaseDataSource @Inject constructor(
             .set(userDocument)
     }
 
-    suspend fun getUserDocument(userId: String): UserDocument? = db.collection(COLLECTIONS_USER)
-        .document(userId)
-        .get()
-        .await()
-        .toObject(UserDocument::class.java)
+    suspend fun getUserDocument(userId: String): UserDocument? = withContext(Dispatchers.IO) {
+        db.collection(COLLECTIONS_USER)
+            .document(userId)
+            .get()
+            .await()
+            .toObject(UserDocument::class.java)
+    }
 
     fun getUserDocumentFlow(userId: String): Flow<UserDocument?> =
         db.collection(COLLECTIONS_USER)
@@ -90,13 +89,17 @@ class UserFirebaseDataSource @Inject constructor(
             }
             .flowOn(Dispatchers.IO)
 
-    suspend fun getUserDocumentByInvitationCode(invitationCode: String): UserDocument? =
+    suspend fun getUserDocumentByInvitationCode(
+        invitationCode: String
+    ): UserDocument? = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .whereEqualTo(UserDocument.KEY_INVITATION_CODE, invitationCode)
             .get()
             .await()
             .toObjects(UserDocument::class.java)
             .firstOrNull()
+
+    }
 
     suspend fun updateFianceId(userId: String, fianceId: String?) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)

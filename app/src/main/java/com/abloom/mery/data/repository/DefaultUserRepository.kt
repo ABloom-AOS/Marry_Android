@@ -9,7 +9,6 @@ import com.abloom.mery.data.di.ApplicationScope
 import com.abloom.mery.data.firebase.UserDocument
 import com.abloom.mery.data.firebase.UserFirebaseDataSource
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -122,7 +121,7 @@ class DefaultUserRepository @Inject constructor(
 
     override suspend fun changeLoginUserMarriageDate(
         marriageDate: LocalDate
-    ) = externalScope.launch(Dispatchers.IO) {
+    ) = externalScope.launch {
         val loginUserId = userFirebaseDataSource.loginUserId ?: return@launch
         userFirebaseDataSource.updateMarriageDate(loginUserId, marriageDate)
     }.join()
@@ -132,7 +131,7 @@ class DefaultUserRepository @Inject constructor(
         userFirebaseDataSource.signOut()
     }.join()
 
-    override suspend fun leave() = externalScope.launch(Dispatchers.IO) {
+    override suspend fun leave() = externalScope.launch {
         val loginUserId = userFirebaseDataSource.loginUserId ?: return@launch
         val loginUser = userFirebaseDataSource.getUserDocument(loginUserId) ?: return@launch
         if (loginUser.fianceId != null) {
