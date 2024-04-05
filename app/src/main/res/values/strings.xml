@@ -187,4 +187,6 @@
     <string name="home_qna_info_tag_need_response">반응해주세요 ></string>
     <string name="home_qna_info_tag_complete">문답이 완성됐어요</string>
 
+    <string name="push_today_question_receive">오늘의 추천 질문이 도착했어요</string>
+    <string name="push_review_comment_search_each_mind">답변을 남기고 서로의 생각을 알아보세요 ✏️</string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,7 +21,9 @@ import androidx.navigation.fragment.NavHostFragment
 import com.abloom.mery.R
 import com.abloom.mery.databinding.ActivityMainBinding
 import com.abloom.mery.presentation.common.util.showToast
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -49,6 +52,13 @@ class MainActivity : AppCompatActivity() {
         setupDestinationChangedListener()
 
         askNotificationPermission()
+        logFirebaseToken()
+    }
+
+    private fun logFirebaseToken() {
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener {
+            Log.e("TAG", "Token $it")
+        }
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
