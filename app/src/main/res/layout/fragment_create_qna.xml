@@ -186,7 +186,7 @@
                         android:layout_marginTop="20dp"
                         android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.CHILD)}"
                         android:src="@drawable/createqna_children"
-                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.CHILDREN)}"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.CHILD)}"
                         app:layout_constraintBottom_toTopOf="@+id/iv_health"
                         app:layout_constraintEnd_toStartOf="@+id/iv_family"
                         app:layout_constraintStart_toEndOf="@+id/iv_life"

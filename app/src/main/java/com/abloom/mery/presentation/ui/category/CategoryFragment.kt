@@ -1,6 +1,7 @@
 package com.abloom.mery.presentation.ui.category
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -73,6 +74,6 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     }
 
     private fun observeQuestions() {
-        repeatOnStarted { categoryViewModel.currentQuestions.collect(questionAdapter::submitList) }
+        repeatOnStarted { categoryViewModel.questions.collect(questionAdapter::submitList) }
     }
 }
