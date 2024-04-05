@@ -6,9 +6,11 @@ import com.abloom.domain.question.model.Question
 import com.abloom.domain.question.usecase.GetTodayRecommendationQuestionUseCase
 import com.abloom.domain.user.usecase.GetLoginUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -25,10 +27,10 @@ class CreateQnaViewModel @Inject constructor(
             scope = viewModelScope
         )
 
-    val isLogin: StateFlow<Boolean?> = getLoginUserUseCase().map { it != null }
+    val isLogin: StateFlow<Boolean> = getLoginUserUseCase().map { it != null }
         .stateIn(
-            initialValue = null,
-            started = SharingStarted.WhileSubscribed(5_000),
-            scope = viewModelScope
+            initialValue = false,
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed()
         )
 }

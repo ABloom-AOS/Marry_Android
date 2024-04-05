@@ -5,13 +5,25 @@
 
     <data>
 
+        <import type="com.abloom.mery.presentation.ui.category.CategoryArgs" />
+
+        <import type="kotlin.Unit" />
+
         <variable
             name="viewModel"
             type="com.abloom.mery.presentation.ui.createqna.CreateQnaViewModel" />
 
         <variable
-            name="goWriteAnswerOnClick"
+            name="onCancelClick"
             type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onTodayQuestionClick"
+            type="kotlin.jvm.functions.Function1&lt;Long, Unit>" />
+
+        <variable
+            name="onCategoryClick"
+            type="kotlin.jvm.functions.Function1&lt;CategoryArgs, Unit>" />
     </data>
 
 
@@ -26,6 +38,7 @@
             android:id="@+id/appbar_create_qna"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:onNavigationClick="@{() -> onCancelClick.invoke()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,6 +59,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="20dp"
+                    android:onClick="@{() -> onTodayQuestionClick.invoke(viewModel.todayRecommendationQuestion.id)}"
                     android:background="@drawable/bg_shape_purple"
                     android:paddingStart="15dp"
                     android:paddingTop="14dp"
@@ -117,6 +131,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/createqna_economy"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.FINANCE)}"
                         app:layout_constraintBottom_toBottomOf="@id/iv_communication"
                         app:layout_constraintEnd_toStartOf="@+id/iv_communication"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -128,6 +143,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/createqna_communication"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.COMMUNICATION)}"
                         app:layout_constraintBottom_toTopOf="@+id/iv_children"
                         app:layout_constraintEnd_toStartOf="@+id/iv_values"
                         app:layout_constraintStart_toEndOf="@+id/iv_economy"
@@ -139,6 +155,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/createqna_values"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.VALUES)}"
                         app:layout_constraintBottom_toBottomOf="@id/iv_communication"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_communication"
@@ -149,6 +166,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/createqna_life"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.LIFESTYLE)}"
                         app:layout_constraintBottom_toBottomOf="@id/iv_children"
                         app:layout_constraintEnd_toStartOf="@+id/iv_children"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -161,6 +179,7 @@
                         android:layout_height="100dp"
                         android:layout_marginTop="20dp"
                         android:src="@drawable/createqna_children"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.CHILDREN)}"
                         app:layout_constraintBottom_toTopOf="@+id/iv_health"
                         app:layout_constraintEnd_toStartOf="@+id/iv_family"
                         app:layout_constraintStart_toEndOf="@+id/iv_life"
@@ -171,6 +190,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/createqna_family"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.FAMILY)}"
                         app:layout_constraintBottom_toBottomOf="@id/iv_children"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_children"
@@ -181,6 +201,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/createqna_marycouple"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.SEX)}"
                         app:layout_constraintBottom_toBottomOf="@id/iv_health"
                         app:layout_constraintEnd_toStartOf="@+id/iv_health"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -193,6 +214,7 @@
                         android:layout_height="100dp"
                         android:layout_marginTop="20dp"
                         android:src="@drawable/createqna_health"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.HEALTH)}"
                         app:layout_constraintBottom_toTopOf="@+id/iv_present"
                         app:layout_constraintEnd_toStartOf="@+id/iv_wedding"
                         app:layout_constraintStart_toEndOf="@+id/iv_married"
@@ -203,6 +225,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/createqna_wedding"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.WEDDING)}"
                         app:layout_constraintBottom_toBottomOf="@id/iv_health"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_health"
@@ -213,6 +236,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/createqna_future"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.FUTURE)}"
                         app:layout_constraintBottom_toBottomOf="@id/iv_present"
                         app:layout_constraintEnd_toStartOf="@+id/iv_present"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -225,6 +249,7 @@
                         android:layout_height="100dp"
                         android:layout_marginTop="20dp"
                         android:src="@drawable/createqna_present"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.PRESENT)}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/iv_past"
                         app:layout_constraintStart_toEndOf="@+id/iv_future"
@@ -235,6 +260,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/createqna_past"
+                        android:onClick="@{() -> onCategoryClick.invoke(CategoryArgs.PAST)}"
                         app:layout_constraintBottom_toBottomOf="@id/iv_present"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_present"
@@ -242,10 +268,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </ScrollView>
-
     </LinearLayout>
 </layout>
 
