@@ -11,15 +11,16 @@ import com.abloom.domain.user.model.User
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentHomeBinding
 import com.abloom.mery.presentation.MainViewModel
-import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.ui.home.qnasrecyclerview.QnaAdapter
+import com.abloom.mery.presentation.ui.signup.asArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
@@ -39,6 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         setupDataBinding()
 
         observeMainEvent()
+        observeHomeEvent()
         observeQnas()
         observeLoginUser()
     }
@@ -73,6 +75,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun showLoginDialog() {
         val bottomSheetFragment = LoginDialogFragment()
         bottomSheetFragment.show(childFragmentManager, LoginDialogFragment().tag)
+    }
+
+    private fun observeHomeEvent() {
+        repeatOnStarted {
+            homeViewModel.event.collect { event ->
+                when (event) {
+                    is HomeEvent.LoginFail -> handleLoginFail(event)
+                }
+            }
+        }
+    }
+
+    private fun handleLoginFail(event: HomeEvent.LoginFail) {
+        findNavController().navigateSafely(
+            HomeFragmentDirections.actionHomeFragmentToSignUpFragment(event.authentication.asArgs())
+        )
     }
 
     private fun observeQnas() {

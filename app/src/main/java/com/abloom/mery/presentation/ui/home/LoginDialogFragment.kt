@@ -6,14 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.abloom.domain.user.model.Authentication
 import com.abloom.mery.BuildConfig
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentLoginDialogBinding
-import com.abloom.mery.presentation.common.util.repeatOnStarted
 import com.abloom.mery.presentation.common.util.showToast
-import com.abloom.mery.presentation.ui.signup.asArgs
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -28,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentLoginDialogBinding
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     private val googleSignInClient: GoogleSignInClient by lazy { getGoogleClient() }
     private val googleAuthLauncher =
@@ -53,30 +50,12 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initBinding()
-        observeLoginFail()
     }
 
     private fun initBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.onKakaoButtonClick = ::checkUserKakaoApiClient
         binding.onGoogleButtonClick = ::requestGoogleLogin
-    }
-
-    private fun observeLoginFail() {
-        repeatOnStarted {
-            viewModel.event.collect { event ->
-                when (event) {
-                    is LoginEvent.LoginFail -> handleLoginFail(event)
-                }
-                dismiss()
-            }
-        }
-    }
-
-    private fun handleLoginFail(event: LoginEvent.LoginFail) {
-        requireParentFragment().findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToSignUpFragment(event.authentication.asArgs())
-        )
     }
 
     /* 카카오 로그인 관련 코드 */
