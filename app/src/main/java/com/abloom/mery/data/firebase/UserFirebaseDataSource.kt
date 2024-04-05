@@ -13,9 +13,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class UserFirebaseDataSource @Inject constructor(
     private val auth: FirebaseAuth,
     private val db: FirebaseFirestore
