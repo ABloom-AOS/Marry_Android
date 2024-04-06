@@ -13,7 +13,7 @@ class GetTodayRecommendationQuestionUseCase @Inject constructor(
     private val qnaRepository: ProspectiveCoupleQnaRepository
 ) {
 
-    operator fun invoke(): Flow<Question> =
+    operator fun invoke(): Flow<Question?> =
         questionRepository.getTodayRecommendationQuestion().onEmpty {
             questionRepository.addTodayRecommendationQuestionByRandom()
         }
