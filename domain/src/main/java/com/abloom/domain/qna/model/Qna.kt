@@ -10,7 +10,7 @@ sealed class Qna : Comparable<Qna> {
     abstract val createdAt: LocalDateTime
     abstract val loginUser: User
 
-    override fun compareTo(other: Qna): Int = -createdAt.compareTo(other.createdAt)
+    override fun compareTo(other: Qna): Int = createdAt.compareTo(other.createdAt)
 
     companion object {
 
