@@ -19,8 +19,8 @@
         android:id="@+id/questionItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> onQuestionClick.invoke(question.id)}"
-        android:background="@drawable/categoryitem_border">
+        android:background="@drawable/categoryitem_border"
+        android:onClick="@{() -> onQuestionClick.invoke(question.id)}">
 
         <TextView
             android:id="@+id/tv"

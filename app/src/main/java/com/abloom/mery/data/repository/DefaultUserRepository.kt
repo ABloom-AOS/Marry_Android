@@ -6,8 +6,8 @@ import com.abloom.domain.user.model.User
 import com.abloom.domain.user.repository.UserRepository
 import com.abloom.mery.data.datastore.MeryPreferencesDataSource
 import com.abloom.mery.data.di.ApplicationScope
-import com.abloom.mery.data.firebase.UserDocument
-import com.abloom.mery.data.firebase.UserFirebaseDataSource
+import com.abloom.mery.data.firebase.user.UserDocument
+import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -26,6 +26,9 @@ class DefaultUserRepository @Inject constructor(
     private val preferencesDataSource: MeryPreferencesDataSource,
     private val firebaseDataSource: UserFirebaseDataSource
 ) : UserRepository {
+
+    override val loginUserId: String?
+        get() = firebaseDataSource.loginUserId
 
     override suspend fun login(
         authentication: Authentication

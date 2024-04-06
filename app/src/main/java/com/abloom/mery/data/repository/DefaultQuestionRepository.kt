@@ -5,9 +5,9 @@ import com.abloom.domain.question.repository.QuestionRepository
 import com.abloom.domain.user.repository.UserRepository
 import com.abloom.mery.data.database.RecommendationQuestionDao
 import com.abloom.mery.data.database.RecommendationQuestionEntity
-import com.abloom.mery.data.firebase.QuestionDocument
-import com.abloom.mery.data.firebase.QuestionFirebaseDataSource
-import com.abloom.mery.data.firebase.asExternal
+import com.abloom.mery.data.firebase.question.QuestionDocument
+import com.abloom.mery.data.firebase.question.QuestionFirebaseDataSource
+import com.abloom.mery.data.firebase.question.asExternal
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
