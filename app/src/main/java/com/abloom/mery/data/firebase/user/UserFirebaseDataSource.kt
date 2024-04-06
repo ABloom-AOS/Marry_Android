@@ -1,5 +1,6 @@
-package com.abloom.mery.data.firebase
+package com.abloom.mery.data.firebase.user
 
+import com.abloom.mery.data.firebase.toTimestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider

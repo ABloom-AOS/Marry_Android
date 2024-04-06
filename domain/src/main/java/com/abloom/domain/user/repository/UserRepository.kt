@@ -8,6 +8,8 @@ import java.time.LocalDate
 
 interface UserRepository {
 
+    val loginUserId: String?
+
     /**
      * @return 가입하지 않은 회원일 경우 false 반환
      */

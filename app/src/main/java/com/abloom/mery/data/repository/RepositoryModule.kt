@@ -19,5 +19,5 @@ abstract class RepositoryModule {
     abstract fun bindsQuestionRepository(questionRepository: DefaultQuestionRepository): QuestionRepository
 
     @Binds
-    abstract fun bindsQnaRepository(qnaRepository: FakeQnaRepository): ProspectiveCoupleQnaRepository
+    abstract fun bindsQnaRepository(qnaRepository: DefaultQnaRepository): ProspectiveCoupleQnaRepository
 }

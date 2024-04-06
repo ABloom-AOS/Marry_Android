@@ -1,4 +1,4 @@
-package com.abloom.mery.data.firebase
+package com.abloom.mery.data.firebase.question
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.snapshots

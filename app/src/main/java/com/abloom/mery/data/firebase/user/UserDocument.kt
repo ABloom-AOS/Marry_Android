@@ -1,12 +1,12 @@
-package com.abloom.mery.data.firebase
+package com.abloom.mery.data.firebase.user
 
 import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
+import com.abloom.mery.data.firebase.toLocalDate
+import com.abloom.mery.data.firebase.toTimestamp
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.PropertyName
 import java.time.LocalDate
-import java.time.ZoneId
-import java.util.Date
 
 data class UserDocument(
     @JvmField @PropertyName(KEY_USER_ID) val id: String = "",
@@ -49,15 +49,4 @@ data class UserDocument(
             invitationCode = invitationCode
         )
     }
-}
-
-fun Timestamp.toLocalDate(): LocalDate = toDate().toInstant()
-    .atZone(ZoneId.systemDefault())
-    .toLocalDate()
-
-fun LocalDate.toTimestamp(): Timestamp {
-    val zoneId = ZoneId.systemDefault()
-    val instant = atStartOfDay(zoneId).toInstant()
-    val date = Date.from(instant)
-    return Timestamp(date)
 }

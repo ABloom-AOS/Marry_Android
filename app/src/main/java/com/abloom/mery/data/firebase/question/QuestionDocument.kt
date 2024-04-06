@@ -1,4 +1,4 @@
-package com.abloom.mery.data.firebase
+package com.abloom.mery.data.firebase.question
 
 import com.abloom.domain.question.model.Category
 import com.abloom.domain.question.model.Question
