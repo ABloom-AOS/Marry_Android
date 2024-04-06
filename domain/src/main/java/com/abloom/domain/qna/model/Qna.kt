@@ -4,11 +4,13 @@ import com.abloom.domain.question.model.Question
 import com.abloom.domain.user.model.User
 import java.time.LocalDateTime
 
-sealed interface Qna {
+sealed class Qna : Comparable<Qna> {
 
-    val question: Question
-    val createdAt: LocalDateTime
-    val loginUser: User
+    abstract val question: Question
+    abstract val createdAt: LocalDateTime
+    abstract val loginUser: User
+
+    override fun compareTo(other: Qna): Int = createdAt.compareTo(other.createdAt)
 
     companion object {
 

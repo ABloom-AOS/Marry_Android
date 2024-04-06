@@ -43,6 +43,7 @@ class DefaultQnaRepository @Inject constructor(
         if (fiance == null) return@combine getQnasFlow(loginUser, questions)
         getQnasFlow(loginUser, fiance, questions)
     }.flatMapLatest { it }
+        .map { it.sorted() }
 
     private fun getQnasFlow(
         loginUser: User,
