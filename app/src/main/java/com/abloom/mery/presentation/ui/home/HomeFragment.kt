@@ -12,7 +12,7 @@ import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentHomeBinding
 import com.abloom.mery.presentation.MainViewModel
 import com.abloom.mery.presentation.common.base.BaseFragment
-import com.abloom.mery.presentation.common.util.repeatOnStarted
+import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.ui.home.qnasrecyclerview.QnaAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.abloom.mery.databinding.DialogNameChangeBinding
-import com.abloom.mery.presentation.common.util.dp
+import com.abloom.mery.presentation.common.extension.dp
 import com.abloom.mery.presentation.ui.profilemenu.ProfileMenuViewModel
 
 class NameChangeDialog : DialogFragment() {

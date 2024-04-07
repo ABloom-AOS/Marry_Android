@@ -1,4 +1,4 @@
-package com.abloom.mery.presentation.common.util
+package com.abloom.mery.presentation.common.extension
 
 import android.content.res.Resources
 import kotlin.math.roundToInt

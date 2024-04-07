@@ -3,7 +3,7 @@ package com.abloom.mery.presentation.ui.connect
 import android.content.ActivityNotFoundException
 import android.content.Context
 import com.abloom.mery.R
-import com.abloom.mery.presentation.common.util.showToast
+import com.abloom.mery.presentation.common.extension.showToast
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient

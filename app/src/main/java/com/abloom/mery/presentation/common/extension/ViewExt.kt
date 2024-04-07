@@ -1,4 +1,4 @@
-package com.abloom.mery.presentation.common.util
+package com.abloom.mery.presentation.common.extension
 
 import android.view.View
 import android.view.inputmethod.InputMethodManager

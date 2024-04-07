@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import com.abloom.mery.R
 import com.abloom.mery.databinding.DialogInfoBinding
-import com.abloom.mery.presentation.common.util.dp
+import com.abloom.mery.presentation.common.extension.dp
 
 class InfoDialog(
     context: Context,
