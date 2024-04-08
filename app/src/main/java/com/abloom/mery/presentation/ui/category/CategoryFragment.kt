@@ -56,10 +56,10 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     }
 
     private fun setupCategoryTab() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            binding.tb.setScrollPosition(categoryViewModel.category.value.ordinal, 0f, false)
+        }
         binding.tb.onTabSelected { tab ->
-            lifecycleScope.launch(Dispatchers.Main) {
-                binding.tb.setScrollPosition(tab.position, 0f, false)
-            }
             categoryViewModel.selectCategory(CategoryArgs.entries[tab.position])
         }
     }
