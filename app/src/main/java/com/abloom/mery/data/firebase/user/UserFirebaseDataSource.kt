@@ -42,9 +42,9 @@ class UserFirebaseDataSource @Inject constructor(
     ): FirebaseUser? = withContext(Dispatchers.IO) {
         runCatching {
             auth.signInWithEmailAndPassword(email, password)
+                .await()
+                .user
         }.getOrNull()
-            ?.await()
-            ?.user
     }
 
     suspend fun signUpByEmail(
