@@ -2,72 +2,77 @@
 
 <resources>
 
-    <style name="mery_text">
+    <style name="meryText">
         <item name="android:fontFamily">@font/nanum_square_neo</item>
     </style>
 
-    <style name="large_title" parent="mery_text">
+    <style name="largeTitle" parent="meryText">
         <item name="android:textSize">34sp</item>
         <item name="lineHeight">54.4sp</item>
     </style>
 
-    <style name="title1" parent="mery_text">
+    <style name="title1" parent="meryText">
         <item name="android:textSize">28sp</item>
         <item name="lineHeight">44.8sp</item>
     </style>
 
-    <style name="title2" parent="mery_text">
+    <style name="title2" parent="meryText">
         <item name="android:textSize">22sp</item>
         <item name="lineHeight">35.2sp</item>
     </style>
 
-    <style name="title3" parent="mery_text">
+    <style name="title3" parent="meryText">
         <item name="android:textSize">20sp</item>
         <item name="lineHeight">32sp</item>
     </style>
 
-    <style name="title4" parent="mery_text">
+    <style name="title4" parent="meryText">
         <item name="android:textSize">18sp</item>
         <item name="lineHeight">28.8sp</item>
     </style>
 
-    <style name="headline" parent="mery_text">
+    <style name="headline" parent="meryText">
         <item name="android:textSize">17sp</item>
         <item name="lineHeight">27.2sp</item>
     </style>
 
-    <style name="body" parent="mery_text">
+    <style name="body" parent="meryText">
         <item name="android:textSize">17sp</item>
         <item name="lineHeight">27.2sp</item>
     </style>
 
-    <style name="callout" parent="mery_text">
+    <style name="callout" parent="meryText">
         <item name="android:textSize">16sp</item>
         <item name="lineHeight">25.6sp</item>
     </style>
 
-    <style name="subheadline" parent="mery_text">
+    <style name="subheadline" parent="meryText">
         <item name="android:textSize">15sp</item>
         <item name="lineHeight">24sp</item>
     </style>
 
-    <style name="subheadline_detail" parent="mery_text">
+    <style name="subheadline_detail" parent="meryText">
         <item name="android:textSize">14sp</item>
         <item name="lineHeight">22.4sp</item>
     </style>
 
-    <style name="footnote" parent="mery_text">
+    <style name="footnote" parent="meryText">
         <item name="android:textSize">13sp</item>
         <item name="lineHeight">20.8sp</item>
     </style>
 
-    <style name="caption1" parent="mery_text">
+    <style name="caption1" parent="meryText">
         <item name="android:textSize">12sp</item>
         <item name="lineHeight">19.2sp</item>
     </style>
 
-    <style name="caption2" parent="mery_text">
+    <style name="caption2" parent="meryText">
         <item name="android:textSize">11sp</item>
         <item name="lineHeight">17.6sp</item>
+    </style>
+
+    <style name="tabItemTextStyle" parent="caption2">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/tab_item</item>
     </style>
 </resources>

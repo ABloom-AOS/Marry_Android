@@ -41,16 +41,16 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tb"
             android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appbar_category"
             app:tabIndicator="@drawable/category_tabindicator"
+            app:tabIconTint="@color/tab_item"
             app:tabMode="scrollable"
-            app:tabRippleColor="@android:color/transparent"
-            app:tabTextAppearance="@style/caption2">
+            app:tabTextAppearance="@style/tabItemTextStyle"
+            app:tabRippleColor="@android:color/transparent">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/ti_finance"
