@@ -10,9 +10,8 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/mery_app_icon"
+        android:icon="@drawable/mery_app_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/mery_app_icon_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mery"
         tools:targetApi="31">
