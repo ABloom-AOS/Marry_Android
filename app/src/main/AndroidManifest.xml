@@ -10,9 +10,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/mery_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/mery_app_icon_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mery"
         tools:targetApi="31">
@@ -50,7 +50,7 @@
 
         <receiver
             android:name=".AlarmReceiver"
-            android:exported="true"/>
+            android:exported="true" />
 
         <service
             android:name=".MeryFirebaseMessagingService"
@@ -67,7 +67,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_notification" />
+            android:resource="@drawable/mery_app_logo" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
