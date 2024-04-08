@@ -26,7 +26,6 @@ class CreateQnaFragment :
         super.onViewCreated(view, savedInstanceState)
 
         setupDataBinding()
-        observeIsLogin()
     }
 
     private fun setupDataBinding() {
@@ -43,7 +42,8 @@ class CreateQnaFragment :
 
     private fun handleTodayQuestionClick(questionId: Long) {
         lifecycleScope.launch {
-            if (createQnaViewModel.isLogin.value) {
+            val isLogin = createQnaViewModel.isLogin.value ?: return@launch
+            if (isLogin) {
                 navigateToWriteAnswer(questionId)
             } else {
                 mainViewModel.dispatchLoginEvent()
@@ -56,9 +56,5 @@ class CreateQnaFragment :
         findNavController().navigateSafely(
             CreateQnaFragmentDirections.actionGlobalWriteAnswerFragment(questionId)
         )
-    }
-
-    private fun observeIsLogin() {
-        repeatOnStarted { createQnaViewModel.isLogin.collect { } }
     }
 }
