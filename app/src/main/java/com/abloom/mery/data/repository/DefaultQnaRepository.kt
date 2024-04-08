@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -39,7 +40,7 @@ class DefaultQnaRepository @Inject constructor(
         userRepository.getFianceFlow(),
         questionRepository.getQuestionsFlow()
     ) { loginUser, fiance, questions ->
-        if (loginUser == null) return@combine flow { emit(emptyList()) }
+        if (loginUser == null) return@combine flowOf(emptyList())
         if (fiance == null) return@combine getQnasFlow(loginUser, questions)
         getQnasFlow(loginUser, fiance, questions)
     }.flatMapLatest { it }

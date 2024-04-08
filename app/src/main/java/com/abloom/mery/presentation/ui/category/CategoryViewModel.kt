@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -46,7 +46,7 @@ class CategoryViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private val questions: StateFlow<Map<Category, List<Question>>> = isLogin
         .flatMapLatest { isLogin ->
-            if (isLogin) getAvailableQuestionsUseCase() else flow { emit(dummyQuestions) }
+            if (isLogin) getAvailableQuestionsUseCase() else flowOf(dummyQuestions)
         }
         .stateIn(
             scope = viewModelScope,

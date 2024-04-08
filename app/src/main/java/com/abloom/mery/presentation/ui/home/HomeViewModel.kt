@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -50,7 +50,7 @@ class HomeViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val qnas: StateFlow<List<Qna>> = isLogin.filterNotNull()
         .flatMapLatest { isLogin ->
-            if (isLogin) getQnasUseCase() else flow { emit(emptyList()) }
+            if (isLogin) getQnasUseCase() else flowOf(emptyList())
         }.stateIn(
             initialValue = listOf(),
             started = SharingStarted.WhileSubscribed(5_000),

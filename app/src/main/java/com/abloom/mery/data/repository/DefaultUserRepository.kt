@@ -14,7 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.asDeferred
@@ -80,7 +80,7 @@ class DefaultUserRepository @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun getLoginUserFlow(): Flow<User?> = preferencesDataSource.loginUserId
         .flatMapLatest { loginUserId ->
-            if (loginUserId == null) return@flatMapLatest flow { emit(null) }
+            if (loginUserId == null) return@flatMapLatest flowOf(null)
             check(firebaseDataSource.loginUserId == loginUserId) { "firebase의 유저 아이디와 로컬 데이터의 유저 아이디가 다릅니다." }
             firebaseDataSource.getUserDocumentFlow(loginUserId)
                 .map { userDocument -> userDocument?.asExternal() }
@@ -88,8 +88,8 @@ class DefaultUserRepository @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun getFianceFlow(): Flow<User?> = getLoginUserFlow().flatMapLatest { loginUser ->
-        if (loginUser == null) return@flatMapLatest flow { emit(null) }
-        val fianceId = loginUser.fianceId ?: return@flatMapLatest flow { emit(null) }
+        if (loginUser == null) return@flatMapLatest flowOf(null)
+        val fianceId = loginUser.fianceId ?: return@flatMapLatest flowOf(null)
         firebaseDataSource.getUserDocumentFlow(fianceId)
             .map { userDocument -> userDocument?.asExternal() }
     }
