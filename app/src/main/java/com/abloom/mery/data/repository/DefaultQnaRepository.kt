@@ -37,7 +37,7 @@ class DefaultQnaRepository @Inject constructor(
     override fun getQnas(): Flow<List<Qna>> = combine(
         userRepository.getLoginUser(),
         userRepository.getFiance(),
-        questionRepository.getQuestions()
+        questionRepository.getQuestionsFlow()
     ) { loginUser, fiance, questions ->
         if (loginUser == null) return@combine flow { emit(emptyList()) }
         if (fiance == null) return@combine getQnasFlow(loginUser, questions)

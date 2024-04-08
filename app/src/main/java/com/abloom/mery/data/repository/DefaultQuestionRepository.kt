@@ -10,9 +10,8 @@ import com.abloom.mery.data.firebase.question.QuestionFirebaseDataSource
 import com.abloom.mery.data.firebase.question.asExternal
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
@@ -20,38 +19,43 @@ import javax.inject.Inject
 class DefaultQuestionRepository @Inject constructor(
     private val userRepository: UserRepository,
     private val roomDataSource: RecommendationQuestionDao,
-    private val firebaseDataSource: QuestionFirebaseDataSource
+    private val questionFirebaseDataSource: QuestionFirebaseDataSource,
 ) : QuestionRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getTodayRecommendationQuestion(): Flow<Question> = userRepository.getLoginUser()
-        .flatMapLatest outer@{ loginUser ->
+    override fun getTodayRecommendationQuestion(): Flow<Question?> = userRepository.getLoginUser()
+        .flatMapLatest { loginUser ->
             val loginUserId = loginUser?.id ?: RecommendationQuestionEntity.NOT_LOGIN_ID
             roomDataSource.getRecommendationQuestionId(loginUserId, LocalDate.now())
-                .flatMapLatest { questionId ->
-                    if (questionId == null) return@flatMapLatest flow { }
-                    getQuestion(questionId)
+                .map { questionId ->
+                    if (questionId == null) return@map null
+                    val questionDocument = questionFirebaseDataSource.getQuestion(questionId)
+                    questionDocument?.asExternal()
                 }
         }
 
-    override suspend fun setTodayRecommendationQuestion(question: Question) {
-        val userId = userRepository.getLoginUser().lastOrNull()?.id
+    override suspend fun setTodayRecommendationQuestion(questionId: Long) {
+        val userId = userRepository.loginUserId
         val entity = RecommendationQuestionEntity.create(
             userId = userId,
             date = LocalDate.now(),
-            questionId = question.id
+            questionId = questionId
         )
         roomDataSource.setRecommendationQuestion(entity)
     }
 
-    override fun getEssentialQuestions(): Flow<List<Question>> = firebaseDataSource
-        .getEssentialQuestions()
+    override suspend fun getEssentialQuestionIds(): List<Long> = questionFirebaseDataSource
+        .getEssentialQuestionIds()
+
+    override fun getQuestionsFlow(): Flow<List<Question>> = questionFirebaseDataSource
+        .getQuestionsFlow()
         .map(List<QuestionDocument>::asExternal)
 
-    override fun getQuestions(): Flow<List<Question>> = firebaseDataSource
-        .getQuestions()
-        .map(List<QuestionDocument>::asExternal)
-
-    override fun getQuestion(id: Long): Flow<Question> = firebaseDataSource.getQuestion(id)
+    override suspend fun getQuestions(): List<Question> = questionFirebaseDataSource.getQuestions()
         .map(QuestionDocument::asExternal)
+
+    override fun getQuestion(id: Long): Flow<Question> =
+        questionFirebaseDataSource.getQuestionFlow(id)
+            .filterNotNull()
+            .map(QuestionDocument::asExternal)
 }

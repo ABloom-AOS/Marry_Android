@@ -7,11 +7,13 @@ interface QuestionRepository {
 
     fun getTodayRecommendationQuestion(): Flow<Question?>
 
-    suspend fun setTodayRecommendationQuestion(question: Question)
+    suspend fun setTodayRecommendationQuestion(questionId: Long)
 
-    fun getEssentialQuestions(): Flow<List<Question>>
+    suspend fun getEssentialQuestionIds(): List<Long>
 
-    fun getQuestions(): Flow<List<Question>>
+    fun getQuestionsFlow(): Flow<List<Question>>
+
+    suspend fun getQuestions(): List<Question>
 
     fun getQuestion(id: Long): Flow<Question>
 }

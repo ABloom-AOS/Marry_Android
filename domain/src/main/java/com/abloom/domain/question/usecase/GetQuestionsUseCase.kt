@@ -11,6 +11,6 @@ class GetQuestionsUseCase @Inject constructor(
     private val questionRepository: QuestionRepository
 ) {
 
-    operator fun invoke(): Flow<Map<Category, List<Question>>> = questionRepository.getQuestions()
+    operator fun invoke(): Flow<Map<Category, List<Question>>> = questionRepository.getQuestionsFlow()
         .map { questions -> questions.groupBy { question -> question.category } }
 }

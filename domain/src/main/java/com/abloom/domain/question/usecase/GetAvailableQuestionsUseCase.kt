@@ -23,7 +23,7 @@ class GetAvailableQuestionsUseCase @Inject constructor(
         qnaRepository.getQnas().flatMapLatest { qnas ->
             val unavailableQuestionIds = qnas.map { it.question.id }.toSet()
 
-            questionRepository.getQuestions().map { questions ->
+            questionRepository.getQuestionsFlow().map { questions ->
                 questions.filter { question -> question.id !in unavailableQuestionIds }
                     .groupBy { question -> question.category }
             }
