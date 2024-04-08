@@ -1,4 +1,4 @@
-package com.abloom.mery.presentation.common.util
+package com.abloom.mery.presentation.common.extension
 
 import android.content.ClipData
 import android.content.ClipboardManager

@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.abloom.mery.presentation.common.util.dp
+import com.abloom.mery.presentation.common.extension.dp
 
 @BindingAdapter("app:itemSpacing_dp")
 fun RecyclerView.setItemSpacing(spacing: Int) {

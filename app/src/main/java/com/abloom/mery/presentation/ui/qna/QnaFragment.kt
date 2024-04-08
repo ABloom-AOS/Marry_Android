@@ -17,7 +17,7 @@ import com.abloom.domain.qna.model.UnfinishedResponseQna
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentQnaBinding
 import com.abloom.mery.presentation.common.base.BaseFragment
-import com.abloom.mery.presentation.common.util.repeatOnStarted
+import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull

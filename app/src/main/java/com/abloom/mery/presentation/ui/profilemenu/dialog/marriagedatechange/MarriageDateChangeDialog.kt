@@ -8,8 +8,8 @@ import android.widget.FrameLayout
 import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import com.abloom.mery.databinding.DialogMarriageDateChangeBinding
-import com.abloom.mery.presentation.common.util.dp
-import com.abloom.mery.presentation.common.util.repeatOnStarted
+import com.abloom.mery.presentation.common.extension.dp
+import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.ui.profilemenu.ProfileMenuViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
