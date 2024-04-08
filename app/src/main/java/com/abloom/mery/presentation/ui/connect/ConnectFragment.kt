@@ -9,10 +9,10 @@ import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentConnectBinding
 import com.abloom.mery.presentation.common.base.BaseFragment
-import com.abloom.mery.presentation.common.util.copyToClipboard
-import com.abloom.mery.presentation.common.util.hideSoftKeyboard
-import com.abloom.mery.presentation.common.util.repeatOnStarted
-import com.abloom.mery.presentation.common.util.showToast
+import com.abloom.mery.presentation.common.extension.copyToClipboard
+import com.abloom.mery.presentation.common.extension.hideSoftKeyboard
+import com.abloom.mery.presentation.common.extension.repeatOnStarted
+import com.abloom.mery.presentation.common.extension.showToast
 import com.abloom.mery.presentation.common.view.ConfirmDialog
 import com.abloom.mery.presentation.common.view.InfoDialog
 import com.abloom.mery.presentation.common.view.setOnNavigationClick

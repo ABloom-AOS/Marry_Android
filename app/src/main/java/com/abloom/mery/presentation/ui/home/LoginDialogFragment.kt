@@ -11,8 +11,8 @@ import com.abloom.domain.user.model.Authentication
 import com.abloom.mery.BuildConfig
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentLoginDialogBinding
-import com.abloom.mery.presentation.common.util.repeatOnStarted
-import com.abloom.mery.presentation.common.util.showToast
+import com.abloom.mery.presentation.common.extension.repeatOnStarted
+import com.abloom.mery.presentation.common.extension.showToast
 import com.abloom.mery.presentation.ui.signup.asArgs
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
