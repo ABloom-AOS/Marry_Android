@@ -16,7 +16,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.res.use
 import androidx.databinding.BindingAdapter
 import com.abloom.mery.R
-import com.abloom.mery.presentation.common.util.dp
+import com.abloom.mery.presentation.common.extension.dp
 import kotlin.properties.Delegates.observable
 
 class MeryAppBar(

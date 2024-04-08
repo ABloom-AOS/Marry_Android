@@ -10,7 +10,7 @@ import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentCategoryBinding
 import com.abloom.mery.presentation.MainViewModel
 import com.abloom.mery.presentation.common.base.NavigationFragment
-import com.abloom.mery.presentation.common.util.repeatOnStarted
+import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.ui.category.recyclerview.QuestionAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
