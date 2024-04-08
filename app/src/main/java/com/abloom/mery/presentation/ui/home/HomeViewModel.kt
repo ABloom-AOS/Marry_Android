@@ -1,6 +1,5 @@
 package com.abloom.mery.presentation.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abloom.domain.qna.model.Qna
