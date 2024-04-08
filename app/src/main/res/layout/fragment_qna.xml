@@ -41,6 +41,7 @@
             app:title="@string/qna_title" />
 
         <ScrollView
+            android:id="@+id/sv_qna"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

@@ -53,6 +53,7 @@
             app:navigationText="@string/all_cancel" />
 
         <ScrollView
+            android:id="@+id/sv_profilemenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none">
