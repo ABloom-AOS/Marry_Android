@@ -10,5 +10,5 @@ class GetQuestionUseCase @Inject constructor(
 ) {
 
     operator fun invoke(questionId: Long): Flow<Question> =
-        questionRepository.getQuestion(questionId)
+        questionRepository.getQuestionFlow(questionId)
 }

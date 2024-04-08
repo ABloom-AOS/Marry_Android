@@ -78,7 +78,7 @@ class DefaultUserRepository @Inject constructor(
         .joinToString(separator = "")
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getLoginUser(): Flow<User?> = preferencesDataSource.loginUserId
+    override fun getLoginUserFlow(): Flow<User?> = preferencesDataSource.loginUserId
         .flatMapLatest { loginUserId ->
             if (loginUserId == null) return@flatMapLatest flow { emit(null) }
             check(firebaseDataSource.loginUserId == loginUserId) { "firebase의 유저 아이디와 로컬 데이터의 유저 아이디가 다릅니다." }
@@ -87,7 +87,7 @@ class DefaultUserRepository @Inject constructor(
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getFiance(): Flow<User?> = getLoginUser().flatMapLatest { loginUser ->
+    override fun getFianceFlow(): Flow<User?> = getLoginUserFlow().flatMapLatest { loginUser ->
         if (loginUser == null) return@flatMapLatest flow { emit(null) }
         val fianceId = loginUser.fianceId ?: return@flatMapLatest flow { emit(null) }
         firebaseDataSource.getUserDocumentFlow(fianceId)

@@ -34,9 +34,9 @@ class DefaultQnaRepository @Inject constructor(
 ) : ProspectiveCoupleQnaRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getQnas(): Flow<List<Qna>> = combine(
-        userRepository.getLoginUser(),
-        userRepository.getFiance(),
+    override fun getQnasFlow(): Flow<List<Qna>> = combine(
+        userRepository.getLoginUserFlow(),
+        userRepository.getFianceFlow(),
         questionRepository.getQuestionsFlow()
     ) { loginUser, fiance, questions ->
         if (loginUser == null) return@combine flow { emit(emptyList()) }
@@ -48,7 +48,7 @@ class DefaultQnaRepository @Inject constructor(
     private fun getQnasFlow(
         loginUser: User,
         questions: List<Question>
-    ): Flow<List<Qna>> = firebaseDataSource.getQnaDocuments(loginUser.id)
+    ): Flow<List<Qna>> = firebaseDataSource.getQnaDocumentsFlow(loginUser.id)
         .map { qnaDocuments ->
             qnaDocuments.map { qnaDocument ->
                 Qna.create(
@@ -65,8 +65,8 @@ class DefaultQnaRepository @Inject constructor(
         fiance: User,
         questions: List<Question>
     ): Flow<List<Qna>> = combine(
-        firebaseDataSource.getQnaDocuments(loginUser.id),
-        firebaseDataSource.getQnaDocuments(fiance.id)
+        firebaseDataSource.getQnaDocumentsFlow(loginUser.id),
+        firebaseDataSource.getQnaDocumentsFlow(fiance.id)
     ) { loginUserQnaDocuments, fianceQnaDocuments ->
         (loginUserQnaDocuments + fianceQnaDocuments).groupBy { it.questionId }
             .values.map { qnaDocuments ->
@@ -101,10 +101,10 @@ class DefaultQnaRepository @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getQna(questionId: Long): Flow<Qna> = combine(
-        userRepository.getLoginUser(),
-        userRepository.getFiance(),
-        questionRepository.getQuestion(questionId)
+    override fun getQnaFlow(questionId: Long): Flow<Qna> = combine(
+        userRepository.getLoginUserFlow(),
+        userRepository.getFianceFlow(),
+        questionRepository.getQuestionFlow(questionId)
     ) { loginUser, fiance, question ->
         if (loginUser == null) return@combine flow { }
         if (fiance == null) return@combine getQnaFlow(loginUser, question)
@@ -112,7 +112,7 @@ class DefaultQnaRepository @Inject constructor(
     }.flatMapLatest { it }
 
     private fun getQnaFlow(loginUser: User, question: Question): Flow<Qna> =
-        firebaseDataSource.getQnaDocument(loginUser.id, question.id)
+        firebaseDataSource.getQnaDocumentFlow(loginUser.id, question.id)
             .map { qnaDocument ->
                 if (qnaDocument == null) return@map null
                 Qna.create(
@@ -129,8 +129,8 @@ class DefaultQnaRepository @Inject constructor(
         fiance: User,
         question: Question
     ): Flow<Qna> = combine(
-        firebaseDataSource.getQnaDocument(loginUser.id, question.id),
-        firebaseDataSource.getQnaDocument(fiance.id, question.id)
+        firebaseDataSource.getQnaDocumentFlow(loginUser.id, question.id),
+        firebaseDataSource.getQnaDocumentFlow(fiance.id, question.id)
     ) { loginUserQnaDocument, fianceQnaDocument ->
         when {
             loginUserQnaDocument != null && fianceQnaDocument != null -> Qna.create(

@@ -9,5 +9,5 @@ class GetLoginUserUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
 
-    operator fun invoke(): Flow<User?> = userRepository.getLoginUser()
+    operator fun invoke(): Flow<User?> = userRepository.getLoginUserFlow()
 }

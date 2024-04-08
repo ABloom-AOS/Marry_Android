@@ -9,5 +9,5 @@ class GetFianceUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
 
-    operator fun invoke(): Flow<User?> = userRepository.getFiance()
+    operator fun invoke(): Flow<User?> = userRepository.getFianceFlow()
 }

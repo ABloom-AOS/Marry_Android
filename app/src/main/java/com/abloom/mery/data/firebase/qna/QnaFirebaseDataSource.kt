@@ -13,14 +13,14 @@ class QnaFirebaseDataSource @Inject constructor(
     private val db: FirebaseFirestore
 ) {
 
-    fun getQnaDocuments(userId: String): Flow<List<QnaDocument>> = db.collection(COLLECTIONS_USER)
+    fun getQnaDocumentsFlow(userId: String): Flow<List<QnaDocument>> = db.collection(COLLECTIONS_USER)
         .document(userId)
         .collection(COLLECTIONS_ANSWERS)
         .snapshots()
         .map { snapshot -> snapshot.toObjects(QnaDocument::class.java) }
         .flowOn(Dispatchers.IO)
 
-    fun getQnaDocument(userId: String, questionId: Long): Flow<QnaDocument?> =
+    fun getQnaDocumentFlow(userId: String, questionId: Long): Flow<QnaDocument?> =
         db.collection(COLLECTIONS_USER)
             .document(userId)
             .collection(COLLECTIONS_ANSWERS)

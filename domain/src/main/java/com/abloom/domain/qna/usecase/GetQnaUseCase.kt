@@ -10,5 +10,5 @@ class GetQnaUseCase @Inject constructor(
 ) {
 
     operator fun invoke(questionId: Long): Flow<Qna> =
-        qnaRepository.getQna(questionId)
+        qnaRepository.getQnaFlow(questionId)
 }

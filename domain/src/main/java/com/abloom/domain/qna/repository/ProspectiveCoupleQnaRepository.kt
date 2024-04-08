@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ProspectiveCoupleQnaRepository {
 
-    fun getQnas(): Flow<List<Qna>>
+    fun getQnasFlow(): Flow<List<Qna>>
 
-    fun getQna(questionId: Long): Flow<Qna>
+    fun getQnaFlow(questionId: Long): Flow<Qna>
 
     /**
      * 만약 해당 질문에 대한 문답이 없으면 문답을 생성합니다.

@@ -20,7 +20,7 @@ class GetAvailableQuestionsUseCase @Inject constructor(
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     operator fun invoke(): Flow<Map<Category, List<Question>>> =
-        qnaRepository.getQnas().flatMapLatest { qnas ->
+        qnaRepository.getQnasFlow().flatMapLatest { qnas ->
             val unavailableQuestionIds = qnas.map { it.question.id }.toSet()
 
             questionRepository.getQuestionsFlow().map { questions ->

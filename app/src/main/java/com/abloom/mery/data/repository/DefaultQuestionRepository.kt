@@ -23,10 +23,10 @@ class DefaultQuestionRepository @Inject constructor(
 ) : QuestionRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getTodayRecommendationQuestion(): Flow<Question?> = userRepository.getLoginUser()
+    override fun getTodayRecommendationQuestionFlow(): Flow<Question?> = userRepository.getLoginUserFlow()
         .flatMapLatest { loginUser ->
             val loginUserId = loginUser?.id ?: RecommendationQuestionEntity.NOT_LOGIN_ID
-            roomDataSource.getRecommendationQuestionId(loginUserId, LocalDate.now())
+            roomDataSource.getRecommendationQuestionIdFlow(loginUserId, LocalDate.now())
                 .map { questionId ->
                     if (questionId == null) return@map null
                     val questionDocument = questionFirebaseDataSource.getQuestion(questionId)
@@ -54,7 +54,7 @@ class DefaultQuestionRepository @Inject constructor(
     override suspend fun getQuestions(): List<Question> = questionFirebaseDataSource.getQuestions()
         .map(QuestionDocument::asExternal)
 
-    override fun getQuestion(id: Long): Flow<Question> =
+    override fun getQuestionFlow(id: Long): Flow<Question> =
         questionFirebaseDataSource.getQuestionFlow(id)
             .filterNotNull()
             .map(QuestionDocument::asExternal)

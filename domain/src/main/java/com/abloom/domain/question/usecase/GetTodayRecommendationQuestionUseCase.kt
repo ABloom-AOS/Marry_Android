@@ -16,10 +16,10 @@ class GetTodayRecommendationQuestionUseCase @Inject constructor(
 ) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    operator fun invoke(): Flow<Question?> = qnaRepository.getQnas()
+    operator fun invoke(): Flow<Question?> = qnaRepository.getQnasFlow()
         .flatMapLatest { qnas ->
             val unavailableQuestionIds = qnas.map { qna -> qna.question.id }.toSet()
-            questionRepository.getTodayRecommendationQuestion()
+            questionRepository.getTodayRecommendationQuestionFlow()
                 .onEach { question ->
                     if (question.isAvailable(unavailableQuestionIds)) return@onEach
                     refreshTodayRecommendationQuestion(unavailableQuestionIds)
@@ -43,6 +43,7 @@ class GetTodayRecommendationQuestionUseCase @Inject constructor(
         questionRepository.setTodayRecommendationQuestion(todayRecommendationQuestionId)
     }
 
+    @JvmName("randomAvailableQuestionIdOfIds")
     private fun List<Long>.randomAvailableQuestionId(unavailableQuestionIds: Set<Long>): Long? =
         filter { it !in unavailableQuestionIds }.randomOrNull()
 
