@@ -73,6 +73,6 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     }
 
     private fun observeQuestions() {
-        repeatOnStarted { categoryViewModel.questions.collect(questionAdapter::submitList) }
+        repeatOnStarted { categoryViewModel.currentQuestions.collect(questionAdapter::submitList) }
     }
 }
