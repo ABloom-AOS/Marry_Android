@@ -49,7 +49,6 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp"
-            android:scrollbars="none"
             app:is_visible="@{!viewModel.loginUser.linkedWithFiance}"
             tools:visibility="gone">
 
@@ -231,7 +230,6 @@
             android:id="@+id/sv_connect_is_connected_screen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
             app:is_visible="@{!viewModel.isJustConnected &amp;&amp; viewModel.loginUser.linkedWithFiance}"
             tools:visibility="gone">
 
@@ -313,7 +311,6 @@
             android:id="@+id/sv_connect_connect_success"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
             app:is_visible="@{viewModel.isJustConnected}"
             tools:visibility="visible">
 

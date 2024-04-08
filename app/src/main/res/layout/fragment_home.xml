@@ -120,7 +120,6 @@
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp"
-            android:scrollbars="none"
             app:itemAnimator="@{null}"
             app:itemSpacing_dp="@{12}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
