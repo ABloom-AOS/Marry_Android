@@ -67,7 +67,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
         val notifyId = (System.currentTimeMillis() / 7).toInt()
 
         val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notification)
+            .setSmallIcon(R.drawable.mery_app_logo)
             .setContentTitle(title)
             .setContentText(body)
             .setPriority(NotificationManagerCompat.IMPORTANCE_HIGH)
