@@ -39,7 +39,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         setupQnaRecyclerView()
         setupDataBinding()
 
-        observeMainEvent()
+        observeLoginEvent()
         observeHomeEvent()
         observeQnas()
         observeLoginUser()
@@ -63,7 +63,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateQna())
     }
 
-    private fun observeMainEvent() {
+    private fun observeLoginEvent() {
         repeatOnStarted {
             mainViewModel.loginEvent
                 .combine(homeViewModel.isLogin) { _, isLogin -> isLogin }

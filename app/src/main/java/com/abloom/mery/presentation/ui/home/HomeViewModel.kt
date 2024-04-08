@@ -1,5 +1,6 @@
 package com.abloom.mery.presentation.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abloom.domain.qna.model.Qna
@@ -8,14 +9,18 @@ import com.abloom.domain.user.model.Authentication
 import com.abloom.domain.user.usecase.GetLoginUserUseCase
 import com.abloom.domain.user.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,16 +40,20 @@ class HomeViewModel @Inject constructor(
             scope = viewModelScope
         )
 
-    val isLogin: SharedFlow<Boolean> = loginUser
+    val isLogin: StateFlow<Boolean?> = loginUser
         .filter { it !is UserUiState.Loading }
         .map { it is UserUiState.Login }
-        .shareIn(
+        .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed()
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
         )
 
-    val qnas: StateFlow<List<Qna>> = getQnasUseCase()
-        .stateIn(
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val qnas: StateFlow<List<Qna>> = isLogin.filterNotNull()
+        .flatMapLatest { isLogin ->
+            if (isLogin) getQnasUseCase() else flow { emit(emptyList()) }
+        }.stateIn(
             initialValue = listOf(),
             started = SharingStarted.WhileSubscribed(5_000),
             scope = viewModelScope
