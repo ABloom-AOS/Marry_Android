@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/marryDateText" />
 
-        <sh.tyy.wheelpicker.DatePickerView
+        <com.abloom.mery.MeryDatePickerView
             android:id="@+id/datePicker"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -46,6 +46,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/marryDateDetailText" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
