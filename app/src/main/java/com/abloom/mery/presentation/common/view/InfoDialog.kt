@@ -16,7 +16,7 @@ class InfoDialog(
     private val message: String? = null,
     private val buttonLabel: String = context.getString(R.string.all_ok),
     private val onButtonClick: (() -> Unit)? = null,
-    private val cancelable: Boolean = true,
+    private val cancelable: Boolean = false,
 ) : Dialog(context) {
 
     private val binding: DialogInfoBinding by lazy { DialogInfoBinding.inflate(layoutInflater) }

@@ -10,6 +10,10 @@
             type="com.abloom.mery.presentation.ui.home.HomeViewModel" />
 
         <variable
+            name="loginUser"
+            type="com.abloom.domain.user.model.User" />
+
+        <variable
             name="onProfileMenuButtonClick"
             type="kotlin.jvm.functions.Function0" />
 
@@ -58,7 +62,7 @@
             android:layout_margin="6dp"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_all_unconnected_notifier"
-            app:is_visible="@{viewModel.loginUser != null &amp;&amp; !viewModel.loginUser.linkedWithFiance}"
+            app:is_visible="@{loginUser != null &amp;&amp; !loginUser.linkedWithFiance}"
             app:layout_constraintBottom_toBottomOf="@id/iv_home_user_icon"
             app:layout_constraintEnd_toEndOf="@id/iv_home_user_icon" />
 
@@ -71,7 +75,6 @@
             app:is_visible="@{viewModel.qnas.empty}"
             app:layout_constraintBottom_toTopOf="@+id/tv_home_empty_questions_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
@@ -89,7 +92,6 @@
             app:is_visible="@{viewModel.qnas.empty}"
             app:layout_constraintBottom_toTopOf="@+id/tv_home_empty_questions_message"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_home_empty_questions" />
 
@@ -98,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:gravity="center"
             android:paddingVertical="3dp"
             android:text="@string/home_empty_questions_message"
             android:textAppearance="@style/footnote"
@@ -117,7 +120,6 @@
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp"
-            android:scrollbars="none"
             app:itemAnimator="@{null}"
             app:itemSpacing_dp="@{12}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

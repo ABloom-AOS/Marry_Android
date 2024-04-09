@@ -13,11 +13,11 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindsUserRepository(userRepository: FakeUserRepository): UserRepository
+    abstract fun bindsUserRepository(userRepository: DefaultUserRepository): UserRepository
 
     @Binds
-    abstract fun bindsQuestionRepository(questionRepository: FakeQuestionRepository): QuestionRepository
+    abstract fun bindsQuestionRepository(questionRepository: DefaultQuestionRepository): QuestionRepository
 
     @Binds
-    abstract fun bindsQnaRepository(qnaRepository: FakeQnaRepository): ProspectiveCoupleQnaRepository
+    abstract fun bindsQnaRepository(qnaRepository: DefaultQnaRepository): ProspectiveCoupleQnaRepository
 }

@@ -9,4 +9,10 @@ data class UnconnectedQna(
     override val createdAt: LocalDateTime,
     override val loginUser: User,
     val loginUserAnswer: Answer
-) : Qna
+) : Qna() {
+
+    override fun compareTo(other: Qna): Int {
+        if (other !is UnconnectedQna) return -1
+        return super.compareTo(other)
+    }
+}

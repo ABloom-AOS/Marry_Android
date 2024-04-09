@@ -27,4 +27,8 @@
         <item name="cornerFamilyBottomLeft">rounded</item>
         <item name="cornerFamilyBottomRight">rounded</item>
     </style>
+
+    <style name="NoScrollbars" parent="android:Widget.ScrollView">
+        <item name="android:scrollbars">none</item>
+    </style>
 </resources>
