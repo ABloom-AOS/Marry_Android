@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         askNotificationPermission()
         logFirebaseToken()
         createNotificationChannel()
-        backgroundPush()
+//        backgroundPush()
     }
 
     private fun logFirebaseToken() {
