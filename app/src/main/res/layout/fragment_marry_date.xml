@@ -48,7 +48,6 @@
             app:layout_constraintTop_toBottomOf="@+id/marryDateDetailText" />
 
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

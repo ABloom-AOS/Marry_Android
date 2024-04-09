@@ -26,26 +26,6 @@ class MeryDatePickerView @JvmOverloads constructor(
 ) : TripleDependentPickerView(context, attrs, defStyleAttr),
     BaseWheelPickerView.WheelPickerViewListener {
 
-    enum class Mode {
-        YEAR_MONTH_DAY,
-        YEAR_MONTH
-    }
-
-    var mode: Mode = Mode.YEAR_MONTH_DAY
-        set(value) {
-            if (field == value) {
-                return
-            }
-            field = value
-            when (value) {
-                Mode.YEAR_MONTH_DAY -> dayPickerView.visibility = View.VISIBLE
-                Mode.YEAR_MONTH -> {
-                    dayPickerView.visibility = View.GONE
-                    setThird(1, false, null)
-                }
-            }
-        }
-
     override val adapters: Triple<RecyclerView.Adapter<*>, RecyclerView.Adapter<*>, RecyclerView.Adapter<*>>
         get() = Triple(yearAdapter, monthAdapter, dayAdapter)
 
@@ -107,7 +87,7 @@ class MeryDatePickerView @JvmOverloads constructor(
         this.listener = listener
     }
 
-    var minDate: Date? = null
+    private var minDate: Date? = null
         set(value) {
             val newValue =
                 if (value != null && maxDate != null) minOf(maxDate ?: value, value) else value
@@ -126,7 +106,7 @@ class MeryDatePickerView @JvmOverloads constructor(
             reloadPickersIfNeeded(oldData, newData)
         }
 
-    var maxDate: Date? = null
+    private var maxDate: Date? = null
         set(value) {
             val newValue =
                 if (value != null && minDate != null) maxOf(minDate ?: value, value) else value
@@ -148,10 +128,10 @@ class MeryDatePickerView @JvmOverloads constructor(
     val day: Int
         get() = dayPickerView.selectedIndex + 1
 
-    val month: Int
+    private val month: Int
         get() = monthPickerView.selectedIndex
 
-    val year: Int
+    private val year: Int
         get() = yearPickerView.selectedIndex
 
     fun setDate(year: Int, month: Int, day: Int) {
@@ -161,14 +141,6 @@ class MeryDatePickerView @JvmOverloads constructor(
             }
         }
     }
-
-    var isCircular: Boolean = false
-        set(value) {
-            field = value
-            dayPickerView.isCircular = value
-            monthPickerView.isCircular = value
-            yearPickerView.isCircular = value
-        }
 
     private val yearAdapter = MeryYearWheelAdapter(WeakReference(this))
     private val monthAdapter = ItemEnableWheelAdapter(WeakReference(this))
