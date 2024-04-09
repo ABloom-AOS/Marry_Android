@@ -27,7 +27,6 @@ import com.abloom.mery.R
 import com.abloom.mery.databinding.ActivityMainBinding
 import com.abloom.mery.presentation.common.extension.showToast
 import com.abloom.mery.presentation.ui.home.HomeFragmentDirections
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,15 +56,8 @@ class MainActivity : AppCompatActivity() {
         setupDestinationChangedListener()
 
         askNotificationPermission()
-        logFirebaseToken()
         createNotificationChannel()
 //        backgroundPush()
-    }
-
-    private fun logFirebaseToken() {
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener {
-            Log.e("TAG", "Token $it")
-        }
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
