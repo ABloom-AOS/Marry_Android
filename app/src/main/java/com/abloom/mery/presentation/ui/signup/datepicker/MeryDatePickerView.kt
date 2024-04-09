@@ -1,4 +1,4 @@
-package com.abloom.mery
+package com.abloom.mery.presentation.ui.signup.datepicker
 
 import android.content.Context
 import android.util.AttributeSet
@@ -170,7 +170,7 @@ class MeryDatePickerView @JvmOverloads constructor(
             yearPickerView.isCircular = value
         }
 
-    private val yearAdapter = com.abloom.mery.MeryYearWheelAdapter(WeakReference(this))
+    private val yearAdapter = MeryYearWheelAdapter(WeakReference(this))
     private val monthAdapter = ItemEnableWheelAdapter(WeakReference(this))
     private val dayAdapter = ItemEnableWheelAdapter(WeakReference(this))
 

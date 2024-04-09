@@ -1,4 +1,4 @@
-package com.abloom.mery
+package com.abloom.mery.presentation.ui.signup.datepicker
 
 import android.text.SpannableString
 import android.view.LayoutInflater
