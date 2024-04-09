@@ -90,7 +90,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
         val myId = Firebase.auth.currentUser?.uid
         if (myId != null) {
             val userRef = Firebase.firestore.collection("users").document(myId)
-            userRef.update("fcmToken", fcmToken)
+            userRef.update("fcm_token", fcmToken)
                 .addOnSuccessListener { Log.e("TAG", "FCM Token for user $myId updated") }
                 .addOnFailureListener { e ->
                     Log.e(
