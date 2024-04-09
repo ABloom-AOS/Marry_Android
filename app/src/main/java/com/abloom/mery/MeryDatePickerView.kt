@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import sh.tyy.wheelpicker.core.ItemEnableWheelAdapter
@@ -87,7 +88,10 @@ class MeryDatePickerView @JvmOverloads constructor(
 
     private val highlightView: View = run {
         val view = View(context)
-        //view.background = ContextCompat.getDrawable(context, sh.tyy.wheelpicker.R.drawable.text_wheel_highlight_bg)
+        view.background = ContextCompat.getDrawable(
+            context,
+            sh.tyy.wheelpicker.R.drawable.text_wheel_highlight_bg
+        )
         view
     }
 
