@@ -19,6 +19,7 @@
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
+            android:configChanges="density|fontScale|fontWeightAdjustment|layoutDirection|locale|orientation|screenLayout|screenSize"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
