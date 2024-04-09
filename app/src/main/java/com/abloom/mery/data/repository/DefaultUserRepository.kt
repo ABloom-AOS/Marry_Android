@@ -62,7 +62,6 @@ class DefaultUserRepository @Inject constructor(
         } ?: return@launch
 
         val userDocument = UserDocument.create(
-            fcmToken = null,
             id = joinedUser.uid,
             name = name,
             marriageDate = marriageDate,
@@ -70,8 +69,8 @@ class DefaultUserRepository @Inject constructor(
             invitationCode = createInvitationCodeFrom(joinedUser.uid)
         )
 
-        firebaseDataSource.loginUpdateFcmToken(joinedUser.uid)
         firebaseDataSource.createUserDocument(userDocument)
+        firebaseDataSource.loginUpdateFcmToken(joinedUser.uid)
         preferencesDataSource.updateLoginUserId(joinedUser.uid)
     }.join()
 

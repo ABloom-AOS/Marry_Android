@@ -37,14 +37,12 @@ data class UserDocument(
         const val KEY_FIANCE = "fiance"
 
         fun create(
-            fcmToken: String?,
             id: String,
             name: String,
             marriageDate: LocalDate,
             sex: Sex,
             invitationCode: String
         ): UserDocument = UserDocument(
-            fcmToken = fcmToken,
             id = id,
             name = name,
             marriageDate = marriageDate.toTimestamp(),
