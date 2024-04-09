@@ -23,9 +23,9 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
             Log.e("TAG", "token 메세지 받음 , 현재 빈 데이터")
 
             //TODO(다른 화면 이동 및 백그라운드 알람 이동)
-            //            val args = Bundle().apply {
-            //                putString("qid", remoteMessage.data["qid"])
-            //            }
+//            val args = Bundle().apply {
+//                putString("qid", remoteMessage.data["qid"])
+//            }
 
             val qnaPendingIntent = NavDeepLinkBuilder(applicationContext)
                 .setGraph(R.navigation.app)

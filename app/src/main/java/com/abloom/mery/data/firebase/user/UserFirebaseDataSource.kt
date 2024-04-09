@@ -135,7 +135,7 @@ class UserFirebaseDataSource @Inject constructor(
     suspend fun loginUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .update(UserDocument.KEY_FCM_TOKEN, messaging.token)
+            .update(UserDocument.KEY_FCM_TOKEN, messaging.token.result.toString())
     }
 
     suspend fun logOutUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
