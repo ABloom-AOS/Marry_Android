@@ -26,15 +26,14 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
 
             Log.e("TAG", "token 메세지 받음 , 현재 빈 데이터")
 
-            val args = Bundle().apply {
-                putString("viewToOpen", remoteMessage.data["viewToOpen"])
-                putString("qid", remoteMessage.data["qid"])
-            }
+            //TODO(다른 화면 이동 및 백그라운드 알람 이동)
+//            val args = Bundle().apply {
+//                putString("qid", remoteMessage.data["qid"])
+//            }
 
             val qnaPendingIntent = NavDeepLinkBuilder(applicationContext)
                 .setGraph(R.navigation.app)
-                .setDestination(R.id.qnaFragment)
-                .setArguments(args)
+                .setDestination(R.id.homeFragment)
                 .createPendingIntent()
 
             sendNotification(
@@ -43,21 +42,21 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
                 qnaPendingIntent
             )
         } else {
+            remoteMessage.notification?.let {
+                val pending = NavDeepLinkBuilder(applicationContext)
+                    .setGraph(R.navigation.app)
+                    .setDestination(R.id.homeFragment)
+                    .createPendingIntent()
 
+                sendNotification(
+                    it.title,
+                    it.body,
+                    pending
+                )
+            }
         }
 
-        remoteMessage.notification?.let {
-            val pending = NavDeepLinkBuilder(applicationContext)
-                .setGraph(R.navigation.app)
-                .setDestination(R.id.homeFragment)
-                .createPendingIntent()
 
-            sendNotification(
-                it.title,
-                it.body,
-                pending
-            )
-        }
     }
 
     private fun sendNotification(title: String?, body: String?, pendingIntent: PendingIntent) {
@@ -67,7 +66,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
         val notifyId = (System.currentTimeMillis() / 7).toInt()
 
         val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setSmallIcon(R.drawable.mery_app_logo)
+            .setSmallIcon(R.mipmap.mery_app_icon)
             .setContentTitle(title)
             .setContentText(body)
             .setPriority(NotificationManagerCompat.IMPORTANCE_HIGH)
@@ -83,7 +82,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("IDService", "Refreshed token: $token")
-        //         updateFcmToken(token)
+                 updateFcmToken(token)
         // 파이어베이스에 token 업로드 데이터를 직접 건드는 부분이기 때문에  주석처리 하였음.
     }
 

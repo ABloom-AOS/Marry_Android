@@ -17,7 +17,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val notification = NotificationCompat.Builder(context, CHANNEL_NAME)
             .setContentTitle(context.getString(R.string.push_today_question_receive))
             .setContentText(context.getString(R.string.push_review_comment_search_each_mind))
-            .setSmallIcon(R.drawable.mery_app_logo)
+            .setSmallIcon(R.mipmap.mery_app_icon)
             .build()
 
         notificationManager.notify(CHANNEL_ID, notification)

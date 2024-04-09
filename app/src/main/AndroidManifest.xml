@@ -70,7 +70,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/mery_app_logo" />
+            android:resource="@mipmap/mery_app_icon" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
