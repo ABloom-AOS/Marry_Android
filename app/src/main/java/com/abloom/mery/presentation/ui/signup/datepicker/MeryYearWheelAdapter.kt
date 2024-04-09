@@ -13,6 +13,7 @@ class MeryYearWheelAdapter(
     valueEnabledProvider: WeakReference<ValueEnabledProvider>
 ) :
     ItemEnableWheelAdapter(valueEnabledProvider) {
+
     override fun getItemCount() = Int.MAX_VALUE
 
     override val valueCount = Int.MAX_VALUE

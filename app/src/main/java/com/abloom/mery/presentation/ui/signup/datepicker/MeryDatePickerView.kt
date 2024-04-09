@@ -64,6 +64,7 @@ class MeryDatePickerView @JvmOverloads constructor(
     }
 
     interface Listener {
+
         fun didSelectData(year: Int, month: Int, day: Int)
     }
 
@@ -282,5 +283,4 @@ class MeryDatePickerView @JvmOverloads constructor(
             updateCurrentDataByDataRangeIfNeeded(true)
         }
     }
-
 }
