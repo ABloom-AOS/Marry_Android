@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.snapshots
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 class UserFirebaseDataSource @Inject constructor(
     private val auth: FirebaseAuth,
-    private val db: FirebaseFirestore
+    private val db: FirebaseFirestore,
+    private val messaging: FirebaseMessaging
 ) {
 
     val loginUserId: String?
@@ -128,6 +130,18 @@ class UserFirebaseDataSource @Inject constructor(
             .document(userId)
             .delete()
         auth.currentUser?.delete()
+    }
+
+    suspend fun loginUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
+        db.collection(COLLECTIONS_USER)
+            .document(userId)
+            .update(UserDocument.KEY_FCM_TOKEN, messaging.token)
+    }
+
+    suspend fun logOutUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
+        db.collection(COLLECTIONS_USER)
+            .document(userId)
+            .update(UserDocument.KEY_FCM_TOKEN, null)
     }
 
     companion object {
