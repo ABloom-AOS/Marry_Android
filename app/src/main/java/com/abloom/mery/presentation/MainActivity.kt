@@ -1,6 +1,8 @@
 package com.abloom.mery.presentation
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         askNotificationPermission()
         logFirebaseToken()
+        createNotificationChannel()
         backgroundPush()
     }
 
@@ -144,6 +147,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun createNotificationChannel() {
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
+
+        val notificationManager: NotificationManager
+                = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        notificationManager.createNotificationChannel(channel)
+    }
+
     override fun attachBaseContext(newBase: Context) {
         val newConfiguration = Configuration(newBase.resources.configuration)
         newConfiguration.fontScale = FIXED_FONT_SCALE
@@ -153,7 +166,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-
+        private const val CHANNEL_ID = "channel_mery"
+        private const val CHANNEL_NAME = "channel_name_mery"
         private const val ASK_AGAIN_EXIT_DURATION = 2_000
         private const val FIXED_FONT_SCALE = 1.0f
     }
