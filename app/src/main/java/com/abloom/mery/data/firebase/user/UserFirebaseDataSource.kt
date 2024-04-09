@@ -2,6 +2,7 @@ package com.abloom.mery.data.firebase.user
 
 import com.abloom.mery.data.firebase.toTimestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
@@ -41,10 +42,10 @@ class UserFirebaseDataSource @Inject constructor(
         password: String
     ): FirebaseUser? = withContext(Dispatchers.IO) {
         runCatching {
-            auth.signInWithEmailAndPassword(email, password)
-                .await()
-                .user
-        }.getOrNull()
+            auth.signInWithEmailAndPassword(email, password).await()
+        }.getOrElse { error ->
+            if (error is FirebaseAuthInvalidCredentialsException) null else throw error
+        }?.user
     }
 
     suspend fun signUpByEmail(
