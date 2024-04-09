@@ -23,16 +23,17 @@ class DefaultQuestionRepository @Inject constructor(
 ) : QuestionRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getTodayRecommendationQuestionFlow(): Flow<Question?> = userRepository.getLoginUserFlow()
-        .flatMapLatest { loginUser ->
-            val loginUserId = loginUser?.id ?: RecommendationQuestionEntity.NOT_LOGIN_ID
-            roomDataSource.getRecommendationQuestionIdFlow(loginUserId, LocalDate.now())
-                .map { questionId ->
-                    if (questionId == null) return@map null
-                    val questionDocument = questionFirebaseDataSource.getQuestion(questionId)
-                    questionDocument?.asExternal()
-                }
-        }
+    override fun getTodayRecommendationQuestionFlow(): Flow<Question?> =
+        userRepository.getLoginUserFlow()
+            .flatMapLatest { loginUser ->
+                val loginUserId = loginUser?.id ?: RecommendationQuestionEntity.NOT_LOGIN_ID
+                roomDataSource.getRecommendationQuestionIdFlow(loginUserId, LocalDate.now())
+                    .map { questionId ->
+                        if (questionId == null) return@map null
+                        val questionDocument = questionFirebaseDataSource.getQuestion(questionId)
+                        questionDocument?.asExternal()
+                    }
+            }
 
     override suspend fun setTodayRecommendationQuestion(questionId: Long) {
         val userId = userRepository.loginUserId

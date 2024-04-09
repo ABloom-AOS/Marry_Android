@@ -46,11 +46,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appbar_category"
-            app:tabIndicator="@drawable/category_tabindicator"
             app:tabIconTint="@color/tab_item"
+            app:tabIndicator="@drawable/category_tabindicator"
             app:tabMode="scrollable"
-            app:tabTextAppearance="@style/tabItemTextStyle"
-            app:tabRippleColor="@android:color/transparent">
+            app:tabRippleColor="@android:color/transparent"
+            app:tabTextAppearance="@style/tabItemTextStyle">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/ti_finance"
