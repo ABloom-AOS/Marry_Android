@@ -1,5 +1,6 @@
 package com.abloom.mery.presentation.ui.signup.datepicker
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
@@ -254,6 +255,7 @@ class MeryDatePickerView @JvmOverloads constructor(
         return true
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
         var dayPickerUpdated = false
         if (picker == yearPickerView || picker == monthPickerView) {
