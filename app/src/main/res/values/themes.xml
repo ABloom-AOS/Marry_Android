@@ -4,6 +4,7 @@
         <item name="windowNoTitle">true</item>
         <item name="bottomSheetDialogTheme">@style/RoundBottomSheetDialogStyle</item>
         <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+        <item name="android:scrollViewStyle">@style/NoScrollbars</item>
     </style>
 
     <style name="Theme.Mery" parent="Base.Theme.Mery" />

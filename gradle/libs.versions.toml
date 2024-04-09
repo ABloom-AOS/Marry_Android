@@ -30,6 +30,12 @@ navigation = "2.7.7"
 hilt = "2.50"
 hiltNavigation = "1.2.0"
 
+# Preferences DataStore
+preferencesDataStore = "1.0.0"
+
+# Room
+room = "2.6.1"
+
 # 테스트
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -79,6 +85,14 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigation" }
 
+# DataStroe
+preferences-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "preferencesDataStore" }
+
+# Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+
 # 테스트
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -104,11 +118,11 @@ google-services = { group = "com.google.gms", name = "google-services", version.
 
 # firebase
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore"}
-firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging"}
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics"}
-firebase-functions = { group = "com.google.firebase", name = "firebase-functions"}
-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx"}
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-functions = { group = "com.google.firebase", name = "firebase-functions" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -9,5 +9,5 @@ class GetQnasUseCase @Inject constructor(
     private val qnaRepository: ProspectiveCoupleQnaRepository
 ) {
 
-    operator fun invoke(): Flow<List<Qna>> = qnaRepository.getQnas()
+    operator fun invoke(): Flow<List<Qna>> = qnaRepository.getQnasFlow()
 }

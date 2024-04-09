@@ -1,4 +1,4 @@
-package com.abloom.mery.presentation.ui.category
+package com.abloom.mery.presentation.ui.category.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,15 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.abloom.domain.question.model.Question
 import com.abloom.mery.databinding.ItemCategoryBinding
 
-class CategoryViewHolder(
+class QuestionViewHolder(
     private val binding: ItemCategoryBinding,
-    private val onCategoryItemClick: (question: Question) -> Unit
+    onQuestionClick: (questionId: Long) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
-        binding.root.setOnClickListener {
-            onCategoryItemClick(binding.question ?: return@setOnClickListener)
-        }
+        binding.onQuestionClick = onQuestionClick
     }
 
     fun bind(question: Question) {
@@ -25,11 +23,11 @@ class CategoryViewHolder(
 
         fun from(
             parent: ViewGroup,
-            onCategoryItemClick: (question: Question) -> Unit
-        ): CategoryViewHolder {
+            onQuestionClick: (questionId: Long) -> Unit
+        ): QuestionViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = ItemCategoryBinding.inflate(layoutInflater, parent, false)
-            return CategoryViewHolder(binding, onCategoryItemClick)
+            return QuestionViewHolder(binding, onQuestionClick)
         }
     }
 }

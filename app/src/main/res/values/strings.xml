@@ -116,7 +116,7 @@
     <string name="consent_detail_look_text">보기</string>
     <string name="consent_signup_text">동의하고 가입하기</string>
 
-    <string name="category_login_tag">로그인하기></string>
+    <string name="category_login_tag">로그인하기 ></string>
     <string name="category_ment">지금 로그인하면 메리의 200개가 넘는\n모든 질문들을 확인수 있어요!</string>
     <string name="category_finance">경제</string>
     <string name="category_communication">소통</string>

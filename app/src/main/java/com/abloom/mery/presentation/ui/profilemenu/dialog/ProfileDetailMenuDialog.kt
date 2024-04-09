@@ -90,7 +90,7 @@ class ProfileDetailMenuDialog : BottomSheetDialogFragment() {
     }
 
     private fun changeMarriageDate(view: View, year: Int, month: Int, day: Int) {
-        val date = LocalDate.of(year, month, day)
+        val date = LocalDate.of(year, month + 1, day)
         viewModel.changeMarriageDate(date)
     }
 }

@@ -11,8 +11,8 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 @BindingAdapter("app:date_text")
-fun TextView.setDateText(date: LocalDate) {
-    text = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
+fun TextView.setDateText(date: LocalDate?) {
+    text = date?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
 }
 
 @BindingAdapter("app:monthText")

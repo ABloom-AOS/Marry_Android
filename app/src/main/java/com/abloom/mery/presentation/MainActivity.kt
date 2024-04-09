@@ -1,10 +1,13 @@
 package com.abloom.mery.presentation
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
@@ -141,9 +144,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun attachBaseContext(newBase: Context) {
+        val newConfiguration = Configuration(newBase.resources.configuration)
+        newConfiguration.fontScale = FIXED_FONT_SCALE
+        newConfiguration.densityDpi = DisplayMetrics.DENSITY_420
+        applyOverrideConfiguration(newConfiguration)
+        super.attachBaseContext(newBase)
+    }
+
     companion object {
 
         private const val ASK_AGAIN_EXIT_DURATION = 2_000
+        private const val FIXED_FONT_SCALE = 1.0f
     }
 }
 

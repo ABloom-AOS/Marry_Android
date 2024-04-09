@@ -8,6 +8,8 @@ import java.time.LocalDate
 
 interface UserRepository {
 
+    val loginUserId: String?
+
     /**
      * @return 가입하지 않은 회원일 경우 false 반환
      */
@@ -23,9 +25,9 @@ interface UserRepository {
         name: String
     )
 
-    fun getLoginUser(): Flow<User?>
+    fun getLoginUserFlow(): Flow<User?>
 
-    fun getFiance(): Flow<User?>
+    fun getFianceFlow(): Flow<User?>
 
     /**
      * @return 연결 결과를 반환합니다. 연결에 실패하면 false를 반환합니다.

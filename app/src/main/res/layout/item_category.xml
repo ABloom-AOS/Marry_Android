@@ -4,16 +4,23 @@
 
     <data>
 
+        <import type="kotlin.Unit" />
+
         <variable
             name="question"
             type="com.abloom.domain.question.model.Question" />
+
+        <variable
+            name="onQuestionClick"
+            type="kotlin.jvm.functions.Function1&lt;Long, Unit>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/questionItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/categoryitem_border">
+        android:background="@drawable/categoryitem_border"
+        android:onClick="@{() -> onQuestionClick.invoke(question.id)}">
 
         <TextView
             android:id="@+id/tv"
@@ -24,6 +31,7 @@
             android:layout_marginTop="22dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="22dp"
+            android:paddingVertical="4dp"
             android:text="@{question.content}"
             android:textColor="@color/neutral_50"
             app:layout_constraintBottom_toBottomOf="parent"
