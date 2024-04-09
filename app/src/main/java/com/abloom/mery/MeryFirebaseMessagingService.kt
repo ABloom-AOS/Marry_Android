@@ -3,14 +3,10 @@ package com.abloom.mery
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -27,9 +23,9 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
             Log.e("TAG", "token 메세지 받음 , 현재 빈 데이터")
 
             //TODO(다른 화면 이동 및 백그라운드 알람 이동)
-//            val args = Bundle().apply {
-//                putString("qid", remoteMessage.data["qid"])
-//            }
+            //            val args = Bundle().apply {
+            //                putString("qid", remoteMessage.data["qid"])
+            //            }
 
             val qnaPendingIntent = NavDeepLinkBuilder(applicationContext)
                 .setGraph(R.navigation.app)
@@ -55,8 +51,6 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
                 )
             }
         }
-
-
     }
 
     private fun sendNotification(title: String?, body: String?, pendingIntent: PendingIntent) {
@@ -82,24 +76,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("IDService", "Refreshed token: $token")
-                 updateFcmToken(token)
         // 파이어베이스에 token 업로드 데이터를 직접 건드는 부분이기 때문에  주석처리 하였음.
-    }
-
-    private fun updateFcmToken(fcmToken: String) {
-        val myId = Firebase.auth.currentUser?.uid
-        if (myId != null) {
-            val userRef = Firebase.firestore.collection("users").document(myId)
-            userRef.update("fcm_token", fcmToken)
-                .addOnSuccessListener { Log.e("TAG", "FCM Token for user $myId updated") }
-                .addOnFailureListener { e ->
-                    Log.e(
-                        "TAG",
-                        "Error updating FCM Token for user $myId",
-                        e
-                    )
-                }
-        }
     }
 
     companion object {
