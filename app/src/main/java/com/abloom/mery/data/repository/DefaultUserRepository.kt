@@ -11,13 +11,11 @@ import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.asDeferred
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -99,22 +97,11 @@ class DefaultUserRepository @Inject constructor(
     override suspend fun connectWithFiance(
         fianceInvitationCode: String
     ): Boolean = externalScope.async {
-        val fianceDocument = firebaseDataSource
-            .getUserDocumentByInvitationCode(fianceInvitationCode)
-            ?: return@async false
         val loginUserId = firebaseDataSource.loginUserId ?: return@async false
-        val loginUser = firebaseDataSource.getUserDocument(loginUserId) ?: return@async false
-        if (loginUser.fianceId != null || fianceDocument.fianceId != null) return@async false
-
-        val loginUserLinkAsync = firebaseDataSource
-            .updateFianceId(loginUser.id, fianceDocument.id)
-            .asDeferred()
-        val fianceLinkAsync = firebaseDataSource
-            .updateFianceId(fianceDocument.id, loginUser.id)
-            .asDeferred()
-        awaitAll(loginUserLinkAsync, fianceLinkAsync)
-
-        return@async true
+        val fianceId = firebaseDataSource
+            .getUserIdByInvitationCode(fianceInvitationCode)
+            ?: return@async false
+        return@async firebaseDataSource.connect(loginUserId, fianceId)
     }.await()
 
     override suspend fun changeLoginUserName(name: String) = externalScope.launch {
@@ -138,12 +125,9 @@ class DefaultUserRepository @Inject constructor(
 
     override suspend fun leave() = externalScope.launch {
         val loginUserId = firebaseDataSource.loginUserId ?: return@launch
-        val loginUser = firebaseDataSource.getUserDocument(loginUserId) ?: return@launch
-        if (loginUser.fianceId != null) firebaseDataSource.updateFianceId(loginUser.fianceId, null)
         firebaseDataSource.delete(loginUserId)
         preferencesDataSource.removeLoginUserId()
     }.join()
-
 
     companion object {
 

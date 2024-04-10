@@ -2,10 +2,13 @@ package com.abloom.mery.data.firebase.qna
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.snapshots
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.tasks.asDeferred
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -39,20 +42,40 @@ class QnaFirebaseDataSource @Inject constructor(
 
     suspend fun updateReaction(
         userId: String,
+        fianceId: String,
         questionId: Long,
         reaction: Int
     ) = withContext(Dispatchers.IO) {
-        db.collection(COLLECTIONS_USER)
-            .document(userId)
-            .collection(COLLECTIONS_ANSWERS)
-            .whereEqualTo(QnaDocument.KEY_QUESTION_ID, questionId)
-            .get()
-            .addOnSuccessListener { documents ->
-                documents.forEach { document ->
-                    document.reference.update(QnaDocument.KEY_REACTION, reaction)
-                }
+        val loginUserQnaQueryAsync = getQnaDocumentAsync(userId, questionId)
+        val fianceQnaQueryAsync = getQnaDocumentAsync(fianceId, questionId)
+
+        val (loginUserQnaQuerySnapshot, fianceQnaQuerySnapshot) =
+            awaitAll(loginUserQnaQueryAsync, fianceQnaQueryAsync)
+
+        val loginUserQnaDocumentSnapshot = loginUserQnaQuerySnapshot.firstOrNull()
+            ?: return@withContext
+        val fianceQnaDocumentSnapshot = fianceQnaQuerySnapshot.firstOrNull()
+            ?: return@withContext
+
+        val isComplete = fianceQnaDocumentSnapshot.toObject<QnaDocument>().reaction != null
+
+        db.runBatch { batch ->
+            batch.update(loginUserQnaDocumentSnapshot.reference, QnaDocument.KEY_REACTION, reaction)
+            if (isComplete) {
+                batch.update(fianceQnaDocumentSnapshot.reference, QnaDocument.KEY_IS_COMPLETE, true)
             }
+        }
     }
+
+    private fun getQnaDocumentAsync(
+        userId: String,
+        questionId: Long
+    ) = db.collection(COLLECTIONS_USER)
+        .document(userId)
+        .collection(COLLECTIONS_ANSWERS)
+        .whereEqualTo(QnaDocument.KEY_QUESTION_ID, questionId)
+        .get()
+        .asDeferred()
 
     companion object {
 

@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.snapshots
+import com.google.firebase.firestore.toObject
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -91,15 +92,31 @@ class UserFirebaseDataSource @Inject constructor(
             }
             .flowOn(Dispatchers.IO)
 
-    suspend fun getUserDocumentByInvitationCode(
+    suspend fun connect(user1Id: String, user2Id: String): Boolean = withContext(Dispatchers.IO) {
+        val user1Ref = db.collection(COLLECTIONS_USER).document(user1Id)
+        val user2Ref = db.collection(COLLECTIONS_USER).document(user2Id)
+        db.runTransaction { transaction ->
+            val user1Document = transaction.get(user1Ref).toObject<UserDocument>()
+            val user2Document = transaction.get(user2Ref).toObject<UserDocument>()
+            if (user1Document == null || user2Document == null) return@runTransaction false
+
+            if (user1Document.fianceId != null && user2Document.fianceId != null) return@runTransaction false
+
+            user1Ref.update(UserDocument.KEY_FIANCE, user2Id)
+            user2Ref.update(UserDocument.KEY_FIANCE, user1Id)
+            true
+        }.await()
+    }
+
+    suspend fun getUserIdByInvitationCode(
         invitationCode: String
-    ): UserDocument? = withContext(Dispatchers.IO) {
+    ): String? = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .whereEqualTo(UserDocument.KEY_INVITATION_CODE, invitationCode)
             .get()
             .await()
-            .toObjects(UserDocument::class.java)
             .firstOrNull()
+            ?.id
     }
 
     suspend fun updateFianceId(userId: String, fianceId: String?) = withContext(Dispatchers.IO) {
@@ -126,10 +143,17 @@ class UserFirebaseDataSource @Inject constructor(
     suspend fun signOut() = withContext(Dispatchers.IO) { auth.signOut() }
 
     suspend fun delete(userId: String) = withContext(Dispatchers.IO) {
-        db.collection(COLLECTIONS_USER)
-            .document(userId)
-            .delete()
-        auth.currentUser?.delete()
+        val userRef = db.collection(COLLECTIONS_USER).document(userId)
+        db.runTransaction { transaction ->
+            val userDocument =
+                transaction.get(userRef).toObject<UserDocument>() ?: return@runTransaction
+            if (userDocument.fianceId != null) {
+                val fianceRef = db.collection(COLLECTIONS_USER).document(userDocument.fianceId)
+                fianceRef.update(UserDocument.KEY_FIANCE, null)
+            }
+            userRef.delete()
+            auth.currentUser?.delete()
+        }
     }
 
     suspend fun loginUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {

@@ -28,6 +28,7 @@ data class UserDocument(
     )
 
     companion object {
+
         const val KEY_FCM_TOKEN = "fcm_token"
         const val KEY_USER_ID = "user_id"
         const val KEY_NAME = "name"
