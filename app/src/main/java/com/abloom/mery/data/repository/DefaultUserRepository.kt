@@ -127,8 +127,6 @@ class DefaultUserRepository @Inject constructor(
 
     override suspend fun leave() = externalScope.launch {
         val loginUserId = firebaseDataSource.loginUserId ?: return@launch
-        val loginUser = firebaseDataSource.getUserDocument(loginUserId) ?: return@launch
-        if (loginUser.fianceId != null) firebaseDataSource.updateFianceId(loginUser.fianceId, null)
         firebaseDataSource.delete(loginUserId)
         preferencesDataSource.removeLoginUserId()
     }.join()

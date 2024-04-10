@@ -143,10 +143,16 @@ class UserFirebaseDataSource @Inject constructor(
     suspend fun signOut() = withContext(Dispatchers.IO) { auth.signOut() }
 
     suspend fun delete(userId: String) = withContext(Dispatchers.IO) {
-        db.collection(COLLECTIONS_USER)
-            .document(userId)
-            .delete()
-        auth.currentUser?.delete()
+        val userRef = db.collection(COLLECTIONS_USER).document(userId)
+        db.runTransaction { transaction ->
+            val userDocument = transaction.get(userRef).toObject<UserDocument>() ?: return@runTransaction
+            if (userDocument.fianceId != null) {
+                val fianceRef = db.collection(COLLECTIONS_USER).document(userDocument.fianceId)
+                fianceRef.update(UserDocument.KEY_FIANCE, null)
+            }
+            userRef.delete()
+            auth.currentUser?.delete()
+        }
     }
 
     suspend fun loginUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
