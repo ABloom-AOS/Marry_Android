@@ -41,6 +41,7 @@ class DefaultUserRepository @Inject constructor(
             )
         } ?: return@async false
 
+        firebaseDataSource.loginUpdateFcmToken(loginUser.uid)
         val isJoined = firebaseDataSource.isExist(loginUser.uid)
         if (isJoined) preferencesDataSource.updateLoginUserId(loginUser.uid)
         return@async isJoined
@@ -69,6 +70,7 @@ class DefaultUserRepository @Inject constructor(
         )
 
         firebaseDataSource.createUserDocument(userDocument)
+        firebaseDataSource.loginUpdateFcmToken(joinedUser.uid)
         preferencesDataSource.updateLoginUserId(joinedUser.uid)
     }.join()
 
@@ -128,8 +130,10 @@ class DefaultUserRepository @Inject constructor(
     }.join()
 
     override suspend fun logout() = externalScope.launch {
+        val loginUserId = firebaseDataSource.loginUserId ?: return@launch
         preferencesDataSource.removeLoginUserId()
         firebaseDataSource.signOut()
+        firebaseDataSource.logOutUpdateFcmToken(loginUserId)
     }.join()
 
     override suspend fun leave() = externalScope.launch {
@@ -139,6 +143,7 @@ class DefaultUserRepository @Inject constructor(
         firebaseDataSource.delete(loginUserId)
         preferencesDataSource.removeLoginUserId()
     }.join()
+
 
     companion object {
 

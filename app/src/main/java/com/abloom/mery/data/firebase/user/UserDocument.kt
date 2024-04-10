@@ -9,6 +9,7 @@ import com.google.firebase.firestore.PropertyName
 import java.time.LocalDate
 
 data class UserDocument(
+    @JvmField @PropertyName(KEY_FCM_TOKEN) val fcmToken: String? = null,
     @JvmField @PropertyName(KEY_USER_ID) val id: String = "",
     @JvmField @PropertyName(KEY_NAME) val name: String = "",
     @JvmField @PropertyName(KEY_INVITATION_CODE) val invitationCode: String = "",
@@ -27,7 +28,7 @@ data class UserDocument(
     )
 
     companion object {
-
+        const val KEY_FCM_TOKEN = "fcm_token"
         const val KEY_USER_ID = "user_id"
         const val KEY_NAME = "name"
         const val KEY_INVITATION_CODE = "invitation_code"
