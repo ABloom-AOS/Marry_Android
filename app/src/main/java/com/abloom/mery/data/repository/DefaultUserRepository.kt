@@ -99,22 +99,11 @@ class DefaultUserRepository @Inject constructor(
     override suspend fun connectWithFiance(
         fianceInvitationCode: String
     ): Boolean = externalScope.async {
-        val fianceDocument = firebaseDataSource
-            .getUserDocumentByInvitationCode(fianceInvitationCode)
-            ?: return@async false
         val loginUserId = firebaseDataSource.loginUserId ?: return@async false
-        val loginUser = firebaseDataSource.getUserDocument(loginUserId) ?: return@async false
-        if (loginUser.fianceId != null || fianceDocument.fianceId != null) return@async false
-
-        val loginUserLinkAsync = firebaseDataSource
-            .updateFianceId(loginUser.id, fianceDocument.id)
-            .asDeferred()
-        val fianceLinkAsync = firebaseDataSource
-            .updateFianceId(fianceDocument.id, loginUser.id)
-            .asDeferred()
-        awaitAll(loginUserLinkAsync, fianceLinkAsync)
-
-        return@async true
+        val fianceId = firebaseDataSource
+            .getUserIdByInvitationCode(fianceInvitationCode)
+            ?: return@async false
+        return@async firebaseDataSource.connect(loginUserId, fianceId)
     }.await()
 
     override suspend fun changeLoginUserName(name: String) = externalScope.launch {
