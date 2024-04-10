@@ -16,14 +16,14 @@ import com.abloom.domain.qna.model.UnfinishedAnswerQna
 import com.abloom.domain.qna.model.UnfinishedResponseQna
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentQnaBinding
-import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
 
 @AndroidEntryPoint
-class QnaFragment : BaseFragment<FragmentQnaBinding>(R.layout.fragment_qna) {
+class QnaFragment : NavigationFragment<FragmentQnaBinding>(R.layout.fragment_qna) {
 
     private val viewModel: QnaViewModel by viewModels()
 
@@ -50,13 +50,13 @@ class QnaFragment : BaseFragment<FragmentQnaBinding>(R.layout.fragment_qna) {
 
     private fun navigateToWriteAnswer() {
         val questionId = viewModel.qna.value?.question?.id ?: return
-        findNavController().navigate(
+        findNavController().navigateSafely(
             QnaFragmentDirections.actionQnaFragmentToWriteAnswerFragment(questionId)
         )
     }
 
     private fun navigateToConnect() {
-        findNavController().navigate(QnaFragmentDirections.actionQnaFragmentToConnectFragment())
+        findNavController().navigateSafely(QnaFragmentDirections.actionQnaFragmentToConnectFragment())
     }
 
     private fun showResponseSelectDialog() {

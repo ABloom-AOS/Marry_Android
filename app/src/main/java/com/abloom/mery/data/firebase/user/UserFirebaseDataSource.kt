@@ -74,14 +74,6 @@ class UserFirebaseDataSource @Inject constructor(
             .set(userDocument)
     }
 
-    suspend fun getUserDocument(userId: String): UserDocument? = withContext(Dispatchers.IO) {
-        db.collection(COLLECTIONS_USER)
-            .document(userId)
-            .get()
-            .await()
-            .toObject(UserDocument::class.java)
-    }
-
     fun getUserDocumentFlow(userId: String): Flow<UserDocument?> =
         db.collection(COLLECTIONS_USER)
             .document(userId)

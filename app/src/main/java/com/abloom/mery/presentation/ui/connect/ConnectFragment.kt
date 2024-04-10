@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentConnectBinding
-import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.extension.copyToClipboard
 import com.abloom.mery.presentation.common.extension.hideSoftKeyboard
 import com.abloom.mery.presentation.common.extension.repeatOnStarted
@@ -19,7 +19,7 @@ import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ConnectFragment : BaseFragment<FragmentConnectBinding>(R.layout.fragment_connect) {
+class ConnectFragment : NavigationFragment<FragmentConnectBinding>(R.layout.fragment_connect) {
 
     private val viewModel: ConnectViewModel by viewModels()
 

@@ -6,13 +6,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentPrivacyConsentBinding
-import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.ui.webview.WebViewUrl
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PrivacyConsentFragment :
-    BaseFragment<FragmentPrivacyConsentBinding>(R.layout.fragment_privacy_consent) {
+    NavigationFragment<FragmentPrivacyConsentBinding>(R.layout.fragment_privacy_consent) {
 
     private val viewModel: SignUpViewModel by viewModels({ requireParentFragment() })
 
@@ -29,7 +29,7 @@ class PrivacyConsentFragment :
     }
 
     private fun navigateToWebView(url: WebViewUrl) {
-        findNavController().navigate(
+        findNavController().navigateSafely(
             SignUpFragmentDirections.actionSignUpFragmentToWebViewFragment(url)
         )
     }

@@ -28,7 +28,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
     private val qnaAdapter: QnaAdapter by lazy { QnaAdapter(onQnaClick = ::navigateToQna) }
 
     private fun navigateToQna(questionId: Long) {
-        findNavController().navigate(
+        findNavController().navigateSafely(
             HomeFragmentDirections.actionHomeFragmentToQnaFragment(questionId)
         )
     }
@@ -56,11 +56,11 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
     }
 
     private fun navigateToProfileMenu() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileMenuFragment())
+        findNavController().navigateSafely(HomeFragmentDirections.actionHomeFragmentToProfileMenuFragment())
     }
 
     private fun navigateToCreateQna() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateQna())
+        findNavController().navigateSafely(HomeFragmentDirections.actionHomeFragmentToCreateQna())
     }
 
     private fun observeLoginEvent() {

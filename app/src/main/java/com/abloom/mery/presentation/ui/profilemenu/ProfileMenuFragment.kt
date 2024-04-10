@@ -12,7 +12,7 @@ import com.abloom.domain.user.model.User
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentProfileMenuBinding
 import com.abloom.mery.presentation.MainViewModel
-import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.common.view.ConfirmDialog
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileMenuFragment :
-    BaseFragment<FragmentProfileMenuBinding>(R.layout.fragment_profile_menu) {
+    NavigationFragment<FragmentProfileMenuBinding>(R.layout.fragment_profile_menu) {
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val profileMenuViewModel: ProfileMenuViewModel by viewModels()
@@ -78,18 +78,18 @@ class ProfileMenuFragment :
     }
 
     private fun navigateToConnect() {
-        findNavController().navigate(ProfileMenuFragmentDirections.actionProfileMenuFragmentToConnectFragment())
+        findNavController().navigateSafely(ProfileMenuFragmentDirections.actionProfileMenuFragmentToConnectFragment())
     }
 
     private fun navigateToWebView(url: WebViewUrl) {
-        findNavController().navigate(
+        findNavController().navigateSafely(
             ProfileMenuFragmentDirections
                 .actionProfileMenuFragmentToWebViewFromProfileMenuFragment(url)
         )
     }
 
     private fun navigateToLeave() {
-        findNavController().navigate(ProfileMenuFragmentDirections.actionProfileMenuFragmentToLeaveFragment())
+        findNavController().navigateSafely(ProfileMenuFragmentDirections.actionProfileMenuFragmentToLeaveFragment())
     }
 
     private fun showLogoutConfirmDialog() {
@@ -180,7 +180,7 @@ class ProfileMenuFragment :
                 }
 
                 LoginUserDescriptionUiState.NotConnected ->
-                    findNavController().navigate(ProfileMenuFragmentDirections.actionProfileMenuFragmentToConnectFragment())
+                    findNavController().navigateSafely(ProfileMenuFragmentDirections.actionProfileMenuFragmentToConnectFragment())
 
                 is LoginUserDescriptionUiState.Fiance -> {}
             }
