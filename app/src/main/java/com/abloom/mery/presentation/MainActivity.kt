@@ -25,6 +25,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.abloom.mery.R
 import com.abloom.mery.databinding.ActivityMainBinding
 import com.abloom.mery.presentation.common.extension.showToast
+import com.abloom.mery.presentation.notification.NotificationHelper
 import com.abloom.mery.presentation.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         askNotificationPermission()
         createNotificationChannel()
+        NotificationHelper.setAlarm(this)
         //        backgroundPush()
     }
 
