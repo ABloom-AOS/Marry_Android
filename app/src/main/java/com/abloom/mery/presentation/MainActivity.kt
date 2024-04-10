@@ -162,6 +162,7 @@ class MainActivity : AppCompatActivity() {
         private const val CHANNEL_NAME = "channel_name_mery"
         private const val ASK_AGAIN_EXIT_DURATION = 2_000
         private const val FIXED_FONT_SCALE = 1.0f
+        const val FIXED_DENSITY = 2.625f
     }
 }
 

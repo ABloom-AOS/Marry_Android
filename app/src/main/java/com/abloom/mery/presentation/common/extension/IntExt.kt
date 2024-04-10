@@ -1,7 +1,9 @@
 package com.abloom.mery.presentation.common.extension
 
-import android.content.res.Resources
+import com.abloom.mery.presentation.MainActivity.Companion.FIXED_DENSITY
 import kotlin.math.roundToInt
 
 val Int.dp: Int
-    get() = (this * Resources.getSystem().displayMetrics.density).roundToInt()
+    get() {
+        return (this * FIXED_DENSITY).roundToInt()
+    }
