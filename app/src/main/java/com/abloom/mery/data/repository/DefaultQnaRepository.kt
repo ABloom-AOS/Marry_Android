@@ -15,6 +15,7 @@ import com.abloom.mery.data.firebase.qna.QnaFirebaseDataSource
 import com.abloom.mery.data.firebase.qna.asReaction
 import com.abloom.mery.data.firebase.qna.asResponse
 import com.abloom.mery.data.firebase.toLocalDateTime
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -72,32 +73,21 @@ class DefaultQnaRepository @Inject constructor(
     ) { loginUserQnaDocuments, fianceQnaDocuments ->
         (loginUserQnaDocuments + fianceQnaDocuments).groupBy { it.questionId }
             .values.map { qnaDocuments ->
-                if (qnaDocuments.size == 1) {
-                    val document = qnaDocuments.first()
-                    val isLoginUserDocument = document.userId == loginUser.id
-                    return@map Qna.create(
-                        question = questions.first { it.id == document.questionId },
-                        createdAt = document.date.toLocalDateTime(),
-                        loginUser = loginUser,
-                        fiance = fiance,
-                        loginUserAnswer = if (isLoginUserDocument) Answer(document.answer) else null,
-                        fianceAnswer = if (!isLoginUserDocument) Answer(document.answer) else null
-                    )
-                }
-                val loginUserQnaDocument = qnaDocuments.first { it.userId == loginUser.id }
-                val fianceQnaDocument = qnaDocuments.first { it.userId == fiance.id }
+                val loginUserQnaDocument = qnaDocuments.firstOrNull { it.userId == loginUser.id }
+                val fianceQnaDocument = qnaDocuments.firstOrNull { it.userId == fiance.id }
+
                 Qna.create(
-                    question = questions.first { it.id == loginUserQnaDocument.questionId },
+                    question = questions.first { it.id == qnaDocuments[0].questionId },
                     createdAt = minOf(
-                        loginUserQnaDocument.date,
-                        fianceQnaDocument.date
+                        loginUserQnaDocument?.date ?: Timestamp.now(),
+                        fianceQnaDocument?.date ?: Timestamp.now()
                     ).toLocalDateTime(),
                     loginUser = loginUser,
                     fiance = fiance,
-                    loginUserAnswer = Answer(loginUserQnaDocument.answer),
-                    fianceAnswer = Answer(fianceQnaDocument.answer),
-                    loginUserResponse = loginUserQnaDocument.reaction?.asResponse(),
-                    fianceResponse = fianceQnaDocument.reaction?.asResponse()
+                    loginUserAnswer = loginUserQnaDocument?.answer?.let { Answer(it) },
+                    fianceAnswer = fianceQnaDocument?.answer?.let { Answer(it) },
+                    loginUserResponse = loginUserQnaDocument?.reaction?.asResponse(),
+                    fianceResponse = fianceQnaDocument?.reaction?.asResponse()
                 )
             }
     }
