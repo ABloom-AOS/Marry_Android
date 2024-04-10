@@ -11,13 +11,11 @@ import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.asDeferred
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -130,7 +128,6 @@ class DefaultUserRepository @Inject constructor(
         firebaseDataSource.delete(loginUserId)
         preferencesDataSource.removeLoginUserId()
     }.join()
-
 
     companion object {
 

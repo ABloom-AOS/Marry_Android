@@ -145,7 +145,8 @@ class UserFirebaseDataSource @Inject constructor(
     suspend fun delete(userId: String) = withContext(Dispatchers.IO) {
         val userRef = db.collection(COLLECTIONS_USER).document(userId)
         db.runTransaction { transaction ->
-            val userDocument = transaction.get(userRef).toObject<UserDocument>() ?: return@runTransaction
+            val userDocument =
+                transaction.get(userRef).toObject<UserDocument>() ?: return@runTransaction
             if (userDocument.fianceId != null) {
                 val fianceRef = db.collection(COLLECTIONS_USER).document(userDocument.fianceId)
                 fianceRef.update(UserDocument.KEY_FIANCE, null)

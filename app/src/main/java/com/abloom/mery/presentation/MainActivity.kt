@@ -10,7 +10,6 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -57,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         askNotificationPermission()
         createNotificationChannel()
-//        backgroundPush()
+        //        backgroundPush()
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -143,8 +142,8 @@ class MainActivity : AppCompatActivity() {
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
 
-        val notificationManager: NotificationManager
-                = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         notificationManager.createNotificationChannel(channel)
     }
@@ -158,6 +157,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+
         private const val CHANNEL_ID = "channel_mery"
         private const val CHANNEL_NAME = "channel_name_mery"
         private const val ASK_AGAIN_EXIT_DURATION = 2_000

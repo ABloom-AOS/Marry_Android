@@ -1,6 +1,5 @@
 package com.abloom.mery.data.firebase.qna
 
-import com.abloom.domain.qna.model.Response
 import com.abloom.mery.data.firebase.toTimestamp
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.PropertyName
