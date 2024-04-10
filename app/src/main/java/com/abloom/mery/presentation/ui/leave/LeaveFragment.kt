@@ -6,12 +6,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentLeaveBinding
-import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.view.ConfirmDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LeaveFragment : BaseFragment<FragmentLeaveBinding>(R.layout.fragment_leave) {
+class LeaveFragment : NavigationFragment<FragmentLeaveBinding>(R.layout.fragment_leave) {
 
     private val viewModel: LeaveViewModel by viewModels()
 

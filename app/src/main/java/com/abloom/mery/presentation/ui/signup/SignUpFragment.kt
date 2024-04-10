@@ -12,13 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentSignUpBinding
-import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.view.setOnActionClick
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
+class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
 
     private val signUpViewModel: SignUpViewModel by viewModels()
 

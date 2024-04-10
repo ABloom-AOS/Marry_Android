@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentWriteAnswerBinding
-import com.abloom.mery.presentation.common.base.BaseFragment
+import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.view.ConfirmDialog
 import com.abloom.mery.presentation.common.view.setOnActionClick
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class WriteAnswerFragment :
-    BaseFragment<FragmentWriteAnswerBinding>(R.layout.fragment_write_answer) {
+    NavigationFragment<FragmentWriteAnswerBinding>(R.layout.fragment_write_answer) {
 
     private val writeAnswerViewModel: WriteAnswerViewModel by viewModels()
 
