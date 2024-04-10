@@ -12,6 +12,7 @@ data class QnaDocument(
     @JvmField @PropertyName(KEY_DATE) val date: Timestamp = Timestamp(0, 0),
     @JvmField @PropertyName(KEY_ANSWER_CONTENT) val answer: String = "",
     @JvmField @PropertyName(KEY_REACTION) val reaction: Int? = null,
+    @JvmField @PropertyName(KEY_IS_COMPLETE) val isComplete: Boolean = false,
 ) {
 
     companion object {
@@ -21,19 +22,18 @@ data class QnaDocument(
         const val KEY_DATE = "date"
         const val KEY_ANSWER_CONTENT = "answer_content"
         const val KEY_REACTION = "reaction"
+        const val KEY_IS_COMPLETE = "is_complete"
 
         fun create(
             userId: String,
             questionId: Long,
             date: LocalDateTime,
             answer: String,
-            reaction: Response? = null,
         ) = QnaDocument(
             userId = userId,
             questionId = questionId,
             date = date.toTimestamp(),
             answer = answer,
-            reaction = reaction?.ordinal,
         )
     }
 }

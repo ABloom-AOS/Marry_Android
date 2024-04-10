@@ -3,6 +3,7 @@ package com.abloom.domain.qna.repository
 import com.abloom.domain.qna.model.Answer
 import com.abloom.domain.qna.model.Qna
 import com.abloom.domain.qna.model.Response
+import com.abloom.domain.qna.model.UnfinishedResponseQna
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -20,5 +21,5 @@ interface ProspectiveCoupleQnaRepository {
      */
     suspend fun answerQna(questionId: Long, answer: Answer)
 
-    suspend fun respondToQna(questionId: Long, response: Response)
+    suspend fun respondToQna(qna: UnfinishedResponseQna, response: Response)
 }

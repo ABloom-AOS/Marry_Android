@@ -3,6 +3,7 @@ package com.abloom.mery.data.repository
 import com.abloom.domain.qna.model.Answer
 import com.abloom.domain.qna.model.Qna
 import com.abloom.domain.qna.model.Response
+import com.abloom.domain.qna.model.UnfinishedResponseQna
 import com.abloom.domain.qna.repository.ProspectiveCoupleQnaRepository
 import com.abloom.domain.question.model.Question
 import com.abloom.domain.question.repository.QuestionRepository
@@ -179,8 +180,14 @@ class DefaultQnaRepository @Inject constructor(
         firebaseDataSource.createQnaDocument(qnaDocument)
     }.join()
 
-    override suspend fun respondToQna(questionId: Long, response: Response) = externalScope.launch {
-        val loginUserId = userRepository.loginUserId ?: return@launch
-        firebaseDataSource.updateReaction(loginUserId, questionId, response.asReaction())
-    }.join()
+    override suspend fun respondToQna(qna: UnfinishedResponseQna, response: Response) =
+        externalScope.launch {
+            val loginUserId = userRepository.loginUserId ?: return@launch
+            firebaseDataSource.updateReaction(
+                userId = loginUserId,
+                fianceId = qna.fiance.id,
+                questionId = qna.question.id,
+                reaction = response.asReaction()
+            )
+        }.join()
 }

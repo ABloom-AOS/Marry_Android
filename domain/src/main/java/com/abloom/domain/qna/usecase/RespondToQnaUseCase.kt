@@ -10,8 +10,8 @@ class RespondToQnaUseCase @Inject constructor(
     private val qnaRepository: ProspectiveCoupleQnaRepository
 ) {
 
-    suspend operator fun invoke(qna: Qna, response: Response) {
-        require(qna is UnfinishedResponseQna && qna.loginUserResponse == null) { "로그인 유저가 반응을 추가할 수 없습니다." }
-        qnaRepository.respondToQna(qna.question.id, response)
+    suspend operator fun invoke(qna: UnfinishedResponseQna, response: Response) {
+        require(qna.loginUserResponse == null) { "로그인 유저의 반응이 추가되어 있습니다." }
+        qnaRepository.respondToQna(qna, response)
     }
 }
