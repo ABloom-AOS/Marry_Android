@@ -42,6 +42,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
     private fun getGoogleSignInClient(): GoogleSignInClient {
         val googleSignInOption = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
+            .requestEmail()
             .build()
         return GoogleSignIn.getClient(requireActivity(), googleSignInOption)
     }
