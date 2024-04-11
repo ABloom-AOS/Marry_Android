@@ -106,7 +106,7 @@ class DefaultUserRepository @Inject constructor(
     override suspend fun connectWith(
         fiance: User
     ) = externalScope.async {
-        firebaseDataSource.connect(loginUserId ?: return@async , fiance.id)
+        firebaseDataSource.connect(loginUserId ?: return@async, fiance.id)
     }.await()
 
     override suspend fun changeLoginUserName(name: String) = externalScope.launch {

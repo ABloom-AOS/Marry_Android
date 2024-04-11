@@ -1,7 +1,6 @@
 package com.abloom.mery
 
 import android.annotation.SuppressLint
-import android.util.Log
 import com.abloom.mery.presentation.notification.notifyConnectSuccess
 import com.abloom.mery.presentation.notification.notifyFianceAction
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -28,6 +27,7 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     companion object {
+
         private const val KEY_QUESTION_ID = "qid"
     }
 }

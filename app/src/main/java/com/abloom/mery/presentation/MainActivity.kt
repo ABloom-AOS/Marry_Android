@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity() {
 
     private var backPressedTime: Long = 0
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
@@ -52,25 +56,23 @@ class MainActivity : AppCompatActivity() {
         setupDestinationChangedListener()
 
         askNotificationPermission()
+
+        handleDeepLink()
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-        } else {
+    private fun handleDeepLink() {
+        val questionId = intent.extras?.getString("qid")?.toLong()
+        if (questionId != null) {
+            val args = Bundle().apply { putLong("question_id", questionId) }
+            navController.navigate(R.id.qnaFragment, args)
         }
     }
 
     private fun askNotificationPermission() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
                 PackageManager.PERMISSION_GRANTED
             ) {
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-            } else {
-                // Directly ask for the permission
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }

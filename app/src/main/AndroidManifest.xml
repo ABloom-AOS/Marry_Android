@@ -17,9 +17,6 @@
         android:theme="@style/Theme.Mery"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.splash.SplashActivity"
-            android:exported="false" />
-        <activity
             android:name=".presentation.MainActivity"
             android:configChanges="density|fontScale|fontWeightAdjustment|layoutDirection|locale|orientation|screenLayout|screenSize"
             android:exported="true"
