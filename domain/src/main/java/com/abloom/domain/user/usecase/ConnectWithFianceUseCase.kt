@@ -13,7 +13,7 @@ class ConnectWithFianceUseCase @Inject constructor(
     suspend operator fun invoke(fianceInvitationCode: String): Boolean {
         val loginUserId = userRepository.loginUserId
         val fiance = userRepository.getUserByInvitationCode(fianceInvitationCode) ?: return false
-        if (fiance.id == loginUserId) return false
+        if (fiance.isLinkedWithFiance || fiance.id == loginUserId) return false
         userRepository.connectWith(fiance)
         return true
     }
