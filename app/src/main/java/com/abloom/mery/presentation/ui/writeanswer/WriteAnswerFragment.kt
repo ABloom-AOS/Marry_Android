@@ -86,12 +86,16 @@ class WriteAnswerFragment :
             title = getString(R.string.writeanswer_complete_confirm_dialog_title),
             message = getString(R.string.writeanswer_complete_confirm_dialog_message),
             positiveButtonLabel = getString(R.string.writeanswer_complete),
-            onPositiveButtonClick = {
-                writeAnswerViewModel.answerQna()
-                findNavController().popBackStack(R.id.homeFragment, false)
-            },
+            onPositiveButtonClick = ::handleWriteAnswerConfirm,
             negativeButtonLabel = getString(R.string.all_cancel),
         ).show()
+    }
+
+    private fun handleWriteAnswerConfirm() {
+        writeAnswerViewModel.answerQna()
+        val isNavigateToHomeSuccess =
+            findNavController().popBackStack(R.id.homeFragment, false)
+        if (!isNavigateToHomeSuccess) findNavController().popBackStack()
     }
 
     private fun setupDataBinding() {
