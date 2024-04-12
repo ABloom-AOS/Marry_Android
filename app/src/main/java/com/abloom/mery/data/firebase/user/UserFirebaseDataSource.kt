@@ -122,15 +122,23 @@ class UserFirebaseDataSource @Inject constructor(
     suspend fun signOut() = withContext(Dispatchers.IO) { auth.signOut() }
 
     suspend fun delete(userId: String) = withContext(Dispatchers.IO) {
-        val userRef = db.collection(COLLECTIONS_USER).document(userId)
+        val userRef = db.collection(COLLECTIONS_USER)
+            .document(userId)
+        val answerDocumentRefs = userRef.collection(COLLECTIONS_ANSWER)
+            .get()
+            .await()
+            .documents
+            .map { userRef.collection(COLLECTIONS_ANSWER).document(it.id) }
+
         db.runTransaction { transaction ->
             val userDocument =
                 transaction.get(userRef).toObject<UserDocument>() ?: return@runTransaction
             if (userDocument.fianceId != null) {
                 val fianceRef = db.collection(COLLECTIONS_USER).document(userDocument.fianceId)
-                fianceRef.update(UserDocument.KEY_FIANCE, null)
+                transaction.update(fianceRef, UserDocument.KEY_FIANCE, null)
             }
-            userRef.delete()
+            answerDocumentRefs.forEach { transaction.delete(it) }
+            transaction.delete(userRef)
             auth.currentUser?.delete()
         }
     }
@@ -150,5 +158,6 @@ class UserFirebaseDataSource @Inject constructor(
     companion object {
 
         private const val COLLECTIONS_USER = "users"
+        private const val COLLECTIONS_ANSWER = "answers"
     }
 }
