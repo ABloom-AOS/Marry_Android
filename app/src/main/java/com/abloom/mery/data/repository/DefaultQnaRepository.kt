@@ -174,7 +174,7 @@ class DefaultQnaRepository @Inject constructor(
         externalScope.launch {
             val loginUserId = userRepository.loginUserId ?: return@launch
             firebaseDataSource.updateReaction(
-                userId = loginUserId,
+                loginUserId = loginUserId,
                 fianceId = qna.fiance.id,
                 questionId = qna.question.id,
                 reaction = response.asReaction()

@@ -28,6 +28,6 @@ class MeryFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
 
-        private const val KEY_QUESTION_ID = "qid"
+        const val KEY_QUESTION_ID = "qid"
     }
 }

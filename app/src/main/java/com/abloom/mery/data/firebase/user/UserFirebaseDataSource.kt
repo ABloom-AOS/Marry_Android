@@ -84,12 +84,22 @@ class UserFirebaseDataSource @Inject constructor(
             }
             .flowOn(Dispatchers.IO)
 
-    suspend fun connect(user1Id: String, user2Id: String): Unit = withContext(Dispatchers.IO) {
+    suspend fun connect(user1Id: String, user2Id: String): Boolean = withContext(Dispatchers.IO) {
         val user1Ref = db.collection(COLLECTIONS_USER).document(user1Id)
         val user2Ref = db.collection(COLLECTIONS_USER).document(user2Id)
-        db.runBatch {
-            user1Ref.update(UserDocument.KEY_FIANCE, user2Id)
-            user2Ref.update(UserDocument.KEY_FIANCE, user1Id)
+        db.runTransaction { transaction ->
+            val user1Document = transaction.get(user1Ref)
+                .toObject<UserDocument>()
+                ?: return@runTransaction false
+            val user2Document = transaction.get(user2Ref)
+                .toObject<UserDocument>()
+                ?: return@runTransaction false
+
+            if (user1Document.fianceId != null || user2Document.fianceId != null) return@runTransaction false
+
+            transaction.update(user1Ref, UserDocument.KEY_FIANCE, user2Id)
+            transaction.update(user2Ref, UserDocument.KEY_FIANCE, user1Id)
+            true
         }.await()
     }
 
@@ -122,15 +132,23 @@ class UserFirebaseDataSource @Inject constructor(
     suspend fun signOut() = withContext(Dispatchers.IO) { auth.signOut() }
 
     suspend fun delete(userId: String) = withContext(Dispatchers.IO) {
-        val userRef = db.collection(COLLECTIONS_USER).document(userId)
+        val userRef = db.collection(COLLECTIONS_USER)
+            .document(userId)
+        val answerDocumentRefs = userRef.collection(COLLECTIONS_ANSWER)
+            .get()
+            .await()
+            .documents
+            .map { userRef.collection(COLLECTIONS_ANSWER).document(it.id) }
+
         db.runTransaction { transaction ->
             val userDocument =
                 transaction.get(userRef).toObject<UserDocument>() ?: return@runTransaction
             if (userDocument.fianceId != null) {
                 val fianceRef = db.collection(COLLECTIONS_USER).document(userDocument.fianceId)
-                fianceRef.update(UserDocument.KEY_FIANCE, null)
+                transaction.update(fianceRef, UserDocument.KEY_FIANCE, null)
             }
-            userRef.delete()
+            answerDocumentRefs.forEach { transaction.delete(it) }
+            transaction.delete(userRef)
             auth.currentUser?.delete()
         }
     }
@@ -150,5 +168,6 @@ class UserFirebaseDataSource @Inject constructor(
     companion object {
 
         private const val COLLECTIONS_USER = "users"
+        private const val COLLECTIONS_ANSWER = "answers"
     }
 }

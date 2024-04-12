@@ -31,7 +31,7 @@ interface UserRepository {
 
     suspend fun getUserByInvitationCode(invitationCode: String): User?
 
-    suspend fun connectWith(fiance: User)
+    suspend fun connectWith(fiance: User): Boolean
 
     suspend fun changeLoginUserName(name: String)
 

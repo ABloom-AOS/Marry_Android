@@ -14,7 +14,6 @@ class ConnectWithFianceUseCase @Inject constructor(
         val loginUserId = userRepository.loginUserId
         val fiance = userRepository.getUserByInvitationCode(fianceInvitationCode) ?: return false
         if (fiance.isLinkedWithFiance || fiance.id == loginUserId) return false
-        userRepository.connectWith(fiance)
-        return true
+        return userRepository.connectWith(fiance)
     }
 }

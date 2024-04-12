@@ -4,15 +4,16 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import androidx.navigation.NavDeepLinkBuilder
 import com.abloom.mery.R
+import com.abloom.mery.presentation.ui.qna.QnaFragment
+import com.abloom.mery.presentation.ui.writeanswer.WriteAnswerFragment
 
 private const val TODAY_QUESTION_NOTIFICATION_ID = 1
 
 fun Context.notifyTodayQuestion(questionId: Long) {
-    val args = Bundle().apply { putLong("question_id", questionId) }
+    val args = WriteAnswerFragment.createArguments(questionId)
     val intent = NavDeepLinkBuilder(this)
         .setGraph(R.navigation.app)
         .setDestination(R.id.writeAnswerFragment)
@@ -28,7 +29,7 @@ fun Context.notifyTodayQuestion(questionId: Long) {
 }
 
 fun Context.notifyFianceAction(title: String, body: String, questionId: Long) {
-    val args = Bundle().apply { putLong("question_id", questionId) }
+    val args = QnaFragment.createArguments(questionId)
     val intent = NavDeepLinkBuilder(applicationContext)
         .setGraph(R.navigation.app)
         .setDestination(R.id.qnaFragment)
