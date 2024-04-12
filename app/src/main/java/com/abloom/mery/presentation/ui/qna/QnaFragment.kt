@@ -274,7 +274,8 @@ class QnaFragment : NavigationFragment<FragmentQnaBinding>(R.layout.fragment_qna
 
     companion object {
 
-        private const val KEY_QUESTION_ID = "question_id"
-        fun getArgs(questionId: Long) = Bundle().apply { putLong(KEY_QUESTION_ID, questionId) }
+        const val KEY_QUESTION_ID = "question_id"
+        fun createArguments(questionId: Long): Bundle =
+            Bundle().apply { putLong(KEY_QUESTION_ID, questionId) }
     }
 }

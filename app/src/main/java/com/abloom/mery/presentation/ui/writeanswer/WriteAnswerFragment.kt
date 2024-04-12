@@ -101,6 +101,13 @@ class WriteAnswerFragment :
     private fun setupDataBinding() {
         binding.viewModel = writeAnswerViewModel
     }
+
+    companion object {
+
+        const val KEY_QUESTION_ID = "question_id"
+        fun createArguments(questionId: Long): Bundle =
+            Bundle().apply { putLong(KEY_QUESTION_ID, questionId) }
+    }
 }
 
 

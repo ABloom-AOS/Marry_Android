@@ -29,7 +29,7 @@ class QnaViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val qna: StateFlow<Qna?> = savedStateHandle
-        .getStateFlow("question_id", INVALID_QUESTION_ID)
+        .getStateFlow(QnaFragment.KEY_QUESTION_ID, INVALID_QUESTION_ID)
         .filter { it != INVALID_QUESTION_ID }
         .flatMapLatest { getQnaUseCase(it) }
         .stateIn(

@@ -20,9 +20,11 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.abloom.mery.MeryFirebaseMessagingService
 import com.abloom.mery.R
 import com.abloom.mery.databinding.ActivityMainBinding
 import com.abloom.mery.presentation.common.extension.showToast
+import com.abloom.mery.presentation.ui.qna.QnaFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,9 +63,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleDeepLink() {
-        val questionId = intent.extras?.getString("qid")?.toLong()
+        val questionId = intent.extras
+            ?.getString(MeryFirebaseMessagingService.KEY_QUESTION_ID)
+            ?.toLong()
         if (questionId != null) {
-            val args = Bundle().apply { putLong("question_id", questionId) }
+            val args = QnaFragment.createArguments(questionId)
             navController.navigate(R.id.qnaFragment, args)
         }
     }

@@ -27,7 +27,7 @@ class WriteAnswerViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val question: StateFlow<Question?> = savedStateHandle
-        .getStateFlow("question_id", INVALID_QUESTION_ID)
+        .getStateFlow(WriteAnswerFragment.KEY_QUESTION_ID, INVALID_QUESTION_ID)
         .filter { it != INVALID_QUESTION_ID }
         .flatMapLatest { getQuestionUseCase(it) }
         .stateIn(
