@@ -39,6 +39,10 @@ class MeryApplication : Application() {
             set(Calendar.SECOND, 0)
         }
 
+        if (calendar.timeInMillis < System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
