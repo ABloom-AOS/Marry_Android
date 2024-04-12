@@ -9,7 +9,6 @@ import com.abloom.mery.data.di.ApplicationScope
 import com.abloom.mery.data.firebase.user.UserDocument
 import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -82,8 +80,9 @@ class DefaultUserRepository @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun getLoginUserFlow(): Flow<User?> = preferencesDataSource.loginUserId
         .flatMapLatest { loginUserId ->
-            if (loginUserId == null) return@flatMapLatest flowOf(null)
-            check(firebaseDataSource.loginUserId == loginUserId) { "firebase의 유저 아이디와 로컬 데이터의 유저 아이디가 다릅니다." }
+            if (loginUserId == null || firebaseDataSource.loginUserId != loginUserId) {
+                return@flatMapLatest flowOf(null)
+            }
             firebaseDataSource.getUserDocumentFlow(loginUserId)
                 .map { userDocument -> userDocument?.asExternal() }
         }
@@ -99,7 +98,7 @@ class DefaultUserRepository @Inject constructor(
     override suspend fun getUserByInvitationCode(
         invitationCode: String
     ): User? = firebaseDataSource.getUserDocumentByInvitationCode(invitationCode)
-            ?.let(UserDocument::asExternal)
+        ?.let(UserDocument::asExternal)
 
     override suspend fun connectWith(
         fiance: User
@@ -107,7 +106,6 @@ class DefaultUserRepository @Inject constructor(
         val loginUserId = this.loginUserId ?: return false
         return firebaseDataSource.connect(loginUserId, fiance.id)
     }
-
 
     override suspend fun changeLoginUserName(name: String) = externalScope.launch {
         val loginUserId = firebaseDataSource.loginUserId ?: return@launch
