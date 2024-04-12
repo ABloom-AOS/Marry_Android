@@ -53,31 +53,25 @@
 
         <service
             android:name=".MeryFirebaseMessagingService"
-            android:exported="false"
-            android:stopWithTask="false">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <receiver android:name=".presentation.notification.NotificationReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
-        </receiver>
+
+        <receiver
+            android:name=".presentation.notification.TodayQuestionAlarmReceiver"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="channel_mery" />
-
+            android:value="channel_fiance" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/mery_app_icon" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/black" />
-
     </application>
 
 </manifest>

@@ -1,8 +1,6 @@
 package com.abloom.mery.presentation
 
 import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -25,8 +23,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.abloom.mery.R
 import com.abloom.mery.databinding.ActivityMainBinding
 import com.abloom.mery.presentation.common.extension.showToast
-import com.abloom.mery.presentation.notification.NotificationHelper
-import com.abloom.mery.presentation.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,6 +40,10 @@ class MainActivity : AppCompatActivity() {
 
     private var backPressedTime: Long = 0
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
@@ -56,28 +56,23 @@ class MainActivity : AppCompatActivity() {
         setupDestinationChangedListener()
 
         askNotificationPermission()
-        createNotificationChannel()
-        NotificationHelper.setAlarm(this)
-        //        backgroundPush()
+
+        handleDeepLink()
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-        } else {
+    private fun handleDeepLink() {
+        val questionId = intent.extras?.getString("qid")?.toLong()
+        if (questionId != null) {
+            val args = Bundle().apply { putLong("question_id", questionId) }
+            navController.navigate(R.id.qnaFragment, args)
         }
     }
 
     private fun askNotificationPermission() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
                 PackageManager.PERMISSION_GRANTED
             ) {
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-            } else {
-                // Directly ask for the permission
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
@@ -129,27 +124,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun backgroundPush() {
-        //TODO(백그라운 처리)
-        val intent = intent
-        intent.getStringExtra("qid")?.let {
-            val questionId = it.toLong()
-            val action =
-                HomeFragmentDirections.actionHomeFragmentToQnaFragment(questionId)
-            navController.navigate(action)
-        }
-    }
-
-    private fun createNotificationChannel() {
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
-
-        val notificationManager: NotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        notificationManager.createNotificationChannel(channel)
-    }
-
     override fun attachBaseContext(newBase: Context) {
         val newConfiguration = Configuration(newBase.resources.configuration)
         newConfiguration.fontScale = FIXED_FONT_SCALE
@@ -160,8 +134,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
 
-        private const val CHANNEL_ID = "channel_mery"
-        private const val CHANNEL_NAME = "channel_name_mery"
         private const val ASK_AGAIN_EXIT_DURATION = 2_000
         private const val FIXED_FONT_SCALE = 1.0f
         const val FIXED_DENSITY = 2.625f

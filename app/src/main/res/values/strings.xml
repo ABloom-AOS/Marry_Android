@@ -189,4 +189,9 @@
 
     <string name="push_today_question_receive">오늘의 추천 질문이 도착했어요</string>
     <string name="push_review_comment_search_each_mind">답변을 남기고 서로의 생각을 알아보세요 ✏️</string>
+
+    <string name="notification_today_question_channel_name">오늘의 추천 질문</string>
+    <string name="notification_today_question_channel_description">오전 9시마다 오늘의 추천 질문을 권유하는 알림을 받습니다.</string>
+    <string name="notification_fiance_channel_name">연인 소식</string>
+    <string name="notification_fiance_channel_description">연인의 연결 상태, 문답 작성, 반응 추가, 문답 완성에 대한 알림을 받습니다.</string>
 </resources>

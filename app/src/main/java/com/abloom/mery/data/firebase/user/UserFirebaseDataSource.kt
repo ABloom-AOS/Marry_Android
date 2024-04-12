@@ -84,37 +84,24 @@ class UserFirebaseDataSource @Inject constructor(
             }
             .flowOn(Dispatchers.IO)
 
-    suspend fun connect(user1Id: String, user2Id: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun connect(user1Id: String, user2Id: String): Unit = withContext(Dispatchers.IO) {
         val user1Ref = db.collection(COLLECTIONS_USER).document(user1Id)
         val user2Ref = db.collection(COLLECTIONS_USER).document(user2Id)
-        db.runTransaction { transaction ->
-            val user1Document = transaction.get(user1Ref).toObject<UserDocument>()
-            val user2Document = transaction.get(user2Ref).toObject<UserDocument>()
-            if (user1Document == null || user2Document == null) return@runTransaction false
-
-            if (user1Document.fianceId != null && user2Document.fianceId != null) return@runTransaction false
-
+        db.runBatch {
             user1Ref.update(UserDocument.KEY_FIANCE, user2Id)
             user2Ref.update(UserDocument.KEY_FIANCE, user1Id)
-            true
         }.await()
     }
 
-    suspend fun getUserIdByInvitationCode(
+    suspend fun getUserDocumentByInvitationCode(
         invitationCode: String
-    ): String? = withContext(Dispatchers.IO) {
+    ): UserDocument? = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .whereEqualTo(UserDocument.KEY_INVITATION_CODE, invitationCode)
             .get()
             .await()
             .firstOrNull()
-            ?.id
-    }
-
-    suspend fun updateFianceId(userId: String, fianceId: String?) = withContext(Dispatchers.IO) {
-        db.collection(COLLECTIONS_USER)
-            .document(userId)
-            .update(UserDocument.KEY_FIANCE, fianceId)
+            ?.toObject()
     }
 
     suspend fun updateName(userId: String, name: String) = withContext(Dispatchers.IO) {

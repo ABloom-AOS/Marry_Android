@@ -31,3 +31,20 @@
 -keep interface com.kakao.sdk.**.*Api
 -keep class com.kakao.sdk.**.model.* { <fields>; }
 -keep class * extends com.google.gson.TypeAdapter
+
+# Firestore의 Document를 파싱하기 위한 클래스의 기본 생성자가 축소되지 않도록 하기 위함
+-keepclassmembers,allowobfuscation class com.abloom.mery.data.firebase.user.UserDocument { *; }
+-keepclassmembers,allowobfuscation class com.abloom.mery.data.firebase.qna.QnaDocument { *; }
+-keepclassmembers,allowobfuscation class com.abloom.mery.data.firebase.question.QuestionDocument { *; }
+
+# Please add these rules to your existing keep rules in order to suppress warnings.
+# This is generated automatically by the Android Gradle plugin.
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.Conscrypt$Version
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE

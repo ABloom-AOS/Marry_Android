@@ -271,4 +271,10 @@ class QnaFragment : NavigationFragment<FragmentQnaBinding>(R.layout.fragment_qna
         ResponseResult.MORE_TALK -> getString(R.string.qna_more_talk_response_result_label)
         ResponseResult.MORE_FIND -> getString(R.string.qna_more_find_response_result_label)
     }
+
+    companion object {
+
+        private const val KEY_QUESTION_ID = "question_id"
+        fun getArgs(questionId: Long) = Bundle().apply { putLong(KEY_QUESTION_ID, questionId) }
+    }
 }

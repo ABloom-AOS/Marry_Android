@@ -29,10 +29,9 @@ interface UserRepository {
 
     fun getFianceFlow(): Flow<User?>
 
-    /**
-     * @return 연결 결과를 반환합니다. 연결에 실패하면 false를 반환합니다.
-     */
-    suspend fun connectWithFiance(fianceInvitationCode: String): Boolean
+    suspend fun getUserByInvitationCode(invitationCode: String): User?
+
+    suspend fun connectWith(fiance: User)
 
     suspend fun changeLoginUserName(name: String)
 

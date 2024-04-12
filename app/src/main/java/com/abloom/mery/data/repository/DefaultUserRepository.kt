@@ -9,6 +9,7 @@ import com.abloom.mery.data.di.ApplicationScope
 import com.abloom.mery.data.firebase.user.UserDocument
 import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -94,14 +96,17 @@ class DefaultUserRepository @Inject constructor(
             .map { userDocument -> userDocument?.asExternal() }
     }
 
-    override suspend fun connectWithFiance(
-        fianceInvitationCode: String
-    ): Boolean = externalScope.async {
-        val loginUserId = firebaseDataSource.loginUserId ?: return@async false
-        val fianceId = firebaseDataSource
-            .getUserIdByInvitationCode(fianceInvitationCode)
-            ?: return@async false
-        return@async firebaseDataSource.connect(loginUserId, fianceId)
+    override suspend fun getUserByInvitationCode(
+        invitationCode: String
+    ): User? = withContext(Dispatchers.IO) {
+        firebaseDataSource.getUserDocumentByInvitationCode(invitationCode)
+            ?.let(UserDocument::asExternal)
+    }
+
+    override suspend fun connectWith(
+        fiance: User
+    ) = externalScope.async {
+        firebaseDataSource.connect(loginUserId ?: return@async, fiance.id)
     }.await()
 
     override suspend fun changeLoginUserName(name: String) = externalScope.launch {
