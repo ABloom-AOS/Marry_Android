@@ -98,16 +98,16 @@ class DefaultUserRepository @Inject constructor(
 
     override suspend fun getUserByInvitationCode(
         invitationCode: String
-    ): User? = withContext(Dispatchers.IO) {
-        firebaseDataSource.getUserDocumentByInvitationCode(invitationCode)
+    ): User? = firebaseDataSource.getUserDocumentByInvitationCode(invitationCode)
             ?.let(UserDocument::asExternal)
-    }
 
     override suspend fun connectWith(
         fiance: User
-    ) = externalScope.async {
-        firebaseDataSource.connect(loginUserId ?: return@async, fiance.id)
-    }.await()
+    ): Boolean {
+        val loginUserId = this.loginUserId ?: return false
+        return firebaseDataSource.connect(loginUserId, fiance.id)
+    }
+
 
     override suspend fun changeLoginUserName(name: String) = externalScope.launch {
         val loginUserId = firebaseDataSource.loginUserId ?: return@launch
