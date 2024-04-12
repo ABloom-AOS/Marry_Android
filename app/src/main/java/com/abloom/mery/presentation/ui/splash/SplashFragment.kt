@@ -21,13 +21,9 @@ class SplashFragment : NavigationFragment<FragmentSplashBinding>(R.layout.fragme
     private fun navigateToHomeLazily() {
         lifecycleScope.launch {
             delay(SPLASH_DURATION)
-            if (isDeepLinked()) return@launch
             findNavController().navigateSafely(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
         }
     }
-
-    private fun isDeepLinked(): Boolean =
-        findNavController().currentDestination?.id != R.id.splashFragment
 
     companion object {
 
