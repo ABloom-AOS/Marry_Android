@@ -65,11 +65,14 @@ class QnaFirebaseDataSource @Inject constructor(
             .document(fianceAnswerId)
 
         db.runTransaction { transaction ->
+            val userQnaDocument = (transaction.get(loginUserAnswerRef)
+                .toObject<QnaDocument>()
+                ?: return@runTransaction)
             val fianceQnaDocument = transaction.get(fianceAnswerRef)
                 .toObject<QnaDocument>()
                 ?: return@runTransaction
 
-            val isComplete = fianceQnaDocument.reaction != null
+            val isComplete = userQnaDocument.reaction == null && fianceQnaDocument.reaction != null
 
             transaction.update(
                 loginUserAnswerRef,
