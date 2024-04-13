@@ -10,7 +10,6 @@ class RespondToQnaUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(qna: UnfinishedResponseQna, response: Response) {
-        require(qna.loginUserResponse == null) { "로그인 유저의 반응이 추가되어 있습니다." }
         qnaRepository.respondToQna(qna, response)
     }
 }
