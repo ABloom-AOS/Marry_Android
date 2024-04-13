@@ -171,27 +171,29 @@ class DefaultQnaRepository @Inject constructor(
         firebaseDataSource.createQnaDocument(qnaDocument)
     }.join()
 
-    override suspend fun respondToQna(qna: UnfinishedResponseQna, response: Response) {
-        externalScope.launch {
-            val loginUserId = userRepository.loginUserId ?: return@launch
-            firebaseDataSource.updateReaction(
-                loginUserId = loginUserId,
-                fianceId = qna.fiance.id,
-                questionId = qna.question.id,
-                reaction = response.asReaction()
-            )
-        }.join()
-    }
+    override suspend fun respondToQna(
+        qna: UnfinishedResponseQna,
+        response: Response
+    ) = externalScope.launch {
+        val loginUserId = userRepository.loginUserId ?: return@launch
+        firebaseDataSource.updateReaction(
+            loginUserId = loginUserId,
+            fianceId = qna.fiance.id,
+            questionId = qna.question.id,
+            reaction = response.asReaction()
+        )
+    }.join()
 
-    override suspend fun changeResponse(qna: FinishedQna, response: Response) {
-        externalScope.launch {
-            val loginUserId = userRepository.loginUserId ?: return@launch
-            firebaseDataSource.updateReaction(
-                loginUserId = loginUserId,
-                fianceId = qna.fiance.id,
-                questionId = qna.question.id,
-                reaction = response.asReaction()
-            )
-        }.join()
-    }
+    override suspend fun changeResponse(
+        qna: FinishedQna,
+        response: Response
+    ) = externalScope.launch {
+        val loginUserId = userRepository.loginUserId ?: return@launch
+        firebaseDataSource.updateReaction(
+            loginUserId = loginUserId,
+            fianceId = qna.fiance.id,
+            questionId = qna.question.id,
+            reaction = response.asReaction()
+        )
+    }.join()
 }
