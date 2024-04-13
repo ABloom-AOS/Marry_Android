@@ -1,6 +1,7 @@
 package com.abloom.domain.qna.repository
 
 import com.abloom.domain.qna.model.Answer
+import com.abloom.domain.qna.model.FinishedQna
 import com.abloom.domain.qna.model.Qna
 import com.abloom.domain.qna.model.Response
 import com.abloom.domain.qna.model.UnfinishedResponseQna
@@ -22,4 +23,6 @@ interface ProspectiveCoupleQnaRepository {
     suspend fun answerQna(questionId: Long, answer: Answer)
 
     suspend fun respondToQna(qna: UnfinishedResponseQna, response: Response)
+
+    suspend fun changeResponse(qna: FinishedQna, response: Response)
 }

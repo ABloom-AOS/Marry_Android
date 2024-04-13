@@ -1,6 +1,7 @@
 package com.abloom.mery.data.repository
 
 import com.abloom.domain.qna.model.Answer
+import com.abloom.domain.qna.model.FinishedQna
 import com.abloom.domain.qna.model.Qna
 import com.abloom.domain.qna.model.Response
 import com.abloom.domain.qna.model.UnfinishedResponseQna
@@ -170,7 +171,7 @@ class DefaultQnaRepository @Inject constructor(
         firebaseDataSource.createQnaDocument(qnaDocument)
     }.join()
 
-    override suspend fun respondToQna(qna: UnfinishedResponseQna, response: Response) =
+    override suspend fun respondToQna(qna: UnfinishedResponseQna, response: Response) {
         externalScope.launch {
             val loginUserId = userRepository.loginUserId ?: return@launch
             firebaseDataSource.updateReaction(
@@ -180,4 +181,17 @@ class DefaultQnaRepository @Inject constructor(
                 reaction = response.asReaction()
             )
         }.join()
+    }
+
+    override suspend fun changeResponse(qna: FinishedQna, response: Response) {
+        externalScope.launch {
+            val loginUserId = userRepository.loginUserId ?: return@launch
+            firebaseDataSource.updateReaction(
+                loginUserId = loginUserId,
+                fianceId = qna.fiance.id,
+                questionId = qna.question.id,
+                reaction = response.asReaction()
+            )
+        }.join()
+    }
 }

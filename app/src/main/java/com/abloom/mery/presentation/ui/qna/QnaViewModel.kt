@@ -3,9 +3,11 @@ package com.abloom.mery.presentation.ui.qna
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abloom.domain.qna.model.FinishedQna
 import com.abloom.domain.qna.model.Qna
 import com.abloom.domain.qna.model.Response
 import com.abloom.domain.qna.model.UnfinishedResponseQna
+import com.abloom.domain.qna.usecase.ChangeResponseUseCase
 import com.abloom.domain.qna.usecase.GetQnaUseCase
 import com.abloom.domain.qna.usecase.RespondToQnaUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +26,8 @@ import javax.inject.Inject
 class QnaViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getQnaUseCase: GetQnaUseCase,
-    private val respondToQnaUseCase: RespondToQnaUseCase
+    private val respondToQnaUseCase: RespondToQnaUseCase,
+    private val changeResponseUseCase: ChangeResponseUseCase
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -51,9 +54,8 @@ class QnaViewModel @Inject constructor(
 
     fun respondToQna(response: Response) = viewModelScope.launch {
         val qna = qna.value ?: return@launch
-        if (qna !is UnfinishedResponseQna) return@launch
-        if (qna.loginUserResponse != null) return@launch
-        respondToQnaUseCase(qna, response)
+        if (qna is UnfinishedResponseQna) respondToQnaUseCase(qna, response)
+        else if (qna is FinishedQna) changeResponseUseCase(qna, response)
     }
 
     companion object {
