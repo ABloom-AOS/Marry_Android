@@ -45,7 +45,7 @@ class QnaFragment : NavigationFragment<FragmentQnaBinding>(R.layout.fragment_qna
     private fun setupDataBinding() {
         binding.onWriteAnswerButtonClick = ::navigateToWriteAnswer
         binding.onConnectButtonClick = ::navigateToConnect
-        binding.onResponseAddButtonClick = ::showResponseSelectDialog
+        binding.onResponseChangeButtonClick = ::showResponseSelectDialog
     }
 
     private fun navigateToWriteAnswer() {
@@ -61,6 +61,7 @@ class QnaFragment : NavigationFragment<FragmentQnaBinding>(R.layout.fragment_qna
 
     private fun showResponseSelectDialog() {
         ResponseSelectDialog().show(childFragmentManager, ResponseSelectDialog.TAG)
+        viewModel.resetResponse()
     }
 
     private fun observeQna() {
@@ -223,9 +224,9 @@ class QnaFragment : NavigationFragment<FragmentQnaBinding>(R.layout.fragment_qna
         )
 
         binding.ivQnaLoginUserResponse.isEnabled =
-            qna is UnfinishedResponseQna && qna.loginUserResponse == null
+            qna is UnfinishedResponseQna || qna is FinishedQna
 
-        binding.ivQnaLoginUserResponseIndicator.isVisible = when (qna) {
+        binding.ivQnaLoginUserResponseChangeButton.isVisible = when (qna) {
             is UnconnectedQna -> false
             is UnfinishedAnswerQna -> false
             is UnfinishedResponseQna -> qna.loginUserResponse != null

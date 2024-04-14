@@ -22,7 +22,7 @@
             type="kotlin.jvm.functions.Function0" />
 
         <variable
-            name="onResponseAddButtonClick"
+            name="onResponseChangeButtonClick"
             type="kotlin.jvm.functions.Function0" />
     </data>
 
@@ -242,14 +242,14 @@
                     android:layout_width="84dp"
                     android:layout_height="84dp"
                     android:importantForAccessibility="no"
-                    android:onClick="@{() -> onResponseAddButtonClick.invoke()}"
+                    android:onClick="@{() -> onResponseChangeButtonClick.invoke()}"
                     app:layout_constraintBottom_toBottomOf="@id/iv_qna_response_result"
                     app:layout_constraintEnd_toEndOf="@id/tv_qna_question"
                     app:layout_constraintStart_toEndOf="@+id/iv_qna_response_result"
                     tools:src="@drawable/img_qna_lock_response" />
 
                 <ImageView
-                    android:id="@+id/iv_qna_login_user_response_indicator"
+                    android:id="@+id/iv_qna_login_user_response_change_button"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:importantForAccessibility="no"

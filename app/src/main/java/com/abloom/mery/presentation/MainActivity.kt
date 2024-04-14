@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         val questionId = intent.extras
             ?.getString(MeryFirebaseMessagingService.KEY_QUESTION_ID)
             ?.toLong()
+        intent.removeExtra(MeryFirebaseMessagingService.KEY_QUESTION_ID)
         if (questionId != null) {
             val args = QnaFragment.createArguments(questionId)
             navController.navigate(R.id.qnaFragment, args)

@@ -69,18 +69,23 @@ class QnaFirebaseDataSource @Inject constructor(
                 .toObject<QnaDocument>()
                 ?: return@runTransaction
 
-            val isComplete = fianceQnaDocument.reaction != null
+            val isComplete =
+                reaction.isPositiveResponse() && fianceQnaDocument.reaction?.isPositiveResponse() ?: false
 
-            transaction.update(
-                loginUserAnswerRef,
-                QnaDocument.KEY_REACTION,
-                reaction
-            )
             if (isComplete) {
                 transaction.update(
+                    loginUserAnswerRef,
+                    QnaDocument.KEY_REACTION, reaction,
+                    QnaDocument.KEY_IS_COMPLETE, true
+                )
+                transaction.update(
                     fianceAnswerRef,
-                    QnaDocument.KEY_IS_COMPLETE,
-                    true
+                    QnaDocument.KEY_IS_COMPLETE, true
+                )
+            } else {
+                transaction.update(
+                    loginUserAnswerRef,
+                    QnaDocument.KEY_REACTION, reaction,
                 )
             }
         }
