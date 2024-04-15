@@ -32,6 +32,9 @@
 -keep class com.kakao.sdk.**.model.* { <fields>; }
 -keep class * extends com.google.gson.TypeAdapter
 
+# ui 패키지 난독화 제외 설정
+-keep class com.abloom.mery.presentation.ui.** { *; }
+
 # Firestore의 Document를 파싱하기 위한 클래스의 기본 생성자가 축소되지 않도록 하기 위함
 -keepclassmembers,allowobfuscation class com.abloom.mery.data.firebase.user.UserDocument { *; }
 -keepclassmembers,allowobfuscation class com.abloom.mery.data.firebase.qna.QnaDocument { *; }
