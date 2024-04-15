@@ -32,10 +32,10 @@
 -keep class com.kakao.sdk.**.model.* { <fields>; }
 -keep class * extends com.google.gson.TypeAdapter
 
-# ui 패키지 클래스 난독화 제외 설정
--keep class com.abloom.mery.presentation.ui.signup.AuthenticationArgs { *; }
--keep class com.abloom.mery.presentation.ui.webview.WebViewUrl { *; }
--keep class com.abloom.mery.presentation.ui.category.CategoryArgs { *; }
+# Navigation의 Args로 사용되는 커스텀 클래스의 이름이 변경되면 에러가 발생함
+-keepnames class com.abloom.mery.presentation.ui.signup.AuthenticationArgs
+-keepnames class com.abloom.mery.presentation.ui.webview.WebViewUrl
+-keepnames class com.abloom.mery.presentation.ui.category.CategoryArgs
 
 # Firestore의 Document를 파싱하기 위한 클래스의 기본 생성자가 축소되지 않도록 하기 위함
 -keepclassmembers,allowobfuscation class com.abloom.mery.data.firebase.user.UserDocument { *; }
