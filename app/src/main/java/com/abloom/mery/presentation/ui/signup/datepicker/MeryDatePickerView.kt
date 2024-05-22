@@ -72,12 +72,12 @@ class MeryDatePickerView @JvmOverloads constructor(
     private val highlightView: View = run {
         val view = View(context)
 
-        if(isDarkMode(context)){
+        if (isDarkMode(context)) {
             view.background = ContextCompat.getDrawable(
                 context,
                 R.drawable.mery_text_wheel_highlight_bg
             )
-        }else{
+        } else {
             view.background = ContextCompat.getDrawable(
                 context,
                 sh.tyy.wheelpicker.R.drawable.text_wheel_highlight_bg
@@ -298,7 +298,8 @@ class MeryDatePickerView @JvmOverloads constructor(
     }
 
     private fun isDarkMode(context: Context): Boolean {
-        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val currentNightMode =
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 }
