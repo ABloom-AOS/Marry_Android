@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.abloom.mery.R
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
-import sh.tyy.wheelpicker.core.ItemEnableWheelAdapter
 import sh.tyy.wheelpicker.core.TextWheelPickerView
 import sh.tyy.wheelpicker.core.TripleDependentData
 import sh.tyy.wheelpicker.core.TripleDependentPickerView
@@ -27,7 +26,7 @@ class MeryDatePickerView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : TripleDependentPickerView(context, attrs, defStyleAttr),
-    BaseWheelPickerView.WheelPickerViewListener {
+    BaseWheelPickerView.WheelPickerViewListener, ItemEnableWheelAdapter.ValueEnabledProvider {
 
     override val adapters: Triple<RecyclerView.Adapter<*>, RecyclerView.Adapter<*>, RecyclerView.Adapter<*>>
         get() = Triple(yearAdapter, monthAdapter, dayAdapter)
