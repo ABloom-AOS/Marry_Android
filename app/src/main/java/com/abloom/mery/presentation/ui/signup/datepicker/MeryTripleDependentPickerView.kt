@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import sh.tyy.wheelpicker.R
+import com.abloom.mery.R
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import sh.tyy.wheelpicker.core.TextWheelPickerView
 import sh.tyy.wheelpicker.core.TextWheelViewHolder
@@ -25,18 +25,8 @@ open class ItemEnableWheelAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextWheelViewHolder {
-        return if(isDarkMode(parent.context)){
-            TextWheelViewHolder(LayoutInflater.from(parent.context)
-                .inflate(com.abloom.mery.R.layout.dark_wheel_picker_item, parent, false) as TextView)
-        } else{
-            TextWheelViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.wheel_picker_item, parent, false) as TextView)
-        }
-    }
-
-    private fun isDarkMode(context: Context?): Boolean {
-        val currentNightMode = context!!.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
+        return TextWheelViewHolder(LayoutInflater.from(parent.context)
+            .inflate(R.layout.mery_wheel_picker_item, parent, false) as TextView)
     }
 
     override fun onBindViewHolder(holder: TextWheelViewHolder, position: Int) {
