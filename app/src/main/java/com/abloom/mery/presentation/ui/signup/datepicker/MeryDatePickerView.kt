@@ -2,7 +2,6 @@ package com.abloom.mery.presentation.ui.signup.datepicker
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Configuration
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.abloom.mery.R
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import sh.tyy.wheelpicker.core.ItemEnableWheelAdapter
 import sh.tyy.wheelpicker.core.TextWheelPickerView
@@ -72,19 +70,10 @@ class MeryDatePickerView @JvmOverloads constructor(
 
     private val highlightView: View = run {
         val view = View(context)
-
-        if(isDarkMode(context)){
-            view.background = ContextCompat.getDrawable(
-                context,
-                R.drawable.mery_text_wheel_highlight_bg
-            )
-        }else{
-            view.background = ContextCompat.getDrawable(
-                context,
-                sh.tyy.wheelpicker.R.drawable.text_wheel_highlight_bg
-            )
-        }
-
+        view.background = ContextCompat.getDrawable(
+            context,
+            sh.tyy.wheelpicker.R.drawable.text_wheel_highlight_bg
+        )
         view
     }
 
@@ -196,7 +185,6 @@ class MeryDatePickerView @JvmOverloads constructor(
     init {
         dayPickerView = binding.rightPicker
         dayPickerView.setAdapter(dayAdapter)
-
         monthPickerView = binding.midPicker
         monthPickerView.setAdapter(monthAdapter)
         monthAdapter.values = (0 until 12).map {
@@ -205,10 +193,8 @@ class MeryDatePickerView @JvmOverloads constructor(
                 DateFormatSymbols.getInstance().shortMonths[it]
             )
         }
-
         yearPickerView = binding.leftPicker
         yearPickerView.setAdapter(yearAdapter)
-
         addView(highlightView)
         (highlightView.layoutParams as? LayoutParams)?.apply {
             width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -296,10 +282,5 @@ class MeryDatePickerView @JvmOverloads constructor(
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
             updateCurrentDataByDataRangeIfNeeded(true)
         }
-    }
-
-    private fun isDarkMode(context: Context): Boolean {
-        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 }
