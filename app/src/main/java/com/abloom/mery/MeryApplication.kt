@@ -9,10 +9,14 @@ import android.icu.util.Calendar
 import com.abloom.mery.presentation.notification.MeryNotificationChannel
 import com.abloom.mery.presentation.notification.TodayQuestionAlarmReceiver
 import com.kakao.sdk.common.KakaoSdk
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import dagger.hilt.android.HiltAndroidApp
+
 
 @HiltAndroidApp
 class MeryApplication : Application() {
+
+    private lateinit var mp: MixpanelAPI
 
     override fun onCreate() {
         super.onCreate()
@@ -21,6 +25,11 @@ class MeryApplication : Application() {
         MeryNotificationChannel.createAll(applicationContext)
 
         applicationContext.setupTodayQuestionNotificationAlarm()
+
+        val trackAutomaticEvents = false;
+
+        mp = MixpanelAPI.getInstance(this, BuildConfig.MIX_PANEL_TOKEN, trackAutomaticEvents);
+        //mp.identify("USER_ID", true);
     }
 
     private fun Context.setupTodayQuestionNotificationAlarm() {

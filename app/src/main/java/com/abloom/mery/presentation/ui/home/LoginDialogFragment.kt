@@ -20,13 +20,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class LoginDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentLoginDialogBinding
     private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private lateinit var mp: MixpanelAPI
 
     private val googleClient: GoogleSignInClient by lazy { getGoogleSignInClient() }
     private val googleAuthLauncher = registerForActivityResult(
@@ -37,6 +40,12 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             .getResult(ApiException::class.java)
         val googleToken = account.idToken.toString()
         loginAndDismiss(Authentication.Google(googleToken))
+
+        val props = JSONObject()
+        props.put("Social Login", "Google")
+        mp.identify(googleToken, true);
+        mp.people.set("Social Login", "Google");
+        mp.track("signup_social", props)
     }
 
     private fun getGoogleSignInClient(): GoogleSignInClient {
@@ -58,8 +67,8 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupDataBinding()
+        mp = MixpanelAPI.getInstance(requireContext(), BuildConfig.MIX_PANEL_TOKEN, false);
     }
 
     private fun setupDataBinding() {
@@ -104,6 +113,13 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             }
             val email = user?.kakaoAccount?.email.toString()
             val password = user?.id.toString()
+
+            val props = JSONObject()
+            props.put("Social Login", "Kakao")
+            mp.identify(email, true);
+            mp.people.set("Social Login", "Kakao")
+            mp.track("signup_social", props)
+
             loginAndDismiss(Authentication.Kakao(email, password))
         }
     }
@@ -119,3 +135,4 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         googleAuthLauncher.launch(signInIntent)
     }
 }
+
