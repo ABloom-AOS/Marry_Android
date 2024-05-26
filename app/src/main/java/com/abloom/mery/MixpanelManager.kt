@@ -7,6 +7,7 @@ import org.json.JSONObject
 import java.time.LocalDate
 
 object MixpanelManager {
+
     @SuppressLint("StaticFieldLeak")
     private var mixpanel: MixpanelAPI? = null
     private var trackAutomaticEvents = false
@@ -20,54 +21,62 @@ object MixpanelManager {
     }
 
     fun setGoogleLoginMixPanel(googleToken: String) {
-        val props = JSONObject()
-        props.put("Social Login", "Google")
-        mixpanel?.identify(googleToken, true);
-        mixpanel?.people?.set("Social Login", "Google");
-        mixpanel?.track("signup_social", props)
+        identifyUser(googleToken)
+        setPeopleProperty("Social Login", "Google")
+        trackEvent("signup_social", JSONObject().apply {
+            put("Social Login", "Google")
+        })
     }
 
     fun setKakaoLoginMixPanel(email: String) {
-        val props = JSONObject()
-        props.put("Social Login", "Kakao")
-        mixpanel?.identify(email, true);
-        mixpanel?.people?.set("Social Login", "Kakao")
-        mixpanel?.track("signup_social", props)
+        identifyUser(email)
+        setPeopleProperty("Social Login", "Kakao")
+        trackEvent("signup_social", JSONObject().apply {
+            put("Social Login", "Kakao")
+        })
     }
 
+    private fun identifyUser(token: String) {
+        mixpanel?.identify(token)
+    }
 
     fun setGroomSelectionMixPanel() {
-        val props = JSONObject()
-        props.put("Sex", "예비 신랑")
-        mixpanel?.people?.set("Sex", "예비 신랑")
-        mixpanel?.track("signup_sex_type", props)
+        setPeopleProperty("Sex", "예비 신랑")
+        trackEvent("signup_sex_type", JSONObject().apply {
+            put("Sex", "예비 신랑")
+        })
     }
 
     fun setBrideSelectionMixPanel() {
-        val props = JSONObject()
-        props.put("Sex", "예비 신부")
-        mixpanel?.people?.set("Sex", "예비 신부")
-        mixpanel?.track("signup_sex_type", props)
+        setPeopleProperty("Sex", "예비 신부")
+        trackEvent("signup_sex_type", JSONObject().apply {
+            put("Sex", "예비 신부")
+        })
     }
 
     fun setMarryDateMixPanel(marriageDate: LocalDate) {
-        val props = JSONObject()
-        props.put("Marriage Date", marriageDate)
-        mixpanel?.people?.set("Marriage Date", marriageDate)
-        mixpanel?.track("signup_date", props)
+        setPeopleProperty("Marriage Date", marriageDate.toString())
+        trackEvent("signup_date", JSONObject().apply {
+            put("Marriage Date", marriageDate.toString())
+        })
     }
 
     fun setInputNameMixPanel(userName: String) {
-        val props = JSONObject()
-        val name = "name"
-        props.put("$name", userName)
-        mixpanel?.people?.set("$name", userName);
-        mixpanel?.track("signup_name", props)
+        setPeopleProperty("name", userName)
+        trackEvent("signup_name", JSONObject().apply {
+            put("name", userName)
+        })
     }
 
     fun setPrivacyConsentMixPanel() {
-        mixpanel?.track("signup_complete")
+        trackEvent("signup_complete", JSONObject())
     }
 
+    private fun setPeopleProperty(property: String, value: String) {
+        mixpanel?.people?.set(property, value)
+    }
 
+    private fun trackEvent(event: String, properties: JSONObject) {
+        mixpanel?.track(event, properties)
+    }
 }
