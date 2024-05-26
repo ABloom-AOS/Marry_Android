@@ -26,10 +26,7 @@ class MeryApplication : Application() {
 
         applicationContext.setupTodayQuestionNotificationAlarm()
 
-        val trackAutomaticEvents = false;
-
-        mp = MixpanelAPI.getInstance(this, BuildConfig.MIX_PANEL_TOKEN, trackAutomaticEvents);
-        //mp.identify("USER_ID", true);
+        MixpanelManager.getInstance(this)
     }
 
     private fun Context.setupTodayQuestionNotificationAlarm() {

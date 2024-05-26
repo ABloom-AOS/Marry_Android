@@ -10,15 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.abloom.mery.BuildConfig
+import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentSignUpBinding
 import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.view.setOnActionClick
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
-import com.mixpanel.android.mpmetrics.MixpanelAPI
 import dagger.hilt.android.AndroidEntryPoint
-import org.json.JSONObject
 
 @AndroidEntryPoint
 class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
@@ -33,8 +31,6 @@ class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragme
 
     private val signUpFragmentManager by lazy { childFragmentManager }
 
-    private lateinit var mp: MixpanelAPI
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
@@ -46,8 +42,6 @@ class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragme
             initBrideGroomFragment()
         else
             privacyConsentAppBar()
-
-        mp = MixpanelAPI.getInstance(requireContext(), BuildConfig.MIX_PANEL_TOKEN, false)
     }
 
     private fun initListener() {
@@ -97,28 +91,16 @@ class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragme
     private fun navigateToNextFragment() {
         when (getStackCount()) {
             STEP_MARRY_DATE_SELECTION -> {
-
-                val props = JSONObject()
-                props.put("Marriage Date", signUpViewModel.selectedMarriage.value)
-                mp.people.set("Marriage Date", signUpViewModel.selectedMarriage.value)
-                mp.track("signup_date", props)
-
+                MixpanelManager.setMarryDateMixPanel(signUpViewModel.selectedMarriage.value)
                 replaceInputNameFragment()
                 changeInputNameUi()
             }
 
             STEP_INPUT_NAME_SELECTION -> {
-
-                val props = JSONObject()
-                val name = "name"
-                props.put("$name", signUpViewModel.name.value)
-                mp.people.set("$name", signUpViewModel.name.value);
-                mp.track("signup_name", props)
-
+                MixpanelManager.setInputNameMixPanel(signUpViewModel.name.value)
                 replacePrivacyConsentFragment()
                 changePrivacyConsentUi()
             }
-
         }
     }
 
