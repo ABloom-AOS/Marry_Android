@@ -13,12 +13,13 @@ object MixpanelManager {
 
     fun getInstance(context: Context): MixpanelAPI {
         if (mixpanel == null) {
-            mixpanel = MixpanelAPI.getInstance(context, BuildConfig.MIX_PANEL_TOKEN,trackAutomaticEvents)
+            mixpanel =
+                MixpanelAPI.getInstance(context, BuildConfig.MIX_PANEL_TOKEN, trackAutomaticEvents)
         }
         return mixpanel!!
     }
 
-    fun setGoogleLoginMixPanel(googleToken : String){
+    fun setGoogleLoginMixPanel(googleToken: String) {
         val props = JSONObject()
         props.put("Social Login", "Google")
         mixpanel?.identify(googleToken, true);
@@ -26,7 +27,7 @@ object MixpanelManager {
         mixpanel?.track("signup_social", props)
     }
 
-    fun setKakaoLoginMixPanel(email : String){
+    fun setKakaoLoginMixPanel(email: String) {
         val props = JSONObject()
         props.put("Social Login", "Kakao")
         mixpanel?.identify(email, true);
@@ -35,28 +36,28 @@ object MixpanelManager {
     }
 
 
-    fun setGroomSelectionMixPanel(){
+    fun setGroomSelectionMixPanel() {
         val props = JSONObject()
         props.put("Sex", "예비 신랑")
         mixpanel?.people?.set("Sex", "예비 신랑")
         mixpanel?.track("signup_sex_type", props)
     }
 
-    fun setBrideSelectionMixPanel(){
+    fun setBrideSelectionMixPanel() {
         val props = JSONObject()
         props.put("Sex", "예비 신부")
         mixpanel?.people?.set("Sex", "예비 신부")
         mixpanel?.track("signup_sex_type", props)
     }
 
-    fun setMarryDateMixPanel(marriageDate : LocalDate){
+    fun setMarryDateMixPanel(marriageDate: LocalDate) {
         val props = JSONObject()
         props.put("Marriage Date", marriageDate)
         mixpanel?.people?.set("Marriage Date", marriageDate)
         mixpanel?.track("signup_date", props)
     }
 
-    fun setInputNameMixPanel(userName : String){
+    fun setInputNameMixPanel(userName: String) {
         val props = JSONObject()
         val name = "name"
         props.put("$name", userName)
@@ -64,7 +65,7 @@ object MixpanelManager {
         mixpanel?.track("signup_name", props)
     }
 
-    fun setPrivacyConsentMixPanel(){
+    fun setPrivacyConsentMixPanel() {
         mixpanel?.track("signup_complete")
     }
 
