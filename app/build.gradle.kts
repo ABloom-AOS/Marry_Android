@@ -36,6 +36,8 @@ android {
         resValue("string", "kakao_scheme", properties.getProperty("KAKAO_SCHEME"))
 
         buildConfigField("String", "GOOGLE_CLIENT_ID", properties.getProperty("GOOGLE_CLIENT_ID"))
+
+        buildConfigField("String", "MIX_PANEL_TOKEN", properties.getProperty("MIX_PANEL_TOKEN"))
     }
 
     buildTypes {
@@ -102,4 +104,5 @@ dependencies {
     implementation(libs.firebase.functions)
     implementation(libs.firebase.auth.ktx)
 
+    implementation(libs.mixpanel.android)
 }
