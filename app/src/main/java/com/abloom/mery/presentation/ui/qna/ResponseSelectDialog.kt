@@ -10,8 +10,12 @@ import androidx.fragment.app.viewModels
 import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.DialogResponseSelectBinding
+import javax.inject.Inject
 
 class ResponseSelectDialog : DialogFragment() {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private val viewModel: QnaViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
@@ -39,8 +43,8 @@ class ResponseSelectDialog : DialogFragment() {
         binding.viewModel = viewModel
         binding.onCloseButtonClick = ::dismiss
         binding.onCompleteButtonClick = { response ->
-            MixpanelManager.recordReaction(
-                viewModel.qna.value?.question!!.id,
+            mixpanelManager.recordReaction(
+                viewModel.qna.value?.question?.id ?: 0,
                 viewModel.currentResponse.value.toString()
             )
             viewModel.respondToQna(response)
