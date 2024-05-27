@@ -16,7 +16,6 @@ import com.abloom.mery.presentation.ui.category.recyclerview.QuestionAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @AndroidEntryPoint
 class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fragment_category) {

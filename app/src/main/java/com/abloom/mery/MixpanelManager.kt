@@ -99,7 +99,7 @@ object MixpanelManager {
     }
 
     fun selectCategory(category: String) {
-        Log.e("TAG",category)
+        Log.e("TAG", category)
         trackEvent("qna_category", JSONObject().apply {
             put("Category", category)
         })
