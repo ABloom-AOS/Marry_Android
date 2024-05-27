@@ -22,8 +22,6 @@ class MeryApplication : Application() {
         MeryNotificationChannel.createAll(applicationContext)
 
         applicationContext.setupTodayQuestionNotificationAlarm()
-
-        MixpanelManager.getInstance(this)
     }
 
     private fun Context.setupTodayQuestionNotificationAlarm() {
