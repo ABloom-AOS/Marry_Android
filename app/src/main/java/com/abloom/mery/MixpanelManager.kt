@@ -1,12 +1,18 @@
 package com.abloom.mery
 
+import android.content.Context
 import android.util.Log
 import com.mixpanel.android.mpmetrics.MixpanelAPI
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.json.JSONObject
 import java.time.LocalDate
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class MixpanelManager @Inject constructor(private val mixpanelApi: MixpanelAPI) {
+@Singleton
+class MixpanelManager @Inject constructor(@ApplicationContext private val context: Context) {
+
+    private val mixpanelApi = MixpanelAPI.getInstance(context, BuildConfig.MIX_PANEL_TOKEN, false)
 
     fun setGoogleLogin(googleToken: String) {
         identifyUser(googleToken)
