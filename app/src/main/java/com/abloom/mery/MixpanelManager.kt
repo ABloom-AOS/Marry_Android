@@ -112,30 +112,27 @@ object MixpanelManager {
         })
     }
 
-    fun writeAnswer(questionId: Long, letterCount: Int) {
+    fun writeAnswer(qid: Long, letterCount: Int) {
         mixpanel?.people?.increment("Answered Question", 1.0)
         trackEvent("qna_answer", JSONObject().apply {
-            put("Category", "FINANCE")
-            // TODO("Category 처리")
-            put("Question ID", questionId)
+            put("Category", mapQidToCategory(qid))
+            put("Question ID", qid)
             put("Letter Count", letterCount)
         })
     }
 
-    fun recordReaction(questionId: Long, reactionType: String) {
+    fun recordReaction(qid: Long, reactionType: String) {
         trackEvent("qna_reaction", JSONObject().apply {
-            put("Category", "FINANCE")
-            // TODO("Category 처리")
-            put("Question ID", questionId)
+            put("Category", mapQidToCategory(qid))
+            put("Question ID", qid)
             put("Reaction Type", mapReactionTypeToKorean(reactionType))
         })
     }
 
-    fun recommendTodayQuestion(questionId: Long) {
+    fun recommendTodayQuestion(qid: Long) {
         trackEvent("qna_recommended_question", JSONObject().apply {
-            put("Category", "FINANCE")
-            // TODO("Category 처리")
-            put("Question ID", questionId)
+            put("Category", mapQidToCategory(qid))
+            put("Question ID", qid)
         })
     }
 
@@ -155,4 +152,22 @@ object MixpanelManager {
             "LETS_FIND" -> "더 알아봐요"
             else -> ""
         }
+
+    private fun mapQidToCategory(qid: Long): String {
+        return when (qid) {
+            in 1..10 -> "communication"
+            in 11..30 -> "values"
+            in 31..55 -> "finance"
+            in 56..80 -> "lifestyle"
+            in 81..100 -> "child"
+            in 101..120 -> "family"
+            in 121..135 -> "sex"
+            in 136..145 -> "health"
+            in 146..160 -> "wedding"
+            in 161..175 -> "future"
+            in 176..185 -> "present"
+            in 186..200 -> "past"
+            else -> ""
+        }
+    }
 }
