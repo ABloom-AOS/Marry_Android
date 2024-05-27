@@ -77,7 +77,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
 
     implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
+    kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.fragment)
 
     implementation(libs.preferences.datastore)
