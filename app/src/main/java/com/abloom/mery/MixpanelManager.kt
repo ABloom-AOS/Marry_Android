@@ -87,10 +87,10 @@ object MixpanelManager {
         })
     }
 
-    fun connectComplete(fiance: String) {
-        setPeopleProperty("Fiance", fiance)
+    fun connectComplete(fianceCode: String) {
+        setPeopleProperty("Fiance", fianceCode)
         trackEvent("connect_complete", JSONObject().apply {
-            put("Fiance", fiance)
+            put("Fiance", fianceCode)
         })
     }
 
@@ -129,21 +129,6 @@ object MixpanelManager {
         })
     }
 
-    fun recommendTodayQuestion(qid: Long) {
-        trackEvent("qna_recommended_question", JSONObject().apply {
-            put("Category", mapQidToCategory(qid))
-            put("Question ID", qid)
-        })
-    }
-
-    private fun setPeopleProperty(property: String, value: String) {
-        mixpanel?.people?.set(property, value)
-    }
-
-    private fun trackEvent(event: String, properties: JSONObject) {
-        mixpanel?.track(event, properties)
-    }
-
     private fun mapReactionTypeToKorean(reactionType: String) =
         when (reactionType) {
             "GOOD" -> "좋아요"
@@ -152,6 +137,13 @@ object MixpanelManager {
             "LETS_FIND" -> "더 알아봐요"
             else -> ""
         }
+
+    fun recommendTodayQuestion(qid: Long) {
+        trackEvent("qna_recommended_question", JSONObject().apply {
+            put("Category", mapQidToCategory(qid))
+            put("Question ID", qid)
+        })
+    }
 
     private fun mapQidToCategory(qid: Long): String {
         return when (qid) {
@@ -169,5 +161,13 @@ object MixpanelManager {
             in 186..200 -> "past"
             else -> ""
         }
+    }
+
+    private fun setPeopleProperty(property: String, value: String) {
+        mixpanel?.people?.set(property, value)
+    }
+
+    private fun trackEvent(event: String, properties: JSONObject) {
+        mixpanel?.track(event, properties)
     }
 }
