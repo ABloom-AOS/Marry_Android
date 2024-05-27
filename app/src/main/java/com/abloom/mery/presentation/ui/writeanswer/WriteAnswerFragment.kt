@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentWriteAnswerBinding
 import com.abloom.mery.presentation.common.base.NavigationFragment
@@ -92,6 +93,10 @@ class WriteAnswerFragment :
     }
 
     private fun handleWriteAnswerConfirm() {
+        MixpanelManager.writeAnswer(
+            writeAnswerViewModel.question.value!!.id,
+            writeAnswerViewModel.answer.value.length
+        )
         writeAnswerViewModel.answerQna()
         val isNavigateToHomeSuccess =
             findNavController().popBackStack(R.id.homeFragment, false)

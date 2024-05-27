@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
+import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentHomeBinding
 import com.abloom.mery.presentation.MainViewModel
@@ -60,6 +61,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
     }
 
     private fun navigateToCreateQna() {
+        MixpanelManager.generateQna()
         findNavController().navigateSafely(HomeFragmentDirections.actionHomeFragmentToCreateQna())
     }
 

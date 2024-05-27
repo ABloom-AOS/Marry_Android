@@ -72,6 +72,71 @@ object MixpanelManager {
         trackEvent("signup_complete", JSONObject())
     }
 
+    fun copyConnectCode(invitationCode: String) {
+        setPeopleProperty("Invitation Code", invitationCode)
+        trackEvent("connect_copy", JSONObject().apply {
+            put("Invitation Code", invitationCode)
+        })
+    }
+
+    fun shareKakao(invitationCode: String) {
+        setPeopleProperty("Invitation Code", invitationCode)
+        trackEvent("connect_kakao", JSONObject().apply {
+            put("Invitation Code", invitationCode)
+        })
+    }
+
+    fun connectComplete(FianceCode: String) {
+        setPeopleProperty("Fiance", FianceCode)
+        trackEvent("connect_complete", JSONObject().apply {
+            put("Fiance", FianceCode)
+        })
+    }
+
+    fun generateQna() {
+        trackEvent("qna_generate", JSONObject())
+    }
+
+    fun selectCategory(category: String) {
+        trackEvent("qna_category", JSONObject().apply {
+            put("Category", category)
+        })
+    }
+
+    fun selectQuestion(category: String, questionId: Long) {
+        trackEvent("qna_select_question", JSONObject().apply {
+            put("Category", category)
+            put("Question ID", questionId)
+        })
+    }
+
+    fun writeAnswer(questionId: Long, letterCount: Int) {
+        mixpanel?.people?.increment("Answered Question", 1.0)
+        trackEvent("qna_answer", JSONObject().apply {
+            put("Category", "FINANCE")
+            // TODO("Category 처리")
+            put("Question ID", questionId)
+            put("Letter Count", letterCount)
+        })
+    }
+
+    fun recordReaction(questionId: Long, reactionType: String) {
+        trackEvent("qna_reaction", JSONObject().apply {
+            put("Category", "FINANCE")
+            // TODO("Category 처리")
+            put("Question ID", questionId)
+            put("Reaction Type", mapReactionTypeToKorean(reactionType))
+        })
+    }
+
+    fun recommendTodayQuestion(questionId: Long) {
+        trackEvent("qna_recommended_question", JSONObject().apply {
+            put("Category", "FINANCE")
+            // TODO("Category 처리")
+            put("Question ID", questionId)
+        })
+    }
+
     private fun setPeopleProperty(property: String, value: String) {
         mixpanel?.people?.set(property, value)
     }
@@ -79,4 +144,13 @@ object MixpanelManager {
     private fun trackEvent(event: String, properties: JSONObject) {
         mixpanel?.track(event, properties)
     }
+
+    private fun mapReactionTypeToKorean(reactionType: String) =
+        when (reactionType) {
+            "GOOD" -> "좋아요"
+            "BETTER_KNOW" -> "더 알게 됐어요"
+            "LETS_TALK" -> "더 대화해봐요"
+            "LETS_FIND" -> "더 알아봐요"
+            else -> ""
+        }
 }

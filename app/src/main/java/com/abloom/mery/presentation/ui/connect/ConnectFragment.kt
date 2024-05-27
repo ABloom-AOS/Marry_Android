@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentConnectBinding
 import com.abloom.mery.presentation.common.base.NavigationFragment
@@ -39,6 +40,8 @@ class ConnectFragment : NavigationFragment<FragmentConnectBinding>(R.layout.frag
     private fun setupDataBinding() {
         binding.viewModel = viewModel
         binding.onInvitationCodeCopyButtonClick = { invitationCode ->
+
+            MixpanelManager.copyConnectCode(invitationCode)
             copyToClipboard(invitationCode)
             // 33 이상부터는 클립보드에 복사할 때 기본적으로 토스트 메세지를 보여줍니다.
             if (SDK_INT < VERSION_CODES.TIRAMISU) requireContext().showToast(R.string.connect_invitation_code_copy_success_message)
@@ -72,6 +75,7 @@ class ConnectFragment : NavigationFragment<FragmentConnectBinding>(R.layout.frag
             userName = loginUser.name,
             invitationCode = loginUser.invitationCode
         )
+        MixpanelManager.shareKakao(loginUser.invitationCode)
     }
 
     private fun observeConnectEvent() {

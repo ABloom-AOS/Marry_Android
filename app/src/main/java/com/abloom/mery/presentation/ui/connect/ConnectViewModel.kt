@@ -6,6 +6,7 @@ import com.abloom.domain.user.model.User
 import com.abloom.domain.user.usecase.ConnectWithFianceUseCase
 import com.abloom.domain.user.usecase.GetFianceUseCase
 import com.abloom.domain.user.usecase.GetLoginUserUseCase
+import com.abloom.mery.MixpanelManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,6 +53,7 @@ class ConnectViewModel @Inject constructor(
         _isConnectWaiting.value = false
         if (isConnectSuccess) {
             _isJustConnected.value = true
+            MixpanelManager.connectComplete(invitationCode)
         } else {
             _event.emit(ConnectEvent.ConnectFail)
         }
