@@ -1,10 +1,7 @@
 package com.abloom.mery
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.util.Log
 import com.mixpanel.android.mpmetrics.MixpanelAPI
-import dagger.hilt.android.qualifiers.ApplicationContext
 import org.json.JSONObject
 import java.time.LocalDate
 import javax.inject.Inject
