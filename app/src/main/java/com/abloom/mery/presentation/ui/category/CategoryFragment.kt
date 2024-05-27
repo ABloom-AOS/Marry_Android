@@ -28,7 +28,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
 
     private fun navigateToWriteAnswer(questionId: Long) {
         MixpanelManager.selectQuestion(
-            categoryViewModel.category.value.name.toLowerCase(Locale.ROOT),
+            categoryViewModel.category.value.name.lowercase(),
             questionId
         )
         val action = CategoryFragmentDirections.actionGlobalWriteAnswerFragment(questionId)

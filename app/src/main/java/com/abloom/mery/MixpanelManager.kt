@@ -2,6 +2,7 @@ package com.abloom.mery
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import org.json.JSONObject
 import java.time.LocalDate
@@ -86,10 +87,10 @@ object MixpanelManager {
         })
     }
 
-    fun connectComplete(FianceCode: String) {
-        setPeopleProperty("Fiance", FianceCode)
+    fun connectComplete(fiance: String) {
+        setPeopleProperty("Fiance", fiance)
         trackEvent("connect_complete", JSONObject().apply {
-            put("Fiance", FianceCode)
+            put("Fiance", fiance)
         })
     }
 
@@ -98,6 +99,7 @@ object MixpanelManager {
     }
 
     fun selectCategory(category: String) {
+        Log.e("TAG",category)
         trackEvent("qna_category", JSONObject().apply {
             put("Category", category)
         })

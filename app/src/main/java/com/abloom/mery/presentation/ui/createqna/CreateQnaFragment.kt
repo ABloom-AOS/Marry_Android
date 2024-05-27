@@ -37,7 +37,7 @@ class CreateQnaFragment :
     }
 
     private fun navigateToCategory(category: CategoryArgs) {
-        MixpanelManager.selectCategory(category.name.toLowerCase(Locale.ROOT))
+        MixpanelManager.selectCategory(category.name.lowercase())
         val action = CreateQnaFragmentDirections.actionCreateQnaFragmentToCategoryFragment(category)
         findNavController().navigateSafely(action)
     }
