@@ -22,9 +22,13 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginDialogFragment : BottomSheetDialogFragment() {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private lateinit var binding: FragmentLoginDialogBinding
     private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
@@ -38,7 +42,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             .getResult(ApiException::class.java)
         val googleToken = account.idToken.toString()
         loginAndDismiss(Authentication.Google(googleToken))
-        MixpanelManager.setGoogleLogin(googleToken)
+        mixpanelManager.setGoogleLogin(googleToken)
     }
 
     private fun getGoogleSignInClient(): GoogleSignInClient {
@@ -105,7 +109,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             }
             val email = user?.kakaoAccount?.email.toString()
             val password = user?.id.toString()
-            MixpanelManager.setKakaoLogin(email)
+            mixpanelManager.setKakaoLogin(email)
             loginAndDismiss(Authentication.Kakao(email, password))
         }
     }

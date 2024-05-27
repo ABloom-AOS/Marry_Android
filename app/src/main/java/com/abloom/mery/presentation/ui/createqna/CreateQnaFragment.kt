@@ -14,10 +14,14 @@ import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.ui.category.CategoryArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CreateQnaFragment :
     NavigationFragment<FragmentCreateQnaBinding>(R.layout.fragment_create_qna) {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private val createQnaViewModel: CreateQnaViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
@@ -36,7 +40,7 @@ class CreateQnaFragment :
     }
 
     private fun navigateToCategory(category: CategoryArgs) {
-        MixpanelManager.selectCategory(category.name.lowercase())
+        mixpanelManager.selectCategory(category.name.lowercase())
         val action = CreateQnaFragmentDirections.actionCreateQnaFragmentToCategoryFragment(category)
         findNavController().navigateSafely(action)
     }
@@ -45,7 +49,7 @@ class CreateQnaFragment :
         lifecycleScope.launch {
             val isLogin = createQnaViewModel.isLogin.value ?: return@launch
             if (isLogin) {
-                MixpanelManager.recommendTodayQuestion(questionId)
+                mixpanelManager.recommendTodayQuestion(questionId)
                 navigateToWriteAnswer(questionId)
             } else {
                 mainViewModel.dispatchLoginEvent()

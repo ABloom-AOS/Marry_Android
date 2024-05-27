@@ -10,13 +10,15 @@ import com.abloom.mery.databinding.FragmentPrivacyConsentBinding
 import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.ui.webview.WebViewUrl
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PrivacyConsentFragment :
     NavigationFragment<FragmentPrivacyConsentBinding>(R.layout.fragment_privacy_consent) {
 
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
     private val viewModel: SignUpViewModel by viewModels({ requireParentFragment() })
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -36,7 +38,7 @@ class PrivacyConsentFragment :
     }
 
     private fun handleSignUpButtonClick() {
-        MixpanelManager.setPrivacyConsent()
+        mixpanelManager.setPrivacyConsent()
         viewModel.join()
         findNavController().popBackStack()
     }

@@ -15,10 +15,14 @@ import com.abloom.mery.presentation.common.view.ConfirmDialog
 import com.abloom.mery.presentation.common.view.setOnActionClick
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WriteAnswerFragment :
     NavigationFragment<FragmentWriteAnswerBinding>(R.layout.fragment_write_answer) {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private val writeAnswerViewModel: WriteAnswerViewModel by viewModels()
 
@@ -93,8 +97,8 @@ class WriteAnswerFragment :
     }
 
     private fun handleWriteAnswerConfirm() {
-        MixpanelManager.writeAnswer(
-            writeAnswerViewModel.question.value!!.id,
+        mixpanelManager.writeAnswer(
+            writeAnswerViewModel.question.value?.id ?: 0,
             writeAnswerViewModel.answer.value.length
         )
         writeAnswerViewModel.answerQna()

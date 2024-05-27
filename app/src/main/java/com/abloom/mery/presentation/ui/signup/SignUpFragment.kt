@@ -17,9 +17,13 @@ import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.view.setOnActionClick
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private val signUpViewModel: SignUpViewModel by viewModels()
 
@@ -91,13 +95,13 @@ class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragme
     private fun navigateToNextFragment() {
         when (getStackCount()) {
             STEP_MARRY_DATE_SELECTION -> {
-                MixpanelManager.setMarryDate(signUpViewModel.selectedMarriage.value)
+                mixpanelManager.setMarryDate(signUpViewModel.selectedMarriage.value)
                 replaceInputNameFragment()
                 changeInputNameUi()
             }
 
             STEP_INPUT_NAME_SELECTION -> {
-                MixpanelManager.setInputName(signUpViewModel.name.value)
+                mixpanelManager.setInputName(signUpViewModel.name.value)
                 replacePrivacyConsentFragment()
                 changePrivacyConsentUi()
             }

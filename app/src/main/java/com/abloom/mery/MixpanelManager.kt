@@ -4,22 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.mixpanel.android.mpmetrics.MixpanelAPI
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.json.JSONObject
 import java.time.LocalDate
+import javax.inject.Inject
 
-object MixpanelManager {
-
-    @SuppressLint("StaticFieldLeak")
-    private var mixpanel: MixpanelAPI? = null
-    private var trackAutomaticEvents = false
-
-    fun getInstance(context: Context): MixpanelAPI {
-        if (mixpanel == null) {
-            mixpanel =
-                MixpanelAPI.getInstance(context, BuildConfig.MIX_PANEL_TOKEN, trackAutomaticEvents)
-        }
-        return mixpanel!!
-    }
+class MixpanelManager @Inject constructor(private val mixpanelApi: MixpanelAPI) {
 
     fun setGoogleLogin(googleToken: String) {
         identifyUser(googleToken)
@@ -38,7 +28,7 @@ object MixpanelManager {
     }
 
     private fun identifyUser(token: String) {
-        mixpanel?.identify(token)
+        mixpanelApi.identify(token)
     }
 
     fun setGroomSelection() {
@@ -113,7 +103,7 @@ object MixpanelManager {
     }
 
     fun writeAnswer(qid: Long, letterCount: Int) {
-        mixpanel?.people?.increment("Answered Question", 1.0)
+        mixpanelApi.people.increment("Answered Question", 1.0)
         trackEvent("qna_answer", JSONObject().apply {
             put("Category", mapQidToCategory(qid))
             put("Question ID", qid)
@@ -164,10 +154,10 @@ object MixpanelManager {
     }
 
     private fun setPeopleProperty(property: String, value: String) {
-        mixpanel?.people?.set(property, value)
+        mixpanelApi.people.set(property, value)
     }
 
     private fun trackEvent(event: String, properties: JSONObject) {
-        mixpanel?.track(event, properties)
+        mixpanelApi.track(event, properties)
     }
 }

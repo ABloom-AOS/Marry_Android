@@ -16,9 +16,13 @@ import com.abloom.mery.presentation.ui.category.recyclerview.QuestionAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val categoryViewModel: CategoryViewModel by viewModels()
@@ -26,7 +30,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     private val questionAdapter: QuestionAdapter by lazy { QuestionAdapter(::navigateToWriteAnswer) }
 
     private fun navigateToWriteAnswer(questionId: Long) {
-        MixpanelManager.selectQuestion(
+        mixpanelManager.selectQuestion(
             categoryViewModel.category.value.name.lowercase(),
             questionId
         )

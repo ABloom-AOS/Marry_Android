@@ -9,10 +9,14 @@ import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentBrideGroomSelectionBinding
 import com.abloom.mery.presentation.common.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class BrideGroomSelectionFragment :
     BaseFragment<FragmentBrideGroomSelectionBinding>(R.layout.fragment_bride_groom_selection) {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private val signUpViewModel: SignUpViewModel by viewModels({ requireParentFragment() })
     private val marryDateFragment by lazy { MarryDateFragment() }
@@ -28,13 +32,13 @@ class BrideGroomSelectionFragment :
         binding.groomBut.setOnClickListener {
             moveToMarryDateFragment()
             signUpViewModel.selectSex(Sex.MALE)
-            MixpanelManager.setGroomSelection()
+            mixpanelManager.setGroomSelection()
         }
 
         binding.brideBut.setOnClickListener {
             moveToMarryDateFragment()
             signUpViewModel.selectSex(Sex.FEMALE)
-            MixpanelManager.setBrideSelection()
+            mixpanelManager.setBrideSelection()
         }
     }
 

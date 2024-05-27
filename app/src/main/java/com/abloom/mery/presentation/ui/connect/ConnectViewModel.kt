@@ -26,6 +26,9 @@ class ConnectViewModel @Inject constructor(
     private val connectWithFianceUseCase: ConnectWithFianceUseCase
 ) : ViewModel() {
 
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
+
     val loginUser: StateFlow<User?> = getLoginUserUseCase().stateIn(
         initialValue = null,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -53,7 +56,7 @@ class ConnectViewModel @Inject constructor(
         _isConnectWaiting.value = false
         if (isConnectSuccess) {
             _isJustConnected.value = true
-            MixpanelManager.connectComplete(invitationCode)
+            mixpanelManager.connectComplete(invitationCode)
         } else {
             _event.emit(ConnectEvent.ConnectFail)
         }
