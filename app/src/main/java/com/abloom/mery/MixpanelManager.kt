@@ -20,7 +20,7 @@ object MixpanelManager {
         return mixpanel!!
     }
 
-    fun setGoogleLoginMixPanel(googleToken: String) {
+    fun setGoogleLogin(googleToken: String) {
         identifyUser(googleToken)
         setPeopleProperty("Social Login", "Google")
         trackEvent("signup_social", JSONObject().apply {
@@ -28,7 +28,7 @@ object MixpanelManager {
         })
     }
 
-    fun setKakaoLoginMixPanel(email: String) {
+    fun setKakaoLogin(email: String) {
         identifyUser(email)
         setPeopleProperty("Social Login", "Kakao")
         trackEvent("signup_social", JSONObject().apply {
@@ -40,35 +40,35 @@ object MixpanelManager {
         mixpanel?.identify(token)
     }
 
-    fun setGroomSelectionMixPanel() {
+    fun setGroomSelection() {
         setPeopleProperty("Sex", "예비 신랑")
         trackEvent("signup_sex_type", JSONObject().apply {
             put("Sex", "예비 신랑")
         })
     }
 
-    fun setBrideSelectionMixPanel() {
+    fun setBrideSelection() {
         setPeopleProperty("Sex", "예비 신부")
         trackEvent("signup_sex_type", JSONObject().apply {
             put("Sex", "예비 신부")
         })
     }
 
-    fun setMarryDateMixPanel(marriageDate: LocalDate) {
+    fun setMarryDate(marriageDate: LocalDate) {
         setPeopleProperty("Marriage Date", marriageDate.toString())
         trackEvent("signup_date", JSONObject().apply {
             put("Marriage Date", marriageDate.toString())
         })
     }
 
-    fun setInputNameMixPanel(userName: String) {
+    fun setInputName(userName: String) {
         setPeopleProperty("name", userName)
         trackEvent("signup_name", JSONObject().apply {
             put("name", userName)
         })
     }
 
-    fun setPrivacyConsentMixPanel() {
+    fun setPrivacyConsent() {
         trackEvent("signup_complete", JSONObject())
     }
 

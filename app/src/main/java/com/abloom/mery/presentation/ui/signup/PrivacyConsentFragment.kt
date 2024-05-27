@@ -36,7 +36,7 @@ class PrivacyConsentFragment :
     }
 
     private fun handleSignUpButtonClick() {
-        MixpanelManager.setPrivacyConsentMixPanel()
+        MixpanelManager.setPrivacyConsent()
         viewModel.join()
         findNavController().popBackStack()
     }

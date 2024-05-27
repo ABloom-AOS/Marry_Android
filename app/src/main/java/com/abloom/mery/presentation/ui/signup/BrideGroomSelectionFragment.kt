@@ -28,13 +28,13 @@ class BrideGroomSelectionFragment :
         binding.groomBut.setOnClickListener {
             moveToMarryDateFragment()
             signUpViewModel.selectSex(Sex.MALE)
-            MixpanelManager.setGroomSelectionMixPanel()
+            MixpanelManager.setGroomSelection()
         }
 
         binding.brideBut.setOnClickListener {
             moveToMarryDateFragment()
             signUpViewModel.selectSex(Sex.FEMALE)
-            MixpanelManager.setBrideSelectionMixPanel()
+            MixpanelManager.setBrideSelection()
         }
     }
 

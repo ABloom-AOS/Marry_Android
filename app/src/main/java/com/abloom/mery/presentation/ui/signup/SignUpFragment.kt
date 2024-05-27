@@ -91,13 +91,13 @@ class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragme
     private fun navigateToNextFragment() {
         when (getStackCount()) {
             STEP_MARRY_DATE_SELECTION -> {
-                MixpanelManager.setMarryDateMixPanel(signUpViewModel.selectedMarriage.value)
+                MixpanelManager.setMarryDate(signUpViewModel.selectedMarriage.value)
                 replaceInputNameFragment()
                 changeInputNameUi()
             }
 
             STEP_INPUT_NAME_SELECTION -> {
-                MixpanelManager.setInputNameMixPanel(signUpViewModel.name.value)
+                MixpanelManager.setInputName(signUpViewModel.name.value)
                 replacePrivacyConsentFragment()
                 changePrivacyConsentUi()
             }

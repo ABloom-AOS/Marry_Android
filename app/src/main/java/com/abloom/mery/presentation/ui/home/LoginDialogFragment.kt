@@ -38,7 +38,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             .getResult(ApiException::class.java)
         val googleToken = account.idToken.toString()
         loginAndDismiss(Authentication.Google(googleToken))
-        MixpanelManager.setGoogleLoginMixPanel(googleToken)
+        MixpanelManager.setGoogleLogin(googleToken)
     }
 
     private fun getGoogleSignInClient(): GoogleSignInClient {
@@ -105,7 +105,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             }
             val email = user?.kakaoAccount?.email.toString()
             val password = user?.id.toString()
-            MixpanelManager.setKakaoLoginMixPanel(email)
+            MixpanelManager.setKakaoLogin(email)
             loginAndDismiss(Authentication.Kakao(email, password))
         }
     }
