@@ -92,7 +92,6 @@ class MixpanelManager @Inject constructor(@ApplicationContext private val contex
     }
 
     fun selectCategory(category: String) {
-        Log.e("TAG", category)
         trackEvent("qna_category", JSONObject().apply {
             put("Category", category)
         })
