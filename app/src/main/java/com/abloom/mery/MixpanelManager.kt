@@ -1,7 +1,6 @@
 package com.abloom.mery
 
 import android.content.Context
-import android.util.Log
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.json.JSONObject
@@ -153,6 +152,10 @@ class MixpanelManager @Inject constructor(@ApplicationContext private val contex
             in 186..200 -> "past"
             else -> ""
         }
+    }
+
+    fun moveDeepLinkToWriteFragment() {
+        trackEvent("recommended_question_notification", JSONObject())
     }
 
     private fun setPeopleProperty(property: String, value: String) {

@@ -60,7 +60,9 @@ class CreateQnaFragment :
 
     private fun navigateToWriteAnswer(questionId: Long) {
         findNavController().navigateSafely(
-            CreateQnaFragmentDirections.actionGlobalWriteAnswerFragment(questionId)
+            CreateQnaFragmentDirections.actionGlobalWriteAnswerFragment(
+                questionId, false
+            )
         )
     }
 }

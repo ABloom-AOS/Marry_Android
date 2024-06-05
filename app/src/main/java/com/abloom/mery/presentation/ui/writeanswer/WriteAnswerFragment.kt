@@ -43,6 +43,8 @@ class WriteAnswerFragment :
         setupOnBackPressed()
         setupAppBar()
         setupDataBinding()
+
+        checkMoveWithDeepLink()
     }
 
     private fun setupWindowInsetsListener(view: View) {
@@ -110,6 +112,12 @@ class WriteAnswerFragment :
     private fun setupDataBinding() {
         binding.viewModel = writeAnswerViewModel
     }
+
+    private fun checkMoveWithDeepLink() {
+        if (writeAnswerViewModel.moveWithDeepLink.value) {
+            mixpanelManager.moveDeepLinkToWriteFragment()
+        }
+    } // 오늘의 추천 질문 알림을 눌러서 WriteAnswerFragment로 올때만 실행됨.
 
     companion object {
 

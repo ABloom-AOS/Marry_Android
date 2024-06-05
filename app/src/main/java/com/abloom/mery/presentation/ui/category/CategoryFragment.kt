@@ -34,7 +34,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
             categoryViewModel.category.value.name.lowercase(),
             questionId
         )
-        val action = CategoryFragmentDirections.actionGlobalWriteAnswerFragment(questionId)
+        val action = CategoryFragmentDirections.actionGlobalWriteAnswerFragment(questionId, false)
         findNavController().navigateSafely(action)
     }
 
