@@ -10,8 +10,10 @@ import androidx.fragment.app.viewModels
 import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.DialogResponseSelectBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ResponseSelectDialog : DialogFragment() {
 
     @Inject
