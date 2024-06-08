@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
+import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentHomeBinding
 import com.abloom.mery.presentation.MainViewModel
@@ -18,9 +19,13 @@ import com.abloom.mery.presentation.ui.signup.asArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
@@ -60,6 +65,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
     }
 
     private fun navigateToCreateQna() {
+        mixpanelManager.generateQna()
         findNavController().navigateSafely(HomeFragmentDirections.actionHomeFragmentToCreateQna())
     }
 

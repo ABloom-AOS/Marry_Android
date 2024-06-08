@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.abloom.domain.user.model.Authentication
 import com.abloom.mery.BuildConfig
+import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentLoginDialogBinding
 import com.abloom.mery.presentation.common.extension.showToast
@@ -21,9 +22,13 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginDialogFragment : BottomSheetDialogFragment() {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private lateinit var binding: FragmentLoginDialogBinding
     private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
@@ -37,6 +42,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             .getResult(ApiException::class.java)
         val googleToken = account.idToken.toString()
         loginAndDismiss(Authentication.Google(googleToken))
+        mixpanelManager.setGoogleLogin(googleToken)
     }
 
     private fun getGoogleSignInClient(): GoogleSignInClient {
@@ -58,7 +64,6 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupDataBinding()
     }
 
@@ -104,6 +109,7 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
             }
             val email = user?.kakaoAccount?.email.toString()
             val password = user?.id.toString()
+            mixpanelManager.setKakaoLogin(email)
             loginAndDismiss(Authentication.Kakao(email, password))
         }
     }
@@ -119,3 +125,4 @@ class LoginDialogFragment : BottomSheetDialogFragment() {
         googleAuthLauncher.launch(signInIntent)
     }
 }
+

@@ -38,6 +38,8 @@ class WriteAnswerViewModel @Inject constructor(
 
     val answer = MutableStateFlow("")
 
+    val moveWithDeepLink = savedStateHandle.getStateFlow("moveWithDeepLink", true)
+
     fun answerQna() = viewModelScope.launch {
         val question = question.value ?: return@launch
         answerQnaUseCase(question.id, Answer(answer.value))

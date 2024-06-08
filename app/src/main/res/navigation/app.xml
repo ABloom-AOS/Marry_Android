@@ -77,6 +77,9 @@
         <argument
             android:name="question_id"
             app:argType="long" />
+        <argument
+            android:name="moveWithDeepLink"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/qnaFragment"

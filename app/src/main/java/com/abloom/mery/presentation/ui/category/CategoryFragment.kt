@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentCategoryBinding
 import com.abloom.mery.presentation.MainViewModel
@@ -15,9 +16,13 @@ import com.abloom.mery.presentation.ui.category.recyclerview.QuestionAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val categoryViewModel: CategoryViewModel by viewModels()
@@ -25,7 +30,11 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     private val questionAdapter: QuestionAdapter by lazy { QuestionAdapter(::navigateToWriteAnswer) }
 
     private fun navigateToWriteAnswer(questionId: Long) {
-        val action = CategoryFragmentDirections.actionGlobalWriteAnswerFragment(questionId)
+        mixpanelManager.selectQuestion(
+            categoryViewModel.category.value.name.lowercase(),
+            questionId
+        )
+        val action = CategoryFragmentDirections.actionGlobalWriteAnswerFragment(questionId, false)
         findNavController().navigateSafely(action)
     }
 

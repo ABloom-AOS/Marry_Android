@@ -10,15 +10,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentSignUpBinding
 import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.view.setOnActionClick
 import com.abloom.mery.presentation.common.view.setOnNavigationClick
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     private val signUpViewModel: SignUpViewModel by viewModels()
 
@@ -45,7 +50,9 @@ class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragme
 
     private fun initListener() {
         binding.appbarSignUp.setOnNavigationClick { navigateToPriorFragment() }
-        binding.appbarSignUp.setOnActionClick { navigateToNextFragment() }
+        binding.appbarSignUp.setOnActionClick {
+            navigateToNextFragment()
+        }
     }
 
     private fun initBindingViewModel() {
@@ -88,15 +95,16 @@ class SignUpFragment : NavigationFragment<FragmentSignUpBinding>(R.layout.fragme
     private fun navigateToNextFragment() {
         when (getStackCount()) {
             STEP_MARRY_DATE_SELECTION -> {
+                mixpanelManager.setMarryDate(signUpViewModel.selectedMarriage.value)
                 replaceInputNameFragment()
                 changeInputNameUi()
             }
 
             STEP_INPUT_NAME_SELECTION -> {
+                mixpanelManager.setInputName(signUpViewModel.name.value)
                 replacePrivacyConsentFragment()
                 changePrivacyConsentUi()
             }
-
         }
     }
 

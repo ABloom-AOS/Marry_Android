@@ -51,7 +51,10 @@ class QnaFragment : NavigationFragment<FragmentQnaBinding>(R.layout.fragment_qna
     private fun navigateToWriteAnswer() {
         val questionId = viewModel.qna.value?.question?.id ?: return
         findNavController().navigateSafely(
-            QnaFragmentDirections.actionQnaFragmentToWriteAnswerFragment(questionId)
+            QnaFragmentDirections.actionQnaFragmentToWriteAnswerFragment(
+                questionId,
+                false
+            )
         )
     }
 

@@ -27,8 +27,8 @@ android {
         applicationId = "com.abloom.mery"
         minSdk = 26
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.0.1"
+        versionCode = 6
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -36,6 +36,8 @@ android {
         resValue("string", "kakao_scheme", properties.getProperty("KAKAO_SCHEME"))
 
         buildConfigField("String", "GOOGLE_CLIENT_ID", properties.getProperty("GOOGLE_CLIENT_ID"))
+
+        buildConfigField("String", "MIX_PANEL_TOKEN", properties.getProperty("MIX_PANEL_TOKEN"))
     }
 
     buildTypes {
@@ -76,7 +78,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
 
     implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
+    kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.fragment)
 
     implementation(libs.preferences.datastore)
@@ -103,4 +105,5 @@ dependencies {
     implementation(libs.firebase.functions)
     implementation(libs.firebase.auth.ktx)
 
+    implementation(libs.mixpanel.android)
 }
