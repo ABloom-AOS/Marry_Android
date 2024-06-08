@@ -6,6 +6,7 @@ import com.abloom.domain.user.model.User
 import com.abloom.domain.user.usecase.ConnectWithFianceUseCase
 import com.abloom.domain.user.usecase.GetFianceUseCase
 import com.abloom.domain.user.usecase.GetLoginUserUseCase
+import com.abloom.mery.MixpanelManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +25,9 @@ class ConnectViewModel @Inject constructor(
     getFianceUseCase: GetFianceUseCase,
     private val connectWithFianceUseCase: ConnectWithFianceUseCase
 ) : ViewModel() {
+
+    @Inject
+    lateinit var mixpanelManager: MixpanelManager
 
     val loginUser: StateFlow<User?> = getLoginUserUseCase().stateIn(
         initialValue = null,
@@ -52,6 +56,7 @@ class ConnectViewModel @Inject constructor(
         _isConnectWaiting.value = false
         if (isConnectSuccess) {
             _isJustConnected.value = true
+            mixpanelManager.connectComplete(invitationCode)
         } else {
             _event.emit(ConnectEvent.ConnectFail)
         }
