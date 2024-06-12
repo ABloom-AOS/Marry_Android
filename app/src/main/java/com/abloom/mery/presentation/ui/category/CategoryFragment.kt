@@ -13,6 +13,7 @@ import com.abloom.mery.presentation.MainViewModel
 import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.ui.category.recyclerview.QuestionAdapter
+import com.abloom.mery.presentation.ui.webview.WebViewUrl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,11 +54,18 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         binding.viewModel = categoryViewModel
         binding.onUpButtonClick = { findNavController().popBackStack() }
         binding.onLoginButtonClick = ::handleLoginButtonClick
+        binding.onNavigateQuestionFactoryButtonClick = ::navigateToQuestionFactoryWebView
     }
 
     private fun handleLoginButtonClick() {
         mainViewModel.dispatchLoginEvent()
         findNavController().popBackStack(R.id.homeFragment, false)
+    }
+
+    private fun navigateToQuestionFactoryWebView() {
+        findNavController().navigateSafely(
+            CategoryFragmentDirections.actionCategoryFragmentToWebViewFragment(WebViewUrl.QUESTION_FACTORY)
+        )
     }
 
     private fun setupQuestionRecyclerView() {
