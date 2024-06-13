@@ -16,6 +16,7 @@ import com.abloom.mery.presentation.ui.category.recyclerview.QuestionAdapter
 import com.abloom.mery.presentation.ui.webview.WebViewUrl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,6 +49,8 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
 
         observeCategory()
         observeQuestions()
+
+        checkPopUpDialogSession()
     }
 
     private fun setupDataBinding() {
@@ -55,6 +58,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         binding.onUpButtonClick = { findNavController().popBackStack() }
         binding.onLoginButtonClick = ::handleLoginButtonClick
         binding.onNavigateQuestionFactoryButtonClick = ::navigateToQuestionFactoryWebView
+        binding.onPopUpDialogCloseButtonClick = ::closePopUpDialog
     }
 
     private fun handleLoginButtonClick() {
@@ -63,9 +67,15 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     }
 
     private fun navigateToQuestionFactoryWebView() {
+        mainViewModel.selectedQuestionFactory = true
         findNavController().navigateSafely(
             CategoryFragmentDirections.actionCategoryFragmentToWebViewFragment(WebViewUrl.QUESTION_FACTORY)
         )
+    }
+
+    private fun closePopUpDialog() {
+        mainViewModel.selectedQuestionFactory = true
+        binding.makeQuestionPopUpDialog.visibility = View.INVISIBLE
     }
 
     private fun setupQuestionRecyclerView() {
@@ -91,5 +101,22 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
 
     private fun observeQuestions() {
         repeatOnStarted { categoryViewModel.currentQuestions.collect(questionAdapter::submitList) }
+    }
+
+    private fun checkPopUpDialogSession() {
+        if (!mainViewModel.selectedQuestionFactory) {
+            showPopupDialogWithDelay()
+        }
+    }
+
+    private fun showPopupDialogWithDelay() {
+        lifecycleScope.launch {
+            delay(DIALOG_DISPLAY_DELAY_TIME)
+            binding.makeQuestionPopUpDialog.visibility = View.VISIBLE
+        }
+    }
+
+    companion object {
+        private const val DIALOG_DISPLAY_DELAY_TIME = 5000L
     }
 }
