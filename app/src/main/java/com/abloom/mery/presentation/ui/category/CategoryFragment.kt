@@ -69,7 +69,9 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     private fun navigateToQuestionFactoryWebView() {
         mainViewModel.selectedQuestionFactory = true
         findNavController().navigateSafely(
-            CategoryFragmentDirections.actionCategoryFragmentToWebViewFragment(WebViewUrl.QUESTION_FACTORY)
+            CategoryFragmentDirections.actionCategoryFragmentToWebViewFromCategoryFragment(
+                WebViewUrl.QUESTION_FACTORY
+            )
         )
     }
 
