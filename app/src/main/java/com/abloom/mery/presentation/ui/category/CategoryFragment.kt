@@ -50,7 +50,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         observeCategory()
         observeQuestions()
 
-        checkPopUpDialogSession()
+        showPopupDialogWithDelay()
     }
 
     private fun setupDataBinding() {
@@ -105,16 +105,14 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         repeatOnStarted { categoryViewModel.currentQuestions.collect(questionAdapter::submitList) }
     }
 
-    private fun checkPopUpDialogSession() {
-        if (!mainViewModel.selectedQuestionFactory) {
-            showPopupDialogWithDelay()
-        }
-    }
+    private fun checkPopUpDialogCondition() =
+        categoryViewModel.isLogin.value && !mainViewModel.selectedQuestionFactory
 
     private fun showPopupDialogWithDelay() {
         lifecycleScope.launch {
             delay(DIALOG_DISPLAY_DELAY_TIME)
-            binding.makeQuestionPopUpDialog.visibility = View.VISIBLE
+            if (checkPopUpDialogCondition())
+                binding.makeQuestionPopUpDialog.visibility = View.VISIBLE
         }
     }
 
