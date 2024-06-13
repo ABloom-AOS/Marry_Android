@@ -105,9 +105,6 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         repeatOnStarted { categoryViewModel.currentQuestions.collect(questionAdapter::submitList) }
     }
 
-    private fun checkPopUpDialogCondition() =
-        categoryViewModel.isLogin.value && !mainViewModel.selectedQuestionFactory
-
     private fun showPopupDialogWithDelay() {
         lifecycleScope.launch {
             delay(DIALOG_DISPLAY_DELAY_TIME)
@@ -115,6 +112,9 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
                 binding.makeQuestionPopUpDialog.visibility = View.VISIBLE
         }
     }
+
+    private fun checkPopUpDialogCondition() =
+        categoryViewModel.isLogin.value && !mainViewModel.selectedQuestionFactory
 
     companion object {
         private const val DIALOG_DISPLAY_DELAY_TIME = 5000L
