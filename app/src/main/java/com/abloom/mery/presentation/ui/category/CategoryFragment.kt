@@ -50,7 +50,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         observeCategory()
         observeQuestions()
 
-        showPopupDialogWithDelay()
+        showPopUpDialogWithDelay()
     }
 
     private fun setupDataBinding() {
@@ -105,7 +105,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         repeatOnStarted { categoryViewModel.currentQuestions.collect(questionAdapter::submitList) }
     }
 
-    private fun showPopupDialogWithDelay() {
+    private fun showPopUpDialogWithDelay() {
         lifecycleScope.launch {
             delay(DIALOG_DISPLAY_DELAY_TIME)
             if (checkPopUpDialogCondition())
