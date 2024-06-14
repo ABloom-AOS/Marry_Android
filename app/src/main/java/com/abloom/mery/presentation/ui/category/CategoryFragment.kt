@@ -32,7 +32,6 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     private val questionAdapter: QuestionAdapter by lazy { QuestionAdapter(::navigateToWriteAnswer) }
 
     private fun navigateToWriteAnswer(questionId: Long) {
-        mainViewModel.selectedQuestionFactory = true
         mixpanelManager.selectQuestion(
             categoryViewModel.category.value.name.lowercase(),
             questionId
