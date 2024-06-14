@@ -67,7 +67,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     }
 
     private fun navigateToQuestionFactoryWebView() {
-        mainViewModel.selectedQuestionFactory = true
+        mainViewModel.wasClosedQuestionFactoryPopup = true
         findNavController().navigateSafely(
             CategoryFragmentDirections.actionCategoryFragmentToWebViewFromCategoryFragment(
                 WebViewUrl.QUESTION_FACTORY
@@ -76,7 +76,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     }
 
     private fun closePopUpDialog() {
-        mainViewModel.selectedQuestionFactory = true
+        mainViewModel.wasClosedQuestionFactoryPopup = true
         popUpDialogInvisible()
     }
 
@@ -125,7 +125,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     }
 
     private fun checkPopUpDialogCondition() =
-        categoryViewModel.isLogin.value && !mainViewModel.selectedQuestionFactory
+        categoryViewModel.isLogin.value && !mainViewModel.wasClosedQuestionFactoryPopup
 
     companion object {
         private const val DIALOG_DISPLAY_DELAY_TIME = 5000L
