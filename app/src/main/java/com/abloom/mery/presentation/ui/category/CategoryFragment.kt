@@ -77,7 +77,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
 
     private fun closePopUpDialog() {
         mainViewModel.wasClosedQuestionFactoryPopup = true
-        popUpDialogInvisible()
+        hidePopupDialog()
     }
 
     private fun setupQuestionRecyclerView() {
@@ -109,17 +109,17 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         lifecycleScope.launch {
             delay(DIALOG_DISPLAY_DELAY_TIME)
             if (checkPopUpDialogCondition()) {
-                popUpDialogVisible()
+                showPopupDialog()
             }
         }
     }
 
-    private fun popUpDialogVisible() {
+    private fun showPopupDialog() {
         binding.makeQuestionPopUpDialog.visibility = View.VISIBLE
         binding.popUpCloseBtn.visibility = View.VISIBLE
     }
 
-    private fun popUpDialogInvisible() {
+    private fun hidePopupDialog() {
         binding.makeQuestionPopUpDialog.visibility = View.INVISIBLE
         binding.popUpCloseBtn.visibility = View.INVISIBLE
     }
