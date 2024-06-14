@@ -110,7 +110,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     private fun showPopUpDialogIfNeed() {
         lifecycleScope.launch {
             delay(DIALOG_DISPLAY_DELAY_TIME)
-            if (checkPopUpDialogCondition()) {
+            if (isSatisfyPopUpDialogCondition()) {
                 showPopupDialog()
             }
         }
@@ -124,7 +124,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         categoryViewModel.isPopupVisible.value = false
     }
 
-    private fun checkPopUpDialogCondition() =
+    private fun isSatisfyPopUpDialogCondition() =
         categoryViewModel.isLogin.value && !mainViewModel.wasClosedQuestionFactoryPopup
 
     companion object {
