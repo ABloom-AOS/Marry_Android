@@ -33,6 +33,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
 
     private fun navigateToWriteAnswer(questionId: Long) {
         mainViewModel.wasClosedQuestionFactoryPopup = true
+        hidePopupDialog()
         mixpanelManager.selectQuestion(
             category = categoryViewModel.category.value.name.lowercase(),
             questionId = questionId
@@ -73,6 +74,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
                 WebViewUrl.QUESTION_FACTORY
             )
         )
+        hidePopupDialog()
     }
 
     private fun closePopUpDialog() {
@@ -115,13 +117,11 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     }
 
     private fun showPopupDialog() {
-        binding.makeQuestionPopUpDialog.visibility = View.VISIBLE
-        binding.popUpCloseBtn.visibility = View.VISIBLE
+        categoryViewModel.isPopupVisible.value = true
     }
 
     private fun hidePopupDialog() {
-        binding.makeQuestionPopUpDialog.visibility = View.INVISIBLE
-        binding.popUpCloseBtn.visibility = View.INVISIBLE
+        categoryViewModel.isPopupVisible.value = false
     }
 
     private fun checkPopUpDialogCondition() =

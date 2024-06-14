@@ -226,7 +226,7 @@
             android:layout_marginBottom="30dp"
             android:background="@drawable/bg_category_popup_dialog"
             android:onClick="@{() -> onNavigateQuestionFactoryButtonClick.invoke()}"
-            android:visibility="invisible"
+            app:is_visible="@{viewModel.isPopupVisible()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -269,7 +269,6 @@
                 app:layout_constraintStart_toEndOf="@+id/make_question_directly"
                 app:layout_constraintTop_toTopOf="@+id/make_question_directly" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
@@ -279,12 +278,11 @@
             android:importantForAccessibility="no"
             android:onClick="@{() -> onPopUpDialogCloseButtonClick.invoke()}"
             android:src="@drawable/category_popup_icon_close_btn"
-            android:visibility="invisible"
+            app:is_visible="@{viewModel.isPopupVisible()}"
             app:layout_constraintBottom_toTopOf="@+id/make_question_pop_up_dialog"
             app:layout_constraintEnd_toEndOf="@+id/make_question_pop_up_dialog"
             app:layout_constraintStart_toEndOf="@+id/make_question_pop_up_dialog"
             app:layout_constraintTop_toTopOf="@+id/make_question_pop_up_dialog" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
