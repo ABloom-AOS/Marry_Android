@@ -32,8 +32,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     private val questionAdapter: QuestionAdapter by lazy { QuestionAdapter(::navigateToWriteAnswer) }
 
     private fun navigateToWriteAnswer(questionId: Long) {
-        mainViewModel.wasClosedQuestionFactoryPopup = true
-        hidePopupDialog()
+        closePopUpDialog()
         mixpanelManager.selectQuestion(
             category = categoryViewModel.category.value.name.lowercase(),
             questionId = questionId
@@ -74,12 +73,12 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
                 WebViewUrl.QUESTION_FACTORY
             )
         )
-        hidePopupDialog()
+        categoryViewModel.isPopupVisible.value = false
     }
 
     private fun closePopUpDialog() {
         mainViewModel.wasClosedQuestionFactoryPopup = true
-        hidePopupDialog()
+        categoryViewModel.isPopupVisible.value = false
     }
 
     private fun setupQuestionRecyclerView() {
@@ -111,17 +110,9 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         lifecycleScope.launch {
             delay(DIALOG_DISPLAY_DELAY_TIME)
             if (isSatisfyPopUpDialogCondition()) {
-                showPopupDialog()
+                categoryViewModel.isPopupVisible.value = true
             }
         }
-    }
-
-    private fun showPopupDialog() {
-        categoryViewModel.isPopupVisible.value = true
-    }
-
-    private fun hidePopupDialog() {
-        categoryViewModel.isPopupVisible.value = false
     }
 
     private fun isSatisfyPopUpDialogCondition() =
