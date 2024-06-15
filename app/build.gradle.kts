@@ -98,11 +98,13 @@ dependencies {
     implementation(libs.play.services.auth)
 
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.firestore)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.functions)
+    implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.kotlin)
+    implementation(libs.firebase.auth.kotlin)
 
     implementation(libs.mixpanel.android)
 }

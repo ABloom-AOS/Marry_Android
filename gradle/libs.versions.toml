@@ -60,6 +60,9 @@ googleServices = "4.4.1"
 # Firebase Bom 의존성 버전
 firebaseBom = "32.8.0"
 
+# Firebase Kotlin SDK
+firebaseKotlinSdk = "1.12.0"
+
 # MixPanel
 mixpanelAndroid = "7.5.2"
 
@@ -126,6 +129,10 @@ firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-functions = { group = "com.google.firebase", name = "firebase-functions" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+
+# Firebase Kotlin SDK
+firebase-auth-kotlin = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseKotlinSdk" }
+firebase-firestore-kotlin = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseKotlinSdk" }
 
 # mixpanel
 mixpanel-android = { module = "com.mixpanel.android:mixpanel-android", version.ref = "mixpanelAndroid" }
