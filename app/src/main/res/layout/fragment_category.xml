@@ -20,6 +20,15 @@
         <variable
             name="onLoginButtonClick"
             type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onNavigateQuestionFactoryButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onPopUpDialogCloseButtonClick"
+            type="kotlin.jvm.functions.Function0" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -208,7 +217,75 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/make_question_pop_up_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="97dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/bg_category_popup_dialog"
+            android:onClick="@{() -> onNavigateQuestionFactoryButtonClick.invoke()}"
+            app:is_visible="@{viewModel.isPopupVisible}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/ask_like_question"
+                style="@style/caption1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="@string/category_popup_ask_like_question"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/make_question_directly"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/make_question_directly"
+                style="@style/callout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/category_popup_make_question_directly"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ask_like_question" />
+
+            <ImageView
+                android:id="@+id/make_question_arrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="4dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/make_question_arrow"
+                app:layout_constraintBottom_toBottomOf="@+id/make_question_directly"
+                app:layout_constraintStart_toEndOf="@+id/make_question_directly"
+                app:layout_constraintTop_toTopOf="@+id/make_question_directly" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/pop_up_close_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:importantForAccessibility="no"
+            android:onClick="@{() -> onPopUpDialogCloseButtonClick.invoke()}"
+            android:src="@drawable/category_popup_icon_close_btn"
+            app:is_visible="@{viewModel.isPopupVisible}"
+            app:layout_constraintBottom_toTopOf="@+id/make_question_pop_up_dialog"
+            app:layout_constraintEnd_toEndOf="@+id/make_question_pop_up_dialog"
+            app:layout_constraintStart_toEndOf="@+id/make_question_pop_up_dialog"
+            app:layout_constraintTop_toTopOf="@+id/make_question_pop_up_dialog" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
 
 

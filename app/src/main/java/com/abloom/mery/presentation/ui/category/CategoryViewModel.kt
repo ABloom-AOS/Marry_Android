@@ -10,6 +10,7 @@ import com.abloom.domain.question.usecase.GetQuestionsUseCase
 import com.abloom.domain.user.usecase.GetLoginUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -62,6 +63,8 @@ class CategoryViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = emptyList()
         )
+
+    val isPopupVisible = MutableStateFlow(false)
 
     fun selectCategory(categoryArgs: CategoryArgs) {
         savedStateHandle["category"] = categoryArgs

@@ -12,6 +12,8 @@ class MainViewModel : ViewModel() {
     private val _loginEvent = MutableEventFlow<LoginEvent>()
     val loginEvent: EventFlow<LoginEvent> = _loginEvent.asEventFlow()
 
+    var wasClosedQuestionFactoryPopup = false
+
     init {
         viewModelScope.launch { _loginEvent.emit(LoginEvent) }
     }

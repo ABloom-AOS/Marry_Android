@@ -125,9 +125,24 @@
             android:name="com.abloom.mery.presentation.ui.category.CategoryFragment"
             android:label="fragment_category"
             tools:layout="@layout/fragment_category">
+            <action
+                android:id="@+id/action_categoryFragment_to_webViewFromCategoryFragment"
+                app:destination="@id/webViewFromCategoryFragment"
+                app:enterAnim="@anim/slide_up"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/slide_down" />
             <argument
                 android:name="category"
                 app:argType="com.abloom.mery.presentation.ui.category.CategoryArgs" />
+        </fragment>
+        <fragment
+            android:id="@+id/webViewFromCategoryFragment"
+            android:name="com.abloom.mery.presentation.ui.profilemenu.WebViewFromProfileMenuFragment"
+            android:label="WebViewFromProfileMenuFragment">
+            <argument
+                android:name="url"
+                app:argType="com.abloom.mery.presentation.ui.webview.WebViewUrl" />
         </fragment>
         <action
             android:id="@+id/action_global_writeAnswerFragment"
