@@ -68,9 +68,9 @@ class UserFirebaseDataSource @Inject constructor(
             .exists
     }
 
-    suspend fun createUserDocument(userDocument: UserDocument) = withContext(Dispatchers.IO) {
+    suspend fun createUserDocument(userDocument: UserDocument1) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
-            .document(userDocument.id)
+            .document(userDocument.user_id)
             .set(userDocument)
     }
 

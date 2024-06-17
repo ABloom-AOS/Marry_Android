@@ -5,7 +5,6 @@ import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
 import com.abloom.domain.user.repository.UserRepository
 import com.abloom.mery.data.di.ApplicationScope
-import com.abloom.mery.data.firebase.user.UserDocument
 import com.abloom.mery.data.firebase.user.UserDocument1
 import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
 import kotlinx.coroutines.CoroutineScope
@@ -57,7 +56,7 @@ class DefaultUserRepository @Inject constructor(
             )
         } ?: return@launch
 
-        val userDocument = UserDocument.create(
+        val userDocument = UserDocument1(
             id = joinedUser.uid,
             name = name,
             marriageDate = marriageDate,
