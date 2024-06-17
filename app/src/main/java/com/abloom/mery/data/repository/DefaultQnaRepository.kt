@@ -11,12 +11,11 @@ import com.abloom.domain.question.repository.QuestionRepository
 import com.abloom.domain.user.model.User
 import com.abloom.domain.user.repository.UserRepository
 import com.abloom.mery.data.di.ApplicationScope
-import com.abloom.mery.data.firebase.qna.QnaDocument
+import com.abloom.mery.data.firebase.qna.QnaDocument1
 import com.abloom.mery.data.firebase.qna.QnaFirebaseDataSource
 import com.abloom.mery.data.firebase.qna.asReaction
 import com.abloom.mery.data.firebase.qna.asResponse
 import com.abloom.mery.data.firebase.toLocalDateTime
-import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -56,10 +55,10 @@ class DefaultQnaRepository @Inject constructor(
         .map { qnaDocuments ->
             qnaDocuments.map { qnaDocument ->
                 Qna.create(
-                    question = questions.first { it.id == qnaDocument.questionId },
+                    question = questions.first { it.id == qnaDocument.q_id },
                     createdAt = qnaDocument.date.toLocalDateTime(),
                     loginUser = loginUser,
-                    loginUserAnswer = Answer(qnaDocument.answer)
+                    loginUserAnswer = Answer(qnaDocument.answer_content)
                 )
             }
         }
@@ -72,21 +71,21 @@ class DefaultQnaRepository @Inject constructor(
         firebaseDataSource.getQnaDocumentsFlow(loginUser.id),
         firebaseDataSource.getQnaDocumentsFlow(fiance.id)
     ) { loginUserQnaDocuments, fianceQnaDocuments ->
-        (loginUserQnaDocuments + fianceQnaDocuments).groupBy { it.questionId }
+        (loginUserQnaDocuments + fianceQnaDocuments).groupBy { it.q_id }
             .values.map { qnaDocuments ->
-                val loginUserQnaDocument = qnaDocuments.firstOrNull { it.userId == loginUser.id }
-                val fianceQnaDocument = qnaDocuments.firstOrNull { it.userId == fiance.id }
+                val loginUserQnaDocument = qnaDocuments.firstOrNull { it.user_id == loginUser.id }
+                val fianceQnaDocument = qnaDocuments.firstOrNull { it.user_id == fiance.id }
 
                 Qna.create(
-                    question = questions.first { it.id == qnaDocuments[0].questionId },
+                    question = questions.first { it.id == qnaDocuments[0].q_id },
                     createdAt = minOf(
-                        loginUserQnaDocument?.date ?: Timestamp.now(),
-                        fianceQnaDocument?.date ?: Timestamp.now()
-                    ).toLocalDateTime(),
+                        loginUserQnaDocument?.date?.toLocalDateTime() ?: LocalDateTime.now(),
+                        fianceQnaDocument?.date?.toLocalDateTime() ?: LocalDateTime.now()
+                    ),
                     loginUser = loginUser,
                     fiance = fiance,
-                    loginUserAnswer = loginUserQnaDocument?.answer?.let { Answer(it) },
-                    fianceAnswer = fianceQnaDocument?.answer?.let { Answer(it) },
+                    loginUserAnswer = loginUserQnaDocument?.answer_content?.let { Answer(it) },
+                    fianceAnswer = fianceQnaDocument?.answer_content?.let { Answer(it) },
                     loginUserResponse = loginUserQnaDocument?.reaction?.asResponse(),
                     fianceResponse = fianceQnaDocument?.reaction?.asResponse()
                 )
@@ -112,7 +111,7 @@ class DefaultQnaRepository @Inject constructor(
                     question = question,
                     createdAt = qnaDocument.date.toLocalDateTime(),
                     loginUser = loginUser,
-                    loginUserAnswer = Answer(qnaDocument.answer)
+                    loginUserAnswer = Answer(qnaDocument.answer_content)
                 )
             }
             .filterNotNull()
@@ -129,13 +128,13 @@ class DefaultQnaRepository @Inject constructor(
             loginUserQnaDocument != null && fianceQnaDocument != null -> Qna.create(
                 question = question,
                 createdAt = minOf(
-                    loginUserQnaDocument.date,
-                    fianceQnaDocument.date
-                ).toLocalDateTime(),
+                    loginUserQnaDocument.date.toLocalDateTime(),
+                    fianceQnaDocument.date.toLocalDateTime()
+                ),
                 loginUser = loginUser,
                 fiance = fiance,
-                loginUserAnswer = Answer(loginUserQnaDocument.answer),
-                fianceAnswer = Answer(fianceQnaDocument.answer),
+                loginUserAnswer = Answer(loginUserQnaDocument.answer_content),
+                fianceAnswer = Answer(fianceQnaDocument.answer_content),
                 loginUserResponse = loginUserQnaDocument.reaction?.asResponse(),
                 fianceResponse = fianceQnaDocument.reaction?.asResponse()
             )
@@ -145,7 +144,7 @@ class DefaultQnaRepository @Inject constructor(
                 createdAt = loginUserQnaDocument.date.toLocalDateTime(),
                 loginUser = loginUser,
                 fiance = fiance,
-                loginUserAnswer = Answer(loginUserQnaDocument.answer)
+                loginUserAnswer = Answer(loginUserQnaDocument.answer_content)
             )
 
             fianceQnaDocument != null -> Qna.create(
@@ -153,7 +152,7 @@ class DefaultQnaRepository @Inject constructor(
                 createdAt = fianceQnaDocument.date.toLocalDateTime(),
                 loginUser = loginUser,
                 fiance = fiance,
-                fianceAnswer = Answer(fianceQnaDocument.answer)
+                fianceAnswer = Answer(fianceQnaDocument.answer_content)
             )
 
             else -> null
@@ -162,7 +161,7 @@ class DefaultQnaRepository @Inject constructor(
 
     override suspend fun answerQna(questionId: Long, answer: Answer) = externalScope.launch {
         val loginUserId = userRepository.loginUserId ?: return@launch
-        val qnaDocument = QnaDocument.create(
+        val qnaDocument = QnaDocument1(
             userId = loginUserId,
             questionId = questionId,
             date = LocalDateTime.now(),

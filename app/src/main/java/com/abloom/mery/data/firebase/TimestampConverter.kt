@@ -29,13 +29,24 @@ fun LocalDateTime.toTimestamp(): Timestamp {
     return Timestamp(date)
 }
 
+fun dev.gitlive.firebase.firestore.Timestamp.toLocalDateTime(): LocalDateTime =
+    Instant.ofEpochSecond(seconds, nanoseconds.toLong())
+        .atZone(ZoneId.systemDefault())
+        .toLocalDateTime()
+
+fun LocalDateTime.toTimestamp1(): dev.gitlive.firebase.firestore.Timestamp {
+    val zoneId = ZoneId.systemDefault()
+    val epochSecond = atZone(zoneId).toEpochSecond()
+    return dev.gitlive.firebase.firestore.Timestamp(epochSecond, nano)
+}
+
 fun dev.gitlive.firebase.firestore.Timestamp.toLocalDate(): LocalDate =
     Instant.ofEpochSecond(seconds, nanoseconds.toLong())
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
 
-fun LocalDate.toTimestamp1(): dev.gitlive.firebase.firestore.Timestamp = atStartOfDay()
-    .let { dateTime ->
-        val epochSecond = dateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
-        dev.gitlive.firebase.firestore.Timestamp(epochSecond, dateTime.nano)
-    }
+fun LocalDate.toTimestamp1(): dev.gitlive.firebase.firestore.Timestamp {
+    val zoneId = ZoneId.systemDefault()
+    val epochSecond = atStartOfDay(zoneId).toEpochSecond()
+    return dev.gitlive.firebase.firestore.Timestamp(epochSecond, 0)
+}
