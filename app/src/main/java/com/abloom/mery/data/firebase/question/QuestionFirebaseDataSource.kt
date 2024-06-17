@@ -23,23 +23,23 @@ class QuestionFirebaseDataSource @Inject constructor(
             ?: emptyList()
     }
 
-    fun getQuestionsFlow(): Flow<List<QuestionDocument1>> = db.collection(COLLECTION_QUESTIONS)
-        .documentsFlow<QuestionDocument1>()
+    fun getQuestionsFlow(): Flow<List<QuestionDocument>> = db.collection(COLLECTION_QUESTIONS)
+        .documentsFlow<QuestionDocument>()
         .flowOn(Dispatchers.IO)
 
-    suspend fun getQuestions(): List<QuestionDocument1> = withContext(Dispatchers.IO) {
+    suspend fun getQuestions(): List<QuestionDocument> = withContext(Dispatchers.IO) {
         db.collection(COLLECTION_QUESTIONS)
             .get()
             .fetchDocuments()
     }
 
-    fun getQuestionFlow(questionId: Long): Flow<QuestionDocument1?> =
+    fun getQuestionFlow(questionId: Long): Flow<QuestionDocument?> =
         db.collection(COLLECTION_QUESTIONS)
             .document(questionId.toString())
-            .documentFlow<QuestionDocument1>()
+            .documentFlow<QuestionDocument>()
             .flowOn(Dispatchers.IO)
 
-    suspend fun getQuestion(questionId: Long): QuestionDocument1? = withContext(Dispatchers.IO) {
+    suspend fun getQuestion(questionId: Long): QuestionDocument? = withContext(Dispatchers.IO) {
         db.collection(COLLECTION_QUESTIONS)
             .document(questionId.toString())
             .fetchDocument()
