@@ -17,6 +17,7 @@ import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.ui.home.qnasrecyclerview.QnaAdapter
 import com.abloom.mery.presentation.ui.signup.asArgs
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import javax.inject.Inject
@@ -45,6 +46,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         setupDataBinding()
 
         observeLoginEvent()
+        observeReviewEvent()
         observeHomeEvent()
         observeQnas()
         observeLoginUser()
@@ -81,6 +83,22 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
     private fun showLoginDialog() {
         val bottomSheetFragment = LoginDialogFragment()
         bottomSheetFragment.show(childFragmentManager, LoginDialogFragment().tag)
+    }
+
+    private fun observeReviewEvent() {
+        repeatOnStarted {
+            mainViewModel.reviewEvent
+                .combine(homeViewModel.qnas) { _, qnas -> qnas }
+                .filterNotNull()
+                .collectLatest { qnas ->
+                    when (qnas.size) {
+                        5,20,50 ->{
+                            //TODO(리뷰 요청)
+                        }
+                    }
+                }
+
+        }
     }
 
     private fun observeHomeEvent() {
