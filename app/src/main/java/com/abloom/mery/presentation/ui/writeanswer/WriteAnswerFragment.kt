@@ -5,11 +5,13 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.abloom.mery.MixpanelManager
 import com.abloom.mery.R
 import com.abloom.mery.databinding.FragmentWriteAnswerBinding
+import com.abloom.mery.presentation.MainViewModel
 import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.view.ConfirmDialog
 import com.abloom.mery.presentation.common.view.setOnActionClick
@@ -25,6 +27,8 @@ class WriteAnswerFragment :
     lateinit var mixpanelManager: MixpanelManager
 
     private val writeAnswerViewModel: WriteAnswerViewModel by viewModels()
+
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -104,6 +108,7 @@ class WriteAnswerFragment :
             writeAnswerViewModel.answer.value.length
         )
         writeAnswerViewModel.answerQna()
+        mainViewModel.dispatchLoReviewEvent()
         val isNavigateToHomeSuccess =
             findNavController().popBackStack(R.id.homeFragment, false)
         if (!isNavigateToHomeSuccess) findNavController().popBackStack()
