@@ -1,6 +1,7 @@
 package com.abloom.mery.data.firebase
 
 import com.google.firebase.Timestamp
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -27,3 +28,14 @@ fun LocalDateTime.toTimestamp(): Timestamp {
     val date = Date.from(instant)
     return Timestamp(date)
 }
+
+fun dev.gitlive.firebase.firestore.Timestamp.toLocalDate(): LocalDate =
+    Instant.ofEpochSecond(seconds, nanoseconds.toLong())
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+
+fun LocalDate.toTimestamp1(): dev.gitlive.firebase.firestore.Timestamp = atStartOfDay()
+    .let { dateTime ->
+        val epochSecond = dateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
+        dev.gitlive.firebase.firestore.Timestamp(epochSecond, dateTime.nano)
+    }
