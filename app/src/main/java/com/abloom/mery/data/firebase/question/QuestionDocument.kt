@@ -1,12 +1,10 @@
 package com.abloom.mery.data.firebase.question
 
-import androidx.annotation.Keep
 import com.abloom.domain.question.model.Category
 import com.abloom.domain.question.model.Question
 import com.abloom.mery.data.firebase.Document
 import kotlinx.serialization.Serializable
 
-@Keep
 @Serializable
 class QuestionDocument(
     val q_id: Long = -1,

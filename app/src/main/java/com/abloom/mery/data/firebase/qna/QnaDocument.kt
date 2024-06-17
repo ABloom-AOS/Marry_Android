@@ -1,13 +1,11 @@
 package com.abloom.mery.data.firebase.qna
 
-import androidx.annotation.Keep
 import com.abloom.mery.data.firebase.Document
 import com.abloom.mery.data.firebase.toTimestamp
 import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
-@Keep
 @Serializable
 class QnaDocument(
     val user_id: String = "",

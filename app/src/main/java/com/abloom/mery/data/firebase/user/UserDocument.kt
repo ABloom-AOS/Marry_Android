@@ -1,6 +1,5 @@
 package com.abloom.mery.data.firebase.user
 
-import androidx.annotation.Keep
 import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
 import com.abloom.mery.data.firebase.Document
@@ -10,7 +9,6 @@ import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
 
-@Keep
 @Serializable
 class UserDocument(
     val user_id: String = "",
