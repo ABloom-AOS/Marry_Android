@@ -11,7 +11,7 @@ import com.abloom.domain.question.repository.QuestionRepository
 import com.abloom.domain.user.model.User
 import com.abloom.domain.user.repository.UserRepository
 import com.abloom.mery.data.di.ApplicationScope
-import com.abloom.mery.data.firebase.qna.QnaDocument1
+import com.abloom.mery.data.firebase.qna.QnaDocument
 import com.abloom.mery.data.firebase.qna.QnaFirebaseDataSource
 import com.abloom.mery.data.firebase.qna.asReaction
 import com.abloom.mery.data.firebase.qna.asResponse
@@ -161,7 +161,7 @@ class DefaultQnaRepository @Inject constructor(
 
     override suspend fun answerQna(questionId: Long, answer: Answer) = externalScope.launch {
         val loginUserId = userRepository.loginUserId ?: return@launch
-        val qnaDocument = QnaDocument1(
+        val qnaDocument = QnaDocument(
             userId = loginUserId,
             questionId = questionId,
             date = LocalDateTime.now(),

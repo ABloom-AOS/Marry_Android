@@ -19,23 +19,23 @@ class QnaFirebaseDataSource @Inject constructor(
     private val db: FirebaseFirestore
 ) {
 
-    fun getQnaDocumentsFlow(userId: String): Flow<List<QnaDocument1>> =
+    fun getQnaDocumentsFlow(userId: String): Flow<List<QnaDocument>> =
         db.collection(COLLECTIONS_USER)
             .document(userId)
             .collection(COLLECTIONS_ANSWERS)
-            .documentsFlow<QnaDocument1>()
+            .documentsFlow<QnaDocument>()
             .flowOn(Dispatchers.IO)
 
-    fun getQnaDocumentFlow(userId: String, questionId: Long): Flow<QnaDocument1?> =
+    fun getQnaDocumentFlow(userId: String, questionId: Long): Flow<QnaDocument?> =
         db.collection(COLLECTIONS_USER)
             .document(userId)
             .collection(COLLECTIONS_ANSWERS)
-            .where { QnaDocument1::q_id.name equalTo questionId }
-            .documentsFlow<QnaDocument1>()
+            .where { QnaDocument::q_id.name equalTo questionId }
+            .documentsFlow<QnaDocument>()
             .map { it.firstOrNull() }
             .flowOn(Dispatchers.IO)
 
-    suspend fun createQnaDocument(qnaDocument: QnaDocument1) = withContext(Dispatchers.IO) {
+    suspend fun createQnaDocument(qnaDocument: QnaDocument) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(qnaDocument.user_id)
             .collection(COLLECTIONS_ANSWERS)
@@ -65,7 +65,7 @@ class QnaFirebaseDataSource @Inject constructor(
             .document(fianceAnswerId)
 
         db.runTransaction {
-            val fianceQnaDocument = get(fianceAnswerRef).fetchDocument<QnaDocument1>()
+            val fianceQnaDocument = get(fianceAnswerRef).fetchDocument<QnaDocument>()
                 ?: return@runTransaction
 
             val willQnaComplete =
@@ -74,17 +74,17 @@ class QnaFirebaseDataSource @Inject constructor(
             if (willQnaComplete) {
                 update(
                     loginUserAnswerRef,
-                    QnaDocument1::reaction.name to reaction,
-                    QnaDocument1::is_complete.name to true
+                    QnaDocument::reaction.name to reaction,
+                    QnaDocument::is_complete.name to true
                 )
                 update(
                     fianceAnswerRef,
-                    QnaDocument1::is_complete.name to true
+                    QnaDocument::is_complete.name to true
                 )
             } else {
                 update(
                     loginUserAnswerRef,
-                    QnaDocument1::reaction.name to reaction
+                    QnaDocument::reaction.name to reaction
                 )
             }
         }
@@ -96,7 +96,7 @@ class QnaFirebaseDataSource @Inject constructor(
     ): Deferred<QuerySnapshot> = db.collection(COLLECTIONS_USER)
         .document(userId)
         .collection(COLLECTIONS_ANSWERS)
-        .where { QnaDocument1::q_id.name equalTo questionId }
+        .where { QnaDocument::q_id.name equalTo questionId }
         .android
         .get()
         .asDeferred()
