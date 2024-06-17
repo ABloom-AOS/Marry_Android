@@ -1,9 +1,9 @@
 package com.abloom.mery.data.firebase.question
 
+import androidx.annotation.Keep
 import com.abloom.domain.question.model.Category
 import com.abloom.domain.question.model.Question
 import com.abloom.mery.data.firebase.Document
-import com.google.errorprone.annotations.Keep
 import kotlinx.serialization.Serializable
 
 @Keep
