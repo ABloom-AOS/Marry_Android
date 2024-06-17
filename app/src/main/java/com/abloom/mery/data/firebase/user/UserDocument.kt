@@ -12,7 +12,7 @@ import java.time.LocalDate
 
 @Keep
 @Serializable
-class UserDocument1(
+class UserDocument(
     val user_id: String = "",
     val name: String = "",
     val invitation_code: String = "",
