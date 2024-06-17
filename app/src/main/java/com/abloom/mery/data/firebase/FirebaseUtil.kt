@@ -15,26 +15,26 @@ suspend fun FirebaseFirestore.runBatch(func: WriteBatch.() -> Unit) {
     batch.commit()
 }
 
-suspend inline fun <reified R : Any> Query.fetchDocuments(): List<R> = get().fetchDocuments()
+suspend inline fun <reified R : Document> Query.fetchDocuments(): List<R> = get().fetchDocuments()
 
-inline fun <reified R : Any> QuerySnapshot.fetchDocuments(): List<R> =
+inline fun <reified R : Document> QuerySnapshot.fetchDocuments(): List<R> =
     documents.map { it.data() }
 
-suspend inline fun <reified R : Any> DocumentReference.fetchDocument(): R? =
+suspend inline fun <reified R : Document> DocumentReference.fetchDocument(): R? =
     get().fetchDocument()
 
-inline fun <reified R : Any> DocumentSnapshot.fetchDocument(): R? =
+inline fun <reified R : Document> DocumentSnapshot.fetchDocument(): R? =
     if (exists) data<R>() else null
 
-inline fun <reified R : Any> Query.documentsFlow(): Flow<List<R>> = snapshots.documentsFlow()
+inline fun <reified R : Document> Query.documentsFlow(): Flow<List<R>> = snapshots.documentsFlow()
 
-inline fun <reified R : Any> Flow<QuerySnapshot>.documentsFlow(): Flow<List<R>> =
+inline fun <reified R : Document> Flow<QuerySnapshot>.documentsFlow(): Flow<List<R>> =
     map { it.documents.map { document -> document.data() } }
 
-inline fun <reified R : Any> DocumentReference.documentFlow(): Flow<R?> =
+inline fun <reified R : Document> DocumentReference.documentFlow(): Flow<R?> =
     snapshots.documentFlow<R>()
 
-inline fun <reified R : Any> Flow<DocumentSnapshot>.documentFlow(): Flow<R?> =
+inline fun <reified R : Document> Flow<DocumentSnapshot>.documentFlow(): Flow<R?> =
     map {
         if (it.exists) it.data<R>() else null
     }
