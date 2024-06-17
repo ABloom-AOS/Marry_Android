@@ -6,6 +6,7 @@ import com.abloom.domain.user.model.User
 import com.abloom.domain.user.repository.UserRepository
 import com.abloom.mery.data.di.ApplicationScope
 import com.abloom.mery.data.firebase.user.UserDocument
+import com.abloom.mery.data.firebase.user.UserDocument1
 import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -92,7 +93,7 @@ class DefaultUserRepository @Inject constructor(
     override suspend fun getUserByInvitationCode(
         invitationCode: String
     ): User? = firebaseDataSource.getUserDocumentByInvitationCode(invitationCode)
-        ?.let(UserDocument::asExternal)
+        ?.let(UserDocument1::asExternal)
 
     override suspend fun connectWith(
         fiance: User

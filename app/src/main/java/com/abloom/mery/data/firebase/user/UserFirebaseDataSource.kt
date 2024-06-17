@@ -1,19 +1,20 @@
 package com.abloom.mery.data.firebase.user
 
+import com.abloom.mery.data.firebase.documentFlow
+import com.abloom.mery.data.firebase.fetchDocument
+import com.abloom.mery.data.firebase.fetchDocuments
 import com.abloom.mery.data.firebase.toTimestamp
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.snapshots
-import com.google.firebase.firestore.toObject
 import com.google.firebase.messaging.FirebaseMessaging
 import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.GoogleAuthProvider
+import dev.gitlive.firebase.firestore.FirebaseFirestore
+import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
@@ -64,8 +65,7 @@ class UserFirebaseDataSource @Inject constructor(
         db.collection(COLLECTIONS_USER)
             .document(userId)
             .get()
-            .await()
-            .exists()
+            .exists
     }
 
     suspend fun createUserDocument(userDocument: UserDocument) = withContext(Dispatchers.IO) {
@@ -74,50 +74,43 @@ class UserFirebaseDataSource @Inject constructor(
             .set(userDocument)
     }
 
-    fun getUserDocumentFlow(userId: String): Flow<UserDocument?> =
+    fun getUserDocumentFlow(userId: String): Flow<UserDocument1?> =
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .snapshots()
-            .map { snapshot ->
-                if (!snapshot.exists()) return@map null
-                snapshot.toObject(UserDocument::class.java)
-            }
+            .documentFlow<UserDocument1>()
             .flowOn(Dispatchers.IO)
 
     suspend fun connect(user1Id: String, user2Id: String): Boolean = withContext(Dispatchers.IO) {
         val user1Ref = db.collection(COLLECTIONS_USER).document(user1Id)
         val user2Ref = db.collection(COLLECTIONS_USER).document(user2Id)
-        db.runTransaction { transaction ->
-            val user1Document = transaction.get(user1Ref)
-                .toObject<UserDocument>()
+        db.runTransaction {
+            val user1Document = get(user1Ref).fetchDocument<UserDocument1>()
                 ?: return@runTransaction false
-            val user2Document = transaction.get(user2Ref)
-                .toObject<UserDocument>()
+            val user2Document = get(user2Ref).fetchDocument<UserDocument1>()
                 ?: return@runTransaction false
 
-            if (user1Document.fianceId != null || user2Document.fianceId != null) return@runTransaction false
+            // 둘 중 한 명이라도 이미 연결되어 있으면 false 반환
+            if (user1Document.fiance != null || user2Document.fiance != null) return@runTransaction false
 
-            transaction.update(user1Ref, UserDocument.KEY_FIANCE, user2Id)
-            transaction.update(user2Ref, UserDocument.KEY_FIANCE, user1Id)
+            update(user1Ref, UserDocument1::fiance.name to user2Id)
+            update(user2Ref, UserDocument1::fiance.name to user1Id)
             true
-        }.await()
+        }
     }
 
     suspend fun getUserDocumentByInvitationCode(
         invitationCode: String
-    ): UserDocument? = withContext(Dispatchers.IO) {
+    ): UserDocument1? = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
-            .whereEqualTo(UserDocument.KEY_INVITATION_CODE, invitationCode)
-            .get()
-            .await()
+            .where { UserDocument1::invitation_code.name equalTo invitationCode }
+            .fetchDocuments<UserDocument1>()
             .firstOrNull()
-            ?.toObject()
     }
 
     suspend fun updateName(userId: String, name: String) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .update(UserDocument.KEY_NAME, name)
+            .update(UserDocument1::name.name to name)
     }
 
     suspend fun updateMarriageDate(
@@ -126,7 +119,7 @@ class UserFirebaseDataSource @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .update(UserDocument.KEY_MARRIAGE_DATE, marriageDate.toTimestamp())
+            .update(UserDocument1::marriage_date.name to marriageDate.toTimestamp())
     }
 
     suspend fun signOut() = withContext(Dispatchers.IO) { auth.signOut() }
@@ -136,19 +129,17 @@ class UserFirebaseDataSource @Inject constructor(
             .document(userId)
         val answerDocumentRefs = userRef.collection(COLLECTIONS_ANSWER)
             .get()
-            .await()
-            .documents
-            .map { userRef.collection(COLLECTIONS_ANSWER).document(it.id) }
+            .fetchDocuments<UserDocument1>()
+            .map { userRef.collection(COLLECTIONS_ANSWER).document(it.user_id) }
 
-        db.runTransaction { transaction ->
-            val userDocument =
-                transaction.get(userRef).toObject<UserDocument>() ?: return@runTransaction
-            if (userDocument.fianceId != null) {
-                val fianceRef = db.collection(COLLECTIONS_USER).document(userDocument.fianceId)
-                transaction.update(fianceRef, UserDocument.KEY_FIANCE, null)
+        db.runTransaction {
+            val userDocument = get(userRef).fetchDocument<UserDocument1>() ?: return@runTransaction
+            if (userDocument.fiance != null) {
+                val fianceRef = db.collection(COLLECTIONS_USER).document(userDocument.fiance)
+                update(fianceRef, UserDocument1::fiance.name to null)
             }
-            answerDocumentRefs.forEach { transaction.delete(it) }
-            transaction.delete(userRef)
+            answerDocumentRefs.forEach { delete(it) }
+            delete(userRef)
         }
         auth.currentUser?.delete()
     }
@@ -156,13 +147,13 @@ class UserFirebaseDataSource @Inject constructor(
     suspend fun loginUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .update(UserDocument.KEY_FCM_TOKEN, messaging.token.result.toString())
+            .update(UserDocument1::fcm_token.name to messaging.token.result.toString())
     }
 
     suspend fun logOutUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .update(UserDocument.KEY_FCM_TOKEN, null)
+            .update(UserDocument1::fcm_token.name to null)
     }
 
     companion object {
