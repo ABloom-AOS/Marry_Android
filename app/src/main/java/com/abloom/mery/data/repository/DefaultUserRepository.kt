@@ -78,11 +78,9 @@ class DefaultUserRepository @Inject constructor(
         .joinToString(separator = "")
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getLoginUserFlow(): Flow<User?> = preferencesDataSource.loginUserId
+    override fun getLoginUserFlow(): Flow<User?> = firebaseDataSource.loginUserIdFlow
         .flatMapLatest { loginUserId ->
-            if (loginUserId == null || firebaseDataSource.loginUserId != loginUserId) {
-                return@flatMapLatest flowOf(null)
-            }
+            if (loginUserId == null) return@flatMapLatest flowOf(null)
             firebaseDataSource.getUserDocumentFlow(loginUserId)
                 .map { userDocument -> userDocument?.asExternal() }
         }

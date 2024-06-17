@@ -1,14 +1,14 @@
 package com.abloom.mery.data.firebase.user
 
 import com.abloom.mery.data.firebase.toTimestamp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.snapshots
 import com.google.firebase.firestore.toObject
 import com.google.firebase.messaging.FirebaseMessaging
+import dev.gitlive.firebase.auth.FirebaseAuth
+import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
+import dev.gitlive.firebase.auth.FirebaseUser
+import dev.gitlive.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -27,13 +27,14 @@ class UserFirebaseDataSource @Inject constructor(
     val loginUserId: String?
         get() = auth.currentUser?.uid
 
+    val loginUserIdFlow: Flow<String?> = auth.authStateChanged.map { it?.uid }
+
     /**
      * @return 로그인에 성공하면 [FirebaseUser] 반환
      */
     suspend fun loginByGoogle(token: String): FirebaseUser? = withContext(Dispatchers.IO) {
-        val credential = GoogleAuthProvider.getCredential(token, null)
+        val credential = GoogleAuthProvider.credential(token, null)
         auth.signInWithCredential(credential)
-            .await()
             .user
     }
 
@@ -45,7 +46,7 @@ class UserFirebaseDataSource @Inject constructor(
         password: String
     ): FirebaseUser? = withContext(Dispatchers.IO) {
         runCatching {
-            auth.signInWithEmailAndPassword(email, password).await()
+            auth.signInWithEmailAndPassword(email, password)
         }.getOrElse { error ->
             if (error is FirebaseAuthInvalidCredentialsException) null else throw error
         }?.user
@@ -56,7 +57,6 @@ class UserFirebaseDataSource @Inject constructor(
         password: String,
     ): FirebaseUser? = withContext(Dispatchers.IO) {
         auth.createUserWithEmailAndPassword(email, password)
-            .await()
             .user
     }
 
@@ -149,8 +149,8 @@ class UserFirebaseDataSource @Inject constructor(
             }
             answerDocumentRefs.forEach { transaction.delete(it) }
             transaction.delete(userRef)
-            auth.currentUser?.delete()
         }
+        auth.currentUser?.delete()
     }
 
     suspend fun loginUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
