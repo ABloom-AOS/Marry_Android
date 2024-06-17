@@ -1,9 +1,5 @@
 package com.abloom.mery.data.firebase
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
@@ -11,7 +7,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.auth.auth
+import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.firestore
 import javax.inject.Singleton
 
@@ -21,19 +19,13 @@ object FirebaseModule {
 
     @Singleton
     @Provides
-    fun providesFirebaseAuth2(): FirebaseAuth = Firebase.auth
+    fun providesFirebaseAuth(): FirebaseAuth =
+        dev.gitlive.firebase.Firebase.auth
 
     @Singleton
     @Provides
-    fun providesFirebaseAuth(): dev.gitlive.firebase.auth.FirebaseAuth = dev.gitlive.firebase.Firebase.auth
-
-    @Singleton
-    @Provides
-    fun providesFirebaseDb2(): FirebaseFirestore = Firebase.firestore
-
-    @Singleton
-    @Provides
-    fun providesFirebaseDb(): dev.gitlive.firebase.firestore.FirebaseFirestore = dev.gitlive.firebase.Firebase.firestore
+    fun providesFirebaseDb(): FirebaseFirestore =
+        dev.gitlive.firebase.Firebase.firestore
 
     @Singleton
     @Provides

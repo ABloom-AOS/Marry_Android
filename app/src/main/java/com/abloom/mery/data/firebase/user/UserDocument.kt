@@ -5,7 +5,7 @@ import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
 import com.abloom.mery.data.firebase.Document
 import com.abloom.mery.data.firebase.toLocalDate
-import com.abloom.mery.data.firebase.toTimestamp1
+import com.abloom.mery.data.firebase.toTimestamp
 import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
@@ -31,7 +31,7 @@ class UserDocument(
     ) : this(
         user_id = id,
         name = name,
-        marriage_date = marriageDate.toTimestamp1(),
+        marriage_date = marriageDate.toTimestamp(),
         sex = sex == Sex.MALE,
         invitation_code = invitationCode
     )
