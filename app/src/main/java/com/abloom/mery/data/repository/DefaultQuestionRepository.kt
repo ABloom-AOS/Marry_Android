@@ -5,7 +5,7 @@ import com.abloom.domain.question.repository.QuestionRepository
 import com.abloom.domain.user.repository.UserRepository
 import com.abloom.mery.data.database.RecommendationQuestionDao
 import com.abloom.mery.data.database.RecommendationQuestionEntity
-import com.abloom.mery.data.firebase.question.QuestionDocument
+import com.abloom.mery.data.firebase.question.QuestionDocument1
 import com.abloom.mery.data.firebase.question.QuestionFirebaseDataSource
 import com.abloom.mery.data.firebase.question.asExternal
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,13 +50,13 @@ class DefaultQuestionRepository @Inject constructor(
 
     override fun getQuestionsFlow(): Flow<List<Question>> = questionFirebaseDataSource
         .getQuestionsFlow()
-        .map(List<QuestionDocument>::asExternal)
+        .map(List<QuestionDocument1>::asExternal)
 
     override suspend fun getQuestions(): List<Question> = questionFirebaseDataSource.getQuestions()
-        .map(QuestionDocument::asExternal)
+        .map(QuestionDocument1::asExternal)
 
     override fun getQuestionFlow(id: Long): Flow<Question> =
         questionFirebaseDataSource.getQuestionFlow(id)
             .filterNotNull()
-            .map(QuestionDocument::asExternal)
+            .map(QuestionDocument1::asExternal)
 }
