@@ -63,6 +63,10 @@ firebaseBom = "32.8.0"
 # MixPanel
 mixpanelAndroid = "7.5.2"
 
+#review
+review = "2.0.1"
+
+
 [libraries]
 # 안드로이드
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -129,6 +133,10 @@ firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" 
 
 # mixpanel
 mixpanel-android = { module = "com.mixpanel.android:mixpanel-android", version.ref = "mixpanelAndroid" }
+
+#review
+review = { module = "com.google.android.play:review", version.ref = "review" }
+review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
