@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
     override fun attachBaseContext(newBase: Context) {
         val newConfiguration = Configuration(newBase.resources.configuration)
         newConfiguration.fontScale = FIXED_FONT_SCALE
-        newConfiguration.densityDpi = DisplayMetrics.DENSITY_DEVICE_STABLE
+        newConfiguration.densityDpi = DisplayMetrics.DENSITY_420
         applyOverrideConfiguration(newConfiguration)
         super.attachBaseContext(newBase)
     }
