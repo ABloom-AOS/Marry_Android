@@ -54,14 +54,19 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         binding.rvHomeQnas.adapter = qnaAdapter
     }
 
-    private fun setupDataBinding() {
-        binding.viewModel = homeViewModel
-        binding.onProfileMenuButtonClick = ::navigateToProfileMenu
-        binding.onCreateQnaButtonClick = ::navigateToCreateQna
+    private fun setupDataBinding() = with(binding) {
+        viewModel = homeViewModel
+        onProfileMenuButtonClick = ::navigateToProfileMenu
+        onAnnouncementClick = ::navigateToBrowser
+        onCreateQnaButtonClick = ::navigateToCreateQna
     }
 
     private fun navigateToProfileMenu() {
         findNavController().navigateSafely(HomeFragmentDirections.actionHomeFragmentToProfileMenuFragment())
+    }
+
+    private fun navigateToBrowser(url: String) {
+        TODO("웹뷰 이동")
     }
 
     private fun navigateToCreateQna() {
