@@ -24,7 +24,7 @@ class MarryDateFragment : BaseFragment<FragmentMarryDateBinding>(R.layout.fragme
     private fun initListener() {
         binding.datePicker.setWheelListener(object : MeryDatePickerView.Listener {
             override fun didSelectData(year: Int, month: Int, day: Int) {
-                if (checkValidDate(year, month + 1, day)) {
+                if (isSatisfyValidDate(year, month + 1, day)) {
                     val marriageDate = LocalDate.of(year, month + 1, day)
                     viewModel.selectMarriageDate(marriageDate)
                 }
@@ -32,7 +32,7 @@ class MarryDateFragment : BaseFragment<FragmentMarryDateBinding>(R.layout.fragme
         })
     }
 
-    private fun checkValidDate(year: Int, month: Int, day: Int): Boolean {
+    private fun isSatisfyValidDate(year: Int, month: Int, day: Int): Boolean {
         if (month !in 1..12) return false
         val maxDaysInMonth = when (month) {
             2 -> if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) 29 else 28

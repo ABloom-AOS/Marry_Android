@@ -13,8 +13,10 @@ import com.abloom.mery.presentation.MainViewModel
 import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.ui.category.recyclerview.QuestionAdapter
+import com.abloom.mery.presentation.ui.webview.WebViewUrl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,9 +32,10 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
     private val questionAdapter: QuestionAdapter by lazy { QuestionAdapter(::navigateToWriteAnswer) }
 
     private fun navigateToWriteAnswer(questionId: Long) {
+        closePopUpDialog()
         mixpanelManager.selectQuestion(
-            categoryViewModel.category.value.name.lowercase(),
-            questionId
+            category = categoryViewModel.category.value.name.lowercase(),
+            questionId = questionId
         )
         val action = CategoryFragmentDirections.actionGlobalWriteAnswerFragment(questionId, false)
         findNavController().navigateSafely(action)
@@ -47,17 +50,35 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
 
         observeCategory()
         observeQuestions()
+
+        showPopUpDialogIfNeed()
     }
 
     private fun setupDataBinding() {
         binding.viewModel = categoryViewModel
         binding.onUpButtonClick = { findNavController().popBackStack() }
         binding.onLoginButtonClick = ::handleLoginButtonClick
+        binding.onNavigateQuestionFactoryButtonClick = ::navigateToQuestionFactoryWebView
+        binding.onPopUpDialogCloseButtonClick = ::closePopUpDialog
     }
 
     private fun handleLoginButtonClick() {
         mainViewModel.dispatchLoginEvent()
         findNavController().popBackStack(R.id.homeFragment, false)
+    }
+
+    private fun navigateToQuestionFactoryWebView() {
+        findNavController().navigateSafely(
+            CategoryFragmentDirections.actionCategoryFragmentToWebViewFromCategoryFragment(
+                WebViewUrl.QUESTION_FACTORY
+            )
+        )
+        categoryViewModel.isPopupVisible.value = false
+    }
+
+    private fun closePopUpDialog() {
+        mainViewModel.wasClosedQuestionFactoryPopup = true
+        categoryViewModel.isPopupVisible.value = false
     }
 
     private fun setupQuestionRecyclerView() {
@@ -83,5 +104,21 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
 
     private fun observeQuestions() {
         repeatOnStarted { categoryViewModel.currentQuestions.collect(questionAdapter::submitList) }
+    }
+
+    private fun showPopUpDialogIfNeed() {
+        lifecycleScope.launch {
+            delay(DIALOG_DISPLAY_DELAY_TIME)
+            if (isSatisfyPopUpDialogCondition()) {
+                categoryViewModel.isPopupVisible.value = true
+            }
+        }
+    }
+
+    private fun isSatisfyPopUpDialogCondition() =
+        categoryViewModel.isLogin.value && !mainViewModel.wasClosedQuestionFactoryPopup
+
+    companion object {
+        private const val DIALOG_DISPLAY_DELAY_TIME = 5000L
     }
 }

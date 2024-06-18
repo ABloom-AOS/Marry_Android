@@ -130,6 +130,8 @@
     <string name="category_future">미래</string>
     <string name="category_present">현재</string>
     <string name="category_past">과거</string>
+    <string name="category_popup_ask_like_question">마음에 드는 질문을 찾지 못하셨나요?</string>
+    <string name="category_popup_make_question_directly">메리 질문 제작소에서 직접 질문 만들기</string>
 
     <string name="profilemenu_user_setting_label">내 계정 관리</string>
     <string name="profilemenu_request_login_message">로그인해주세요</string>
