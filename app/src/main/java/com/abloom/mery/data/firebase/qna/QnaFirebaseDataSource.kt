@@ -1,9 +1,10 @@
 package com.abloom.mery.data.firebase.qna
 
-import com.google.firebase.firestore.FirebaseFirestore
+import com.abloom.mery.data.firebase.documentsFlow
+import com.abloom.mery.data.firebase.fetchDocument
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.snapshots
-import com.google.firebase.firestore.toObject
+import dev.gitlive.firebase.firestore.FirebaseFirestore
+import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitAll
@@ -22,22 +23,21 @@ class QnaFirebaseDataSource @Inject constructor(
         db.collection(COLLECTIONS_USER)
             .document(userId)
             .collection(COLLECTIONS_ANSWERS)
-            .snapshots()
-            .map { snapshot -> snapshot.toObjects(QnaDocument::class.java) }
+            .documentsFlow<QnaDocument>()
             .flowOn(Dispatchers.IO)
 
     fun getQnaDocumentFlow(userId: String, questionId: Long): Flow<QnaDocument?> =
         db.collection(COLLECTIONS_USER)
             .document(userId)
             .collection(COLLECTIONS_ANSWERS)
-            .whereEqualTo(QnaDocument.KEY_QUESTION_ID, questionId)
-            .snapshots()
-            .map { snapshot -> snapshot.toObjects(QnaDocument::class.java).firstOrNull() }
+            .where { QnaDocument::q_id.name equalTo questionId }
+            .documentsFlow<QnaDocument>()
+            .map { it.firstOrNull() }
             .flowOn(Dispatchers.IO)
 
     suspend fun createQnaDocument(qnaDocument: QnaDocument) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
-            .document(qnaDocument.userId)
+            .document(qnaDocument.user_id)
             .collection(COLLECTIONS_ANSWERS)
             .add(qnaDocument)
     }
@@ -64,28 +64,27 @@ class QnaFirebaseDataSource @Inject constructor(
             .collection(COLLECTIONS_ANSWERS)
             .document(fianceAnswerId)
 
-        db.runTransaction { transaction ->
-            val fianceQnaDocument = transaction.get(fianceAnswerRef)
-                .toObject<QnaDocument>()
+        db.runTransaction {
+            val fianceQnaDocument = get(fianceAnswerRef).fetchDocument<QnaDocument>()
                 ?: return@runTransaction
 
-            val isComplete =
+            val willQnaComplete =
                 reaction.isPositiveResponse() && fianceQnaDocument.reaction?.isPositiveResponse() ?: false
 
-            if (isComplete) {
-                transaction.update(
+            if (willQnaComplete) {
+                update(
                     loginUserAnswerRef,
-                    QnaDocument.KEY_REACTION, reaction,
-                    QnaDocument.KEY_IS_COMPLETE, true
+                    QnaDocument::reaction.name to reaction,
+                    QnaDocument::is_complete.name to true
                 )
-                transaction.update(
+                update(
                     fianceAnswerRef,
-                    QnaDocument.KEY_IS_COMPLETE, true
+                    QnaDocument::is_complete.name to true
                 )
             } else {
-                transaction.update(
+                update(
                     loginUserAnswerRef,
-                    QnaDocument.KEY_REACTION, reaction,
+                    QnaDocument::reaction.name to reaction
                 )
             }
         }
@@ -97,7 +96,8 @@ class QnaFirebaseDataSource @Inject constructor(
     ): Deferred<QuerySnapshot> = db.collection(COLLECTIONS_USER)
         .document(userId)
         .collection(COLLECTIONS_ANSWERS)
-        .whereEqualTo(QnaDocument.KEY_QUESTION_ID, questionId)
+        .where { QnaDocument::q_id.name equalTo questionId }
+        .android
         .get()
         .asDeferred()
 

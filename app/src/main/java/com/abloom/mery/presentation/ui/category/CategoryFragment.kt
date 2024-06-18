@@ -119,6 +119,7 @@ class CategoryFragment : NavigationFragment<FragmentCategoryBinding>(R.layout.fr
         categoryViewModel.isLogin.value && !mainViewModel.wasClosedQuestionFactoryPopup
 
     companion object {
+
         private const val DIALOG_DISPLAY_DELAY_TIME = 5000L
     }
 }

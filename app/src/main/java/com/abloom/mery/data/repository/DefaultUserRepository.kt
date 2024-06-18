@@ -4,7 +4,6 @@ import com.abloom.domain.user.model.Authentication
 import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
 import com.abloom.domain.user.repository.UserRepository
-import com.abloom.mery.data.datastore.MeryPreferencesDataSource
 import com.abloom.mery.data.di.ApplicationScope
 import com.abloom.mery.data.firebase.user.UserDocument
 import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
@@ -21,7 +20,6 @@ import javax.inject.Inject
 
 class DefaultUserRepository @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope,
-    private val preferencesDataSource: MeryPreferencesDataSource,
     private val firebaseDataSource: UserFirebaseDataSource
 ) : UserRepository {
 
@@ -41,7 +39,6 @@ class DefaultUserRepository @Inject constructor(
 
         firebaseDataSource.loginUpdateFcmToken(loginUser.uid)
         val isJoined = firebaseDataSource.isExist(loginUser.uid)
-        if (isJoined) preferencesDataSource.updateLoginUserId(loginUser.uid)
         return@async isJoined
     }.await()
 
@@ -59,7 +56,7 @@ class DefaultUserRepository @Inject constructor(
             )
         } ?: return@launch
 
-        val userDocument = UserDocument.create(
+        val userDocument = UserDocument(
             id = joinedUser.uid,
             name = name,
             marriageDate = marriageDate,
@@ -69,7 +66,6 @@ class DefaultUserRepository @Inject constructor(
 
         firebaseDataSource.createUserDocument(userDocument)
         firebaseDataSource.loginUpdateFcmToken(joinedUser.uid)
-        preferencesDataSource.updateLoginUserId(joinedUser.uid)
     }.join()
 
     private fun createInvitationCodeFrom(id: String): String = id.toList()
@@ -78,11 +74,9 @@ class DefaultUserRepository @Inject constructor(
         .joinToString(separator = "")
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getLoginUserFlow(): Flow<User?> = preferencesDataSource.loginUserId
+    override fun getLoginUserFlow(): Flow<User?> = firebaseDataSource.loginUserIdFlow
         .flatMapLatest { loginUserId ->
-            if (loginUserId == null || firebaseDataSource.loginUserId != loginUserId) {
-                return@flatMapLatest flowOf(null)
-            }
+            if (loginUserId == null) return@flatMapLatest flowOf(null)
             firebaseDataSource.getUserDocumentFlow(loginUserId)
                 .map { userDocument -> userDocument?.asExternal() }
         }
@@ -121,7 +115,6 @@ class DefaultUserRepository @Inject constructor(
 
     override suspend fun logout() = externalScope.launch {
         val loginUserId = firebaseDataSource.loginUserId ?: return@launch
-        preferencesDataSource.removeLoginUserId()
         firebaseDataSource.signOut()
         firebaseDataSource.logOutUpdateFcmToken(loginUserId)
     }.join()
@@ -129,7 +122,6 @@ class DefaultUserRepository @Inject constructor(
     override suspend fun leave() = externalScope.launch {
         val loginUserId = firebaseDataSource.loginUserId ?: return@launch
         firebaseDataSource.delete(loginUserId)
-        preferencesDataSource.removeLoginUserId()
     }.join()
 
     companion object {

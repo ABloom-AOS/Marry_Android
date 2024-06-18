@@ -17,6 +17,9 @@ splash = "1.0.1"
 # 코루틴
 coroutine = "1.8.0"
 
+# Kotlinx Serialization
+kotlinxSerializationJson = "1.5.1"
+
 # Inject
 inject = "1"
 
@@ -29,9 +32,6 @@ navigation = "2.7.7"
 # Hilt
 hilt = "2.50"
 hiltNavigation = "1.2.0"
-
-# Preferences DataStore
-preferencesDataStore = "1.0.0"
 
 # Room
 room = "2.6.1"
@@ -60,6 +60,9 @@ googleServices = "4.4.1"
 # Firebase Bom 의존성 버전
 firebaseBom = "32.8.0"
 
+# Firebase Kotlin SDK
+firebaseKotlinSdk = "1.12.0"
+
 # MixPanel
 mixpanelAndroid = "7.5.2"
 
@@ -75,6 +78,9 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 # 코루틴
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine" }
 
+# Kotlinx Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
 # Inject
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "inject" }
 
@@ -87,9 +93,6 @@ androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:na
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigation" }
-
-# DataStroe
-preferences-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "preferencesDataStore" }
 
 # Room
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
@@ -121,11 +124,13 @@ google-services = { group = "com.google.gms", name = "google-services", version.
 
 # firebase
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-functions = { group = "com.google.firebase", name = "firebase-functions" }
-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+
+# Firebase Kotlin SDK
+firebase-auth-kotlin = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseKotlinSdk" }
+firebase-firestore-kotlin = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseKotlinSdk" }
 
 # mixpanel
 mixpanel-android = { module = "com.mixpanel.android:mixpanel-android", version.ref = "mixpanelAndroid" }
@@ -138,3 +143,4 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
