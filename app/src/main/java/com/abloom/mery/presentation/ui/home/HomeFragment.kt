@@ -66,7 +66,9 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
     }
 
     private fun navigateToBrowser(url: String) {
-        TODO("웹뷰 이동")
+        findNavController().navigateSafely(
+            HomeFragmentDirections.actionHomeFragmentToAnnouncementFragment(url)
+        )
     }
 
     private fun navigateToCreateQna() {
