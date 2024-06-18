@@ -1,6 +1,7 @@
 package com.abloom.mery.presentation.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -16,6 +17,7 @@ import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.ui.home.qnasrecyclerview.QnaAdapter
 import com.abloom.mery.presentation.ui.signup.asArgs
+import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -93,7 +95,18 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
                 .collectLatest { qnas ->
                     when (qnas.size) {
                         5,20,50 ->{
-                            //TODO(리뷰 요청)
+                            Log.e("cyc","5번일때")
+                            val manager = ReviewManagerFactory.create(requireActivity())
+                            val request = manager.requestReviewFlow()
+                            request.addOnCompleteListener { request ->
+                                if (request.isSuccessful) {
+                                    Log.e("cyc","5번일때 요청 성공")
+                                    val reviewInfo = request.result
+                                    manager.launchReviewFlow(requireActivity(), reviewInfo)
+                                } else {
+                                    Log.e("cyc", "리뷰 오류")
+                                }
+                            }
                         }
                     }
                 }
