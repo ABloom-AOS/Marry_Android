@@ -2,6 +2,8 @@ package com.abloom.mery.presentation.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abloom.domain.announcement.model.Announcement
+import com.abloom.domain.announcement.usecase.GetLatestAnnouncementUseCase
 import com.abloom.domain.qna.model.Qna
 import com.abloom.domain.qna.usecase.GetQnasUseCase
 import com.abloom.domain.user.model.Authentication
@@ -26,6 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     getLoginUserUseCase: GetLoginUserUseCase,
+    getLatestAnnouncementUseCase: GetLatestAnnouncementUseCase,
     getQnasUseCase: GetQnasUseCase,
     private val loginUseCase: LoginUseCase,
 ) : ViewModel() {
@@ -42,9 +45,16 @@ class HomeViewModel @Inject constructor(
         .filter { it !is UserUiState.Loading }
         .map { it is UserUiState.Login }
         .stateIn(
-            scope = viewModelScope,
+            initialValue = null,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = null
+            scope = viewModelScope
+        )
+
+    val latestAnnouncement: StateFlow<Announcement?> = getLatestAnnouncementUseCase()
+        .stateIn(
+            initialValue = null,
+            started = SharingStarted.WhileSubscribed(5_000),
+            scope = viewModelScope
         )
 
     @OptIn(ExperimentalCoroutinesApi::class)
