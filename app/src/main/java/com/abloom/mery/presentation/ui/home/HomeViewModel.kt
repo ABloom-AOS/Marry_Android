@@ -50,8 +50,11 @@ class HomeViewModel @Inject constructor(
             scope = viewModelScope
         )
 
-    val latestAnnouncement: StateFlow<Announcement?> = getLatestAnnouncementUseCase()
-        .stateIn(
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val latestAnnouncement: StateFlow<Announcement?> = isLogin.filterNotNull()
+        .flatMapLatest { isLogin ->
+            if (isLogin) getLatestAnnouncementUseCase() else flowOf(null)
+        }.stateIn(
             initialValue = null,
             started = SharingStarted.WhileSubscribed(5_000),
             scope = viewModelScope
