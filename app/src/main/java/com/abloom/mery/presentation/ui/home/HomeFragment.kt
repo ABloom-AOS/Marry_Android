@@ -57,7 +57,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
     private fun setupDataBinding() = with(binding) {
         viewModel = homeViewModel
         onProfileMenuButtonClick = ::navigateToProfileMenu
-        onAnnouncementClick = ::navigateToBrowser
+        onAnnouncementClick = ::navigateToAnnouncement
         onCreateQnaButtonClick = ::navigateToCreateQna
     }
 
@@ -65,7 +65,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         findNavController().navigateSafely(HomeFragmentDirections.actionHomeFragmentToProfileMenuFragment())
     }
 
-    private fun navigateToBrowser(url: String) {
+    private fun navigateToAnnouncement(url: String) {
         findNavController().navigateSafely(
             HomeFragmentDirections.actionHomeFragmentToAnnouncementFragment(url)
         )
