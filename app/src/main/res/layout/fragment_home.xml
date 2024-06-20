@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="kotlin.Unit" />
+
         <variable
             name="viewModel"
             type="com.abloom.mery.presentation.ui.home.HomeViewModel" />
@@ -16,6 +18,10 @@
         <variable
             name="onProfileMenuButtonClick"
             type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="onAnnouncementClick"
+            type="kotlin.jvm.functions.Function1&lt;String,Unit>" />
 
         <variable
             name="onCreateQnaButtonClick"
@@ -111,22 +117,70 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_home_empty_questions_title" />
 
+        <ImageView
+            android:id="@+id/iv_home_announcement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:onClick="@{() -> onAnnouncementClick.invoke(viewModel.latestAnnouncement.url)}"
+            android:src="@drawable/ic_home_announcement"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_home_app_title" />
+
+        <TextView
+            android:id="@+id/tv_home_announcement_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:onClick="@{() -> onAnnouncementClick.invoke(viewModel.latestAnnouncement.url)}"
+            android:paddingStart="4dp"
+            android:text="@{viewModel.latestAnnouncement.title}"
+            android:textAppearance="@style/subheadline_detail"
+            android:textColor="@color/neutral_60"
+            app:layout_constraintBottom_toBottomOf="@id/iv_home_announcement"
+            app:layout_constraintEnd_toStartOf="@id/iv_home_move_announcement"
+            app:layout_constraintStart_toEndOf="@id/iv_home_announcement"
+            app:layout_constraintTop_toTopOf="@id/iv_home_announcement"
+            tools:text="[공지] 인터뷰에 참여해주실 예비부부를 찾습니다.asdfasdfadsf" />
+
+        <ImageView
+            android:id="@+id/iv_home_move_announcement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="18dp"
+            android:onClick="@{() -> onAnnouncementClick.invoke(viewModel.latestAnnouncement.url)}"
+            android:padding="2dp"
+            android:src="@drawable/ic_home_move_announcement"
+            app:layout_constraintBottom_toBottomOf="@id/iv_home_announcement"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_home_announcement" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="iv_home_announcement, tv_home_announcement_title, iv_home_move_announcement"
+            app:is_visible="@{viewModel.latestAnnouncement != null}"
+            tools:visibility="visible" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_home_qnas"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="4dp"
             android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
-            android:paddingVertical="16dp"
+            android:paddingVertical="8dp"
             app:itemAnimator="@{null}"
             app:itemSpacing_dp="@{12}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_home_app_title"
+            app:layout_constraintTop_toBottomOf="@id/iv_home_announcement"
+            app:layout_goneMarginTop="12dp"
             tools:itemCount="10"
             tools:listitem="@layout/item_home_qna" />
 

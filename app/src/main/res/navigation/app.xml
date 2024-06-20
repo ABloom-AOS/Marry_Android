@@ -6,40 +6,6 @@
     app:startDestination="@id/splashFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.abloom.mery.presentation.ui.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_createQna"
-            app:destination="@id/createQna"
-            app:enterAnim="@anim/slide_up"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/slide_down" />
-        <action
-            android:id="@+id/action_homeFragment_to_profileMenuFragment"
-            app:destination="@id/profile"
-            app:enterAnim="@anim/slide_up"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/slide_down" />
-        <action
-            android:id="@+id/action_homeFragment_to_qnaFragment"
-            app:destination="@id/qnaFragment"
-            app:enterAnim="@anim/slide_up"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/slide_down" />
-        <action
-            android:id="@+id/action_homeFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment"
-            app:enterAnim="@anim/slide_up"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/slide_down" />
-    </fragment>
-    <fragment
         android:id="@+id/connectFragment"
         android:name="com.abloom.mery.presentation.ui.connect.ConnectFragment"
         android:label="fragment_connect"
@@ -201,6 +167,59 @@
         android:label="SplashFragment">
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeGraph" />
     </fragment>
+    <navigation
+        android:id="@+id/homeGraph"
+        app:startDestination="@id/homeFragment">
+        <fragment
+            android:id="@+id/announcementFragment"
+            android:name="com.abloom.mery.presentation.ui.home.AnnouncementFragment"
+            android:label="AnnouncementFragment">
+            <argument
+                android:name="url"
+                app:argType="string" />
+        </fragment>
+        <fragment
+            android:id="@+id/homeFragment"
+            android:name="com.abloom.mery.presentation.ui.home.HomeFragment"
+            android:label="fragment_home"
+            tools:layout="@layout/fragment_home">
+            <action
+                android:id="@+id/action_homeFragment_to_createQna"
+                app:destination="@id/createQna"
+                app:enterAnim="@anim/slide_up"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/slide_down" />
+            <action
+                android:id="@+id/action_homeFragment_to_profileMenuFragment"
+                app:destination="@id/profile"
+                app:enterAnim="@anim/slide_up"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/slide_down" />
+            <action
+                android:id="@+id/action_homeFragment_to_qnaFragment"
+                app:destination="@id/qnaFragment"
+                app:enterAnim="@anim/slide_up"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/slide_down" />
+            <action
+                android:id="@+id/action_homeFragment_to_signUpFragment"
+                app:destination="@id/signUpFragment"
+                app:enterAnim="@anim/slide_up"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/slide_down" />
+            <action
+                android:id="@+id/action_homeFragment_to_announcementFragment"
+                app:destination="@id/announcementFragment"
+                app:enterAnim="@anim/slide_up"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/slide_down" />
+        </fragment>
+    </navigation>
 </navigation>

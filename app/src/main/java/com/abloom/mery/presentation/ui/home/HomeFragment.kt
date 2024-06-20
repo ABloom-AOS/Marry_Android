@@ -54,14 +54,21 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         binding.rvHomeQnas.adapter = qnaAdapter
     }
 
-    private fun setupDataBinding() {
-        binding.viewModel = homeViewModel
-        binding.onProfileMenuButtonClick = ::navigateToProfileMenu
-        binding.onCreateQnaButtonClick = ::navigateToCreateQna
+    private fun setupDataBinding() = with(binding) {
+        viewModel = homeViewModel
+        onProfileMenuButtonClick = ::navigateToProfileMenu
+        onAnnouncementClick = ::navigateToAnnouncement
+        onCreateQnaButtonClick = ::navigateToCreateQna
     }
 
     private fun navigateToProfileMenu() {
         findNavController().navigateSafely(HomeFragmentDirections.actionHomeFragmentToProfileMenuFragment())
+    }
+
+    private fun navigateToAnnouncement(url: String) {
+        findNavController().navigateSafely(
+            HomeFragmentDirections.actionHomeFragmentToAnnouncementFragment(url)
+        )
     }
 
     private fun navigateToCreateQna() {
