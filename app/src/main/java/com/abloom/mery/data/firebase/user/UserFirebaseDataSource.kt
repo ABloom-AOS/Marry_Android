@@ -1,19 +1,20 @@
 package com.abloom.mery.data.firebase.user
 
+import com.abloom.mery.data.firebase.documentFlow
+import com.abloom.mery.data.firebase.fetchDocument
+import com.abloom.mery.data.firebase.fetchDocuments
 import com.abloom.mery.data.firebase.toTimestamp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.snapshots
-import com.google.firebase.firestore.toObject
 import com.google.firebase.messaging.FirebaseMessaging
+import dev.gitlive.firebase.auth.FirebaseAuth
+import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
+import dev.gitlive.firebase.auth.FirebaseUser
+import dev.gitlive.firebase.auth.GoogleAuthProvider
+import dev.gitlive.firebase.firestore.FirebaseFirestore
+import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
@@ -27,13 +28,14 @@ class UserFirebaseDataSource @Inject constructor(
     val loginUserId: String?
         get() = auth.currentUser?.uid
 
+    val loginUserIdFlow: Flow<String?> = auth.authStateChanged.map { it?.uid }
+
     /**
      * @return 로그인에 성공하면 [FirebaseUser] 반환
      */
     suspend fun loginByGoogle(token: String): FirebaseUser? = withContext(Dispatchers.IO) {
-        val credential = GoogleAuthProvider.getCredential(token, null)
+        val credential = GoogleAuthProvider.credential(token, null)
         auth.signInWithCredential(credential)
-            .await()
             .user
     }
 
@@ -45,7 +47,7 @@ class UserFirebaseDataSource @Inject constructor(
         password: String
     ): FirebaseUser? = withContext(Dispatchers.IO) {
         runCatching {
-            auth.signInWithEmailAndPassword(email, password).await()
+            auth.signInWithEmailAndPassword(email, password)
         }.getOrElse { error ->
             if (error is FirebaseAuthInvalidCredentialsException) null else throw error
         }?.user
@@ -56,7 +58,6 @@ class UserFirebaseDataSource @Inject constructor(
         password: String,
     ): FirebaseUser? = withContext(Dispatchers.IO) {
         auth.createUserWithEmailAndPassword(email, password)
-            .await()
             .user
     }
 
@@ -64,60 +65,52 @@ class UserFirebaseDataSource @Inject constructor(
         db.collection(COLLECTIONS_USER)
             .document(userId)
             .get()
-            .await()
-            .exists()
+            .exists
     }
 
     suspend fun createUserDocument(userDocument: UserDocument) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
-            .document(userDocument.id)
+            .document(userDocument.user_id)
             .set(userDocument)
     }
 
     fun getUserDocumentFlow(userId: String): Flow<UserDocument?> =
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .snapshots()
-            .map { snapshot ->
-                if (!snapshot.exists()) return@map null
-                snapshot.toObject(UserDocument::class.java)
-            }
+            .documentFlow<UserDocument>()
             .flowOn(Dispatchers.IO)
 
     suspend fun connect(user1Id: String, user2Id: String): Boolean = withContext(Dispatchers.IO) {
         val user1Ref = db.collection(COLLECTIONS_USER).document(user1Id)
         val user2Ref = db.collection(COLLECTIONS_USER).document(user2Id)
-        db.runTransaction { transaction ->
-            val user1Document = transaction.get(user1Ref)
-                .toObject<UserDocument>()
+        db.runTransaction {
+            val user1Document = get(user1Ref).fetchDocument<UserDocument>()
                 ?: return@runTransaction false
-            val user2Document = transaction.get(user2Ref)
-                .toObject<UserDocument>()
+            val user2Document = get(user2Ref).fetchDocument<UserDocument>()
                 ?: return@runTransaction false
 
-            if (user1Document.fianceId != null || user2Document.fianceId != null) return@runTransaction false
+            // 둘 중 한 명이라도 이미 연결되어 있으면 false 반환
+            if (user1Document.fiance != null || user2Document.fiance != null) return@runTransaction false
 
-            transaction.update(user1Ref, UserDocument.KEY_FIANCE, user2Id)
-            transaction.update(user2Ref, UserDocument.KEY_FIANCE, user1Id)
+            update(user1Ref, UserDocument::fiance.name to user2Id)
+            update(user2Ref, UserDocument::fiance.name to user1Id)
             true
-        }.await()
+        }
     }
 
     suspend fun getUserDocumentByInvitationCode(
         invitationCode: String
     ): UserDocument? = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
-            .whereEqualTo(UserDocument.KEY_INVITATION_CODE, invitationCode)
-            .get()
-            .await()
+            .where { UserDocument::invitation_code.name equalTo invitationCode }
+            .fetchDocuments<UserDocument>()
             .firstOrNull()
-            ?.toObject()
     }
 
     suspend fun updateName(userId: String, name: String) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .update(UserDocument.KEY_NAME, name)
+            .update(UserDocument::name.name to name)
     }
 
     suspend fun updateMarriageDate(
@@ -126,7 +119,7 @@ class UserFirebaseDataSource @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .update(UserDocument.KEY_MARRIAGE_DATE, marriageDate.toTimestamp())
+            .update(UserDocument::marriage_date.name to marriageDate.toTimestamp())
     }
 
     suspend fun signOut() = withContext(Dispatchers.IO) { auth.signOut() }
@@ -136,33 +129,31 @@ class UserFirebaseDataSource @Inject constructor(
             .document(userId)
         val answerDocumentRefs = userRef.collection(COLLECTIONS_ANSWER)
             .get()
-            .await()
-            .documents
-            .map { userRef.collection(COLLECTIONS_ANSWER).document(it.id) }
+            .fetchDocuments<UserDocument>()
+            .map { userRef.collection(COLLECTIONS_ANSWER).document(it.user_id) }
 
-        db.runTransaction { transaction ->
-            val userDocument =
-                transaction.get(userRef).toObject<UserDocument>() ?: return@runTransaction
-            if (userDocument.fianceId != null) {
-                val fianceRef = db.collection(COLLECTIONS_USER).document(userDocument.fianceId)
-                transaction.update(fianceRef, UserDocument.KEY_FIANCE, null)
+        db.runTransaction {
+            val userDocument = get(userRef).fetchDocument<UserDocument>() ?: return@runTransaction
+            if (userDocument.fiance != null) {
+                val fianceRef = db.collection(COLLECTIONS_USER).document(userDocument.fiance)
+                update(fianceRef, UserDocument::fiance.name to null)
             }
-            answerDocumentRefs.forEach { transaction.delete(it) }
-            transaction.delete(userRef)
-            auth.currentUser?.delete()
+            answerDocumentRefs.forEach { delete(it) }
+            delete(userRef)
         }
+        auth.currentUser?.delete()
     }
 
     suspend fun loginUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .update(UserDocument.KEY_FCM_TOKEN, messaging.token.result.toString())
+            .update(UserDocument::fcm_token.name to messaging.token.result.toString())
     }
 
     suspend fun logOutUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
             .document(userId)
-            .update(UserDocument.KEY_FCM_TOKEN, null)
+            .update(UserDocument::fcm_token.name to null)
     }
 
     companion object {

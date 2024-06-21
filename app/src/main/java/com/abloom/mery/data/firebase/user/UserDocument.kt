@@ -2,53 +2,44 @@ package com.abloom.mery.data.firebase.user
 
 import com.abloom.domain.user.model.Sex
 import com.abloom.domain.user.model.User
+import com.abloom.mery.data.firebase.Document
 import com.abloom.mery.data.firebase.toLocalDate
 import com.abloom.mery.data.firebase.toTimestamp
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.PropertyName
+import dev.gitlive.firebase.firestore.Timestamp
+import kotlinx.serialization.Serializable
 import java.time.LocalDate
 
-data class UserDocument(
-    @JvmField @PropertyName(KEY_FCM_TOKEN) val fcmToken: String? = null,
-    @JvmField @PropertyName(KEY_USER_ID) val id: String = "",
-    @JvmField @PropertyName(KEY_NAME) val name: String = "",
-    @JvmField @PropertyName(KEY_INVITATION_CODE) val invitationCode: String = "",
-    @JvmField @PropertyName(KEY_SEX) val sex: Boolean = true,
-    @JvmField @PropertyName(KEY_MARRIAGE_DATE) val marriageDate: Timestamp = Timestamp(0, 0),
-    @JvmField @PropertyName(KEY_FIANCE) val fianceId: String? = null
-) {
+@Serializable
+class UserDocument(
+    val user_id: String = "",
+    val name: String = "",
+    val invitation_code: String = "",
+    val sex: Boolean = true,
+    val marriage_date: Timestamp = Timestamp.now(),
+    val fiance: String? = null,
+    val fcm_token: String? = null,
+) : Document {
 
-    fun asExternal() = User(
-        id = id,
+    constructor(
+        id: String,
+        name: String,
+        marriageDate: LocalDate,
+        sex: Sex,
+        invitationCode: String
+    ) : this(
+        user_id = id,
         name = name,
-        marriageDate = marriageDate.toLocalDate(),
-        sex = if (sex) Sex.MALE else Sex.FEMALE,
-        invitationCode = invitationCode,
-        fianceId = fianceId
+        marriage_date = marriageDate.toTimestamp(),
+        sex = sex == Sex.MALE,
+        invitation_code = invitationCode
     )
 
-    companion object {
-
-        const val KEY_FCM_TOKEN = "fcm_token"
-        const val KEY_USER_ID = "user_id"
-        const val KEY_NAME = "name"
-        const val KEY_INVITATION_CODE = "invitation_code"
-        const val KEY_SEX = "sex"
-        const val KEY_MARRIAGE_DATE = "marriage_date"
-        const val KEY_FIANCE = "fiance"
-
-        fun create(
-            id: String,
-            name: String,
-            marriageDate: LocalDate,
-            sex: Sex,
-            invitationCode: String
-        ): UserDocument = UserDocument(
-            id = id,
-            name = name,
-            marriageDate = marriageDate.toTimestamp(),
-            sex = sex == Sex.MALE,
-            invitationCode = invitationCode
-        )
-    }
+    fun asExternal() = User(
+        id = user_id,
+        name = name,
+        marriageDate = marriage_date.toLocalDate(),
+        sex = if (sex) Sex.MALE else Sex.FEMALE,
+        invitationCode = invitation_code,
+        fianceId = fiance,
+    )
 }
