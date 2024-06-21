@@ -93,19 +93,17 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
                 .combine(homeViewModel.qnas) { _, qnas -> qnas }
                 .filterNotNull()
                 .collectLatest { qnas ->
-                    when (qnas.size) {
-                        5,20,50 ->{
-                            Log.e("cyc","5번일때")
-                            val manager = ReviewManagerFactory.create(requireActivity())
-                            val request = manager.requestReviewFlow()
-                            request.addOnCompleteListener { request ->
-                                if (request.isSuccessful) {
-                                    Log.e("cyc","5번일때 요청 성공")
-                                    val reviewInfo = request.result
-                                    manager.launchReviewFlow(requireActivity(), reviewInfo)
-                                } else {
-                                    Log.e("cyc", "리뷰 오류")
-                                }
+                    if (qnas.size >= 5) {
+                        Log.e("cyc", "5번일때")
+                        val manager = ReviewManagerFactory.create(requireActivity())
+                        val request = manager.requestReviewFlow()
+                        request.addOnCompleteListener { request ->
+                            if (request.isSuccessful) {
+                                Log.e("cyc", "5번일때 요청 성공")
+                                val reviewInfo = request.result
+                                manager.launchReviewFlow(requireActivity(), reviewInfo)
+                            } else {
+                                Log.e("cyc", "리뷰 오류")
                             }
                         }
                     }
