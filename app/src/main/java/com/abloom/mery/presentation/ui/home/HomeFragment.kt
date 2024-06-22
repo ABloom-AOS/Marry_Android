@@ -1,6 +1,7 @@
 package com.abloom.mery.presentation.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -16,7 +17,11 @@ import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.ui.home.qnasrecyclerview.QnaAdapter
 import com.abloom.mery.presentation.ui.signup.asArgs
+import com.google.android.play.core.ktx.launchReview
+import com.google.android.play.core.ktx.requestReview
+import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import javax.inject.Inject
@@ -45,6 +50,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         setupDataBinding()
 
         observeLoginEvent()
+        observeAnswerEvent()
         observeHomeEvent()
         observeQnas()
         observeLoginUser()
@@ -88,6 +94,20 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
     private fun showLoginDialog() {
         val bottomSheetFragment = LoginDialogFragment()
         bottomSheetFragment.show(childFragmentManager, LoginDialogFragment().tag)
+    }
+
+    private fun observeAnswerEvent() {
+        repeatOnStarted {
+            mainViewModel.answerEvent
+                .collectLatest {
+                    if(homeViewModel.qnas.value.size >= MIN_QNA_COUNT_FOR_REVIEW ){
+                        Log.e("cyc", "5번 이상일 때")
+                        val manager = ReviewManagerFactory.create(requireActivity())
+                        val reviewInfo = manager.requestReview()
+                        manager.launchReview(requireActivity(), reviewInfo)
+                    }
+                }
+        }
     }
 
     private fun observeHomeEvent() {
@@ -136,5 +156,10 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         }
         val drawable = ContextCompat.getDrawable(requireContext(), drawableRes)
         binding.ivHomeUserIcon.setImageDrawable(drawable)
+    }
+
+    companion object {
+
+        private const val MIN_QNA_COUNT_FOR_REVIEW  = 5
     }
 }
