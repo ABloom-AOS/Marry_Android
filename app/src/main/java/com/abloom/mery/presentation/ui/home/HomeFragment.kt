@@ -100,7 +100,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         repeatOnStarted {
             mainViewModel.answerEvent
                 .collectLatest {
-                    if(homeViewModel.qnas.value.size >= ANSWER_COUNT){
+                    if(homeViewModel.qnas.value.size >= MIN_QNA_COUNT_FOR_REVIEW ){
                         Log.e("cyc", "5번 이상일 때")
                         val manager = ReviewManagerFactory.create(requireActivity())
                         val reviewInfo = manager.requestReview()
@@ -160,6 +160,6 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
 
     companion object {
 
-        private const val ANSWER_COUNT = 5
+        private const val MIN_QNA_COUNT_FOR_REVIEW  = 5
     }
 }
