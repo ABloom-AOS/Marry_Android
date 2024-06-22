@@ -12,8 +12,8 @@ class MainViewModel : ViewModel() {
     private val _loginEvent = MutableEventFlow<LoginEvent>()
     val loginEvent: EventFlow<LoginEvent> = _loginEvent.asEventFlow()
 
-    private val _reviewEvent = MutableEventFlow<ReviewEvent>()
-    val reviewEvent: EventFlow<ReviewEvent> = _reviewEvent.asEventFlow()
+    private val _answerEvent = MutableEventFlow<AnswerEvent>()
+    val answerEvent: EventFlow<AnswerEvent> = _answerEvent.asEventFlow()
 
 
     var wasClosedQuestionFactoryPopup = false
@@ -27,9 +27,9 @@ class MainViewModel : ViewModel() {
     }
 
     fun dispatchReviewEvent() = viewModelScope.launch {
-        _reviewEvent.emit(ReviewEvent)
+        _answerEvent.emit(AnswerEvent)
     }
 }
 
 data object LoginEvent
-data object ReviewEvent
+data object AnswerEvent

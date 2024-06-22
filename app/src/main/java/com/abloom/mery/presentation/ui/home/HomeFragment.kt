@@ -96,7 +96,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
 
     private fun observeReviewEvent() {
         repeatOnStarted {
-            mainViewModel.reviewEvent
+            mainViewModel.answerEvent
                 .combine(homeViewModel.qnas) { _, qnas -> qnas }
                 .filterNotNull()
                 .collectLatest { qnas ->
