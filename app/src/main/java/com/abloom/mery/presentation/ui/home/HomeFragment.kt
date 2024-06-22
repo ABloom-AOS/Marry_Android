@@ -17,6 +17,8 @@ import com.abloom.mery.presentation.common.base.NavigationFragment
 import com.abloom.mery.presentation.common.extension.repeatOnStarted
 import com.abloom.mery.presentation.ui.home.qnasrecyclerview.QnaAdapter
 import com.abloom.mery.presentation.ui.signup.asArgs
+import com.google.android.play.core.ktx.launchReview
+import com.google.android.play.core.ktx.requestReview
 import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -48,7 +50,7 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         setupDataBinding()
 
         observeLoginEvent()
-        observeReviewEvent()
+        observeAnswerEvent()
         observeHomeEvent()
         observeQnas()
         observeLoginUser()
@@ -94,28 +96,17 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         bottomSheetFragment.show(childFragmentManager, LoginDialogFragment().tag)
     }
 
-    private fun observeReviewEvent() {
+    private fun observeAnswerEvent() {
         repeatOnStarted {
             mainViewModel.answerEvent
-                .combine(homeViewModel.qnas) { _, qnas -> qnas }
-                .filterNotNull()
-                .collectLatest { qnas ->
-                    if (qnas.size >= 5) {
-                        Log.e("cyc", "5번일때")
+                .collectLatest {
+                    if(homeViewModel.qnas.value.size >= ANSWER_COUNT){
+                        Log.e("cyc", "5번 이상일 때")
                         val manager = ReviewManagerFactory.create(requireActivity())
-                        val request = manager.requestReviewFlow()
-                        request.addOnCompleteListener { request ->
-                            if (request.isSuccessful) {
-                                Log.e("cyc", "5번일때 요청 성공")
-                                val reviewInfo = request.result
-                                manager.launchReviewFlow(requireActivity(), reviewInfo)
-                            } else {
-                                Log.e("cyc", "리뷰 오류")
-                            }
-                        }
+                        val reviewInfo = manager.requestReview()
+                        manager.launchReview(requireActivity(), reviewInfo)
                     }
                 }
-
         }
     }
 
@@ -165,5 +156,10 @@ class HomeFragment : NavigationFragment<FragmentHomeBinding>(R.layout.fragment_h
         }
         val drawable = ContextCompat.getDrawable(requireContext(), drawableRes)
         binding.ivHomeUserIcon.setImageDrawable(drawable)
+    }
+
+    companion object {
+
+        private const val ANSWER_COUNT = 5
     }
 }
