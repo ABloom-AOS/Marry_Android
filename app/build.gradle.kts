@@ -106,4 +106,6 @@ dependencies {
     implementation(libs.firebase.auth.kotlin)
 
     implementation(libs.mixpanel.android)
+
+    implementation(libs.review.ktx)
 }
