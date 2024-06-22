@@ -4,7 +4,6 @@ import com.abloom.mery.data.firebase.documentFlow
 import com.abloom.mery.data.firebase.fetchDocument
 import com.abloom.mery.data.firebase.fetchDocuments
 import com.abloom.mery.data.firebase.toTimestamp
-import com.google.firebase.messaging.FirebaseMessaging
 import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.FirebaseUser
@@ -22,7 +21,6 @@ import javax.inject.Inject
 class UserFirebaseDataSource @Inject constructor(
     private val auth: FirebaseAuth,
     private val db: FirebaseFirestore,
-    private val messaging: FirebaseMessaging
 ) {
 
     val loginUserId: String?
@@ -144,11 +142,12 @@ class UserFirebaseDataSource @Inject constructor(
         auth.currentUser?.delete()
     }
 
-    suspend fun loginUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
-        db.collection(COLLECTIONS_USER)
-            .document(userId)
-            .update(UserDocument::fcm_token.name to messaging.token.result.toString())
-    }
+    suspend fun loginUpdateFcmToken(userId: String, fcmToken: String) =
+        withContext(Dispatchers.IO) {
+            db.collection(COLLECTIONS_USER)
+                .document(userId)
+                .update(UserDocument::fcm_token.name to fcmToken)
+        }
 
     suspend fun logOutUpdateFcmToken(userId: String) = withContext(Dispatchers.IO) {
         db.collection(COLLECTIONS_USER)
