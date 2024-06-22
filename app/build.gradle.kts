@@ -107,6 +107,5 @@ dependencies {
 
     implementation(libs.mixpanel.android)
 
-    implementation(libs.review)
     implementation(libs.review.ktx)
 }
