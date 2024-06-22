@@ -26,7 +26,7 @@ class MainViewModel : ViewModel() {
         _loginEvent.emit(LoginEvent)
     }
 
-    fun dispatchLoReviewEvent() = viewModelScope.launch {
+    fun dispatchReviewEvent() = viewModelScope.launch {
         _reviewEvent.emit(ReviewEvent)
     }
 }

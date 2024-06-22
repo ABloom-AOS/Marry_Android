@@ -108,7 +108,7 @@ class WriteAnswerFragment :
             writeAnswerViewModel.answer.value.length
         )
         writeAnswerViewModel.answerQna()
-        mainViewModel.dispatchLoReviewEvent()
+        mainViewModel.dispatchReviewEvent()
         val isNavigateToHomeSuccess =
             findNavController().popBackStack(R.id.homeFragment, false)
         if (!isNavigateToHomeSuccess) findNavController().popBackStack()
