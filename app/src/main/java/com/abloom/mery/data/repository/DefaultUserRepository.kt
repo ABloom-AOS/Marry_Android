@@ -7,6 +7,7 @@ import com.abloom.domain.user.repository.UserRepository
 import com.abloom.mery.data.di.ApplicationScope
 import com.abloom.mery.data.firebase.user.UserDocument
 import com.abloom.mery.data.firebase.user.UserFirebaseDataSource
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -15,12 +16,14 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
 class DefaultUserRepository @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope,
-    private val firebaseDataSource: UserFirebaseDataSource
+    private val messaging: FirebaseMessaging,
+    private val firebaseDataSource: UserFirebaseDataSource,
 ) : UserRepository {
 
     override val loginUserId: String?
@@ -37,9 +40,10 @@ class DefaultUserRepository @Inject constructor(
             )
         } ?: return@async false
 
-        firebaseDataSource.loginUpdateFcmToken(loginUser.uid)
         val isJoined = firebaseDataSource.isExist(loginUser.uid)
-        return@async isJoined
+        if (!isJoined) return@async false
+        firebaseDataSource.loginUpdateFcmToken(loginUser.uid, messaging.token.await())
+        return@async true
     }.await()
 
     override suspend fun join(
@@ -61,11 +65,11 @@ class DefaultUserRepository @Inject constructor(
             name = name,
             marriageDate = marriageDate,
             sex = sex,
-            invitationCode = createInvitationCodeFrom(joinedUser.uid)
+            invitationCode = createInvitationCodeFrom(joinedUser.uid),
+            fcmToken = messaging.token.await(),
         )
 
         firebaseDataSource.createUserDocument(userDocument)
-        firebaseDataSource.loginUpdateFcmToken(joinedUser.uid)
     }.join()
 
     private fun createInvitationCodeFrom(id: String): String = id.toList()

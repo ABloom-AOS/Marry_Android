@@ -25,13 +25,15 @@ class UserDocument(
         name: String,
         marriageDate: LocalDate,
         sex: Sex,
-        invitationCode: String
+        invitationCode: String,
+        fcmToken: String,
     ) : this(
         user_id = id,
         name = name,
         marriage_date = marriageDate.toTimestamp(),
         sex = sex == Sex.MALE,
-        invitation_code = invitationCode
+        invitation_code = invitationCode,
+        fcm_token = fcmToken,
     )
 
     fun asExternal() = User(
