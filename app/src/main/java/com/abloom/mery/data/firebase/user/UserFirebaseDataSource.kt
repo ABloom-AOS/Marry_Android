@@ -139,7 +139,7 @@ class UserFirebaseDataSource @Inject constructor(
             answerDocumentRefs.forEach { delete(it) }
             delete(userRef)
         }
-        auth.currentUser?.delete()
+        auth.currentUser?.android?.delete()
     }
 
     suspend fun loginUpdateFcmToken(userId: String, fcmToken: String) =
